@@ -4,3 +4,15 @@ type ExampleEntity @entity {
   previousAdmin: Bytes! # address
   newAdmin: Bytes! # address
 }
+
+type CoffeeChat @entity {
+  id: ID!
+  tokenId: BigInt!
+  placeId: String!
+  lantitude: BigInt!
+  longtitude: BigInt!
+  startTime: BigInt!
+  endTime: BigInt!
+  stakeAmount: BigInt!
+  initializer: Bytes!
+}

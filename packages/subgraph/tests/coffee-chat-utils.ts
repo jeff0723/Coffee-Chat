@@ -94,15 +94,26 @@ export function createBeaconUpgradedEvent(beacon: Address): BeaconUpgraded {
 }
 
 export function createCoffeChatIntializeEvent(
+  tokenId: BigInt,
   placeId: string,
   lantitude: BigInt,
   longtitude: BigInt,
-  tokenId: BigInt
+  startTime: BigInt,
+  endTime: BigInt,
+  stakeAmount: BigInt,
+  isActive: boolean,
+  initializer: Address
 ): CoffeChatIntialize {
   let coffeChatIntializeEvent = changetype<CoffeChatIntialize>(newMockEvent())
 
   coffeChatIntializeEvent.parameters = new Array()
 
+  coffeChatIntializeEvent.parameters.push(
+    new ethereum.EventParam(
+      "tokenId",
+      ethereum.Value.fromUnsignedBigInt(tokenId)
+    )
+  )
   coffeChatIntializeEvent.parameters.push(
     new ethereum.EventParam("placeId", ethereum.Value.fromString(placeId))
   )
@@ -120,8 +131,29 @@ export function createCoffeChatIntializeEvent(
   )
   coffeChatIntializeEvent.parameters.push(
     new ethereum.EventParam(
-      "tokenId",
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      "startTime",
+      ethereum.Value.fromUnsignedBigInt(startTime)
+    )
+  )
+  coffeChatIntializeEvent.parameters.push(
+    new ethereum.EventParam(
+      "endTime",
+      ethereum.Value.fromUnsignedBigInt(endTime)
+    )
+  )
+  coffeChatIntializeEvent.parameters.push(
+    new ethereum.EventParam(
+      "stakeAmount",
+      ethereum.Value.fromUnsignedBigInt(stakeAmount)
+    )
+  )
+  coffeChatIntializeEvent.parameters.push(
+    new ethereum.EventParam("isActive", ethereum.Value.fromBoolean(isActive))
+  )
+  coffeChatIntializeEvent.parameters.push(
+    new ethereum.EventParam(
+      "initializer",
+      ethereum.Value.fromAddress(initializer)
     )
   )
 

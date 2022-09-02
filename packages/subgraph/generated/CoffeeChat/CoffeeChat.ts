@@ -115,20 +115,40 @@ export class CoffeChatIntialize__Params {
     this._event = event;
   }
 
+  get tokenId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
   get placeId(): string {
-    return this._event.parameters[0].value.toString();
+    return this._event.parameters[1].value.toString();
   }
 
   get lantitude(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-
-  get longtitude(): BigInt {
     return this._event.parameters[2].value.toBigInt();
   }
 
-  get tokenId(): BigInt {
+  get longtitude(): BigInt {
     return this._event.parameters[3].value.toBigInt();
+  }
+
+  get startTime(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
+  }
+
+  get endTime(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
+
+  get stakeAmount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get isActive(): boolean {
+    return this._event.parameters[7].value.toBoolean();
+  }
+
+  get initializer(): Address {
+    return this._event.parameters[8].value.toAddress();
   }
 }
 
@@ -349,7 +369,7 @@ export class CoffeeChat extends ethereum.SmartContract {
   chatInfoById(param0: BigInt): CoffeeChat__chatInfoByIdResult {
     let result = super.call(
       "chatInfoById",
-      "chatInfoById(uint256):(string,uint256,uint256,uint256,uint256,uint256,bool,address)",
+      "chatInfoById(uint256):(string,uint64,uint64,uint32,uint32,uint256,bool,address)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
 
@@ -370,7 +390,7 @@ export class CoffeeChat extends ethereum.SmartContract {
   ): ethereum.CallResult<CoffeeChat__chatInfoByIdResult> {
     let result = super.tryCall(
       "chatInfoById",
-      "chatInfoById(uint256):(string,uint256,uint256,uint256,uint256,uint256,bool,address)",
+      "chatInfoById(uint256):(string,uint64,uint64,uint32,uint32,uint256,bool,address)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
     if (result.reverted) {
@@ -639,20 +659,20 @@ export class InitializeCall__Outputs {
   }
 }
 
-export class IntializeChatCall extends ethereum.Call {
-  get inputs(): IntializeChatCall__Inputs {
-    return new IntializeChatCall__Inputs(this);
+export class InitializeChatCall extends ethereum.Call {
+  get inputs(): InitializeChatCall__Inputs {
+    return new InitializeChatCall__Inputs(this);
   }
 
-  get outputs(): IntializeChatCall__Outputs {
-    return new IntializeChatCall__Outputs(this);
+  get outputs(): InitializeChatCall__Outputs {
+    return new InitializeChatCall__Outputs(this);
   }
 }
 
-export class IntializeChatCall__Inputs {
-  _call: IntializeChatCall;
+export class InitializeChatCall__Inputs {
+  _call: InitializeChatCall;
 
-  constructor(call: IntializeChatCall) {
+  constructor(call: InitializeChatCall) {
     this._call = call;
   }
 
@@ -677,10 +697,10 @@ export class IntializeChatCall__Inputs {
   }
 }
 
-export class IntializeChatCall__Outputs {
-  _call: IntializeChatCall;
+export class InitializeChatCall__Outputs {
+  _call: InitializeChatCall;
 
-  constructor(call: IntializeChatCall) {
+  constructor(call: InitializeChatCall) {
     this._call = call;
   }
 }
