@@ -49,9 +49,7 @@ const config: HardhatUserConfig = {
     enabled: process.env.REPORT_GAS !== undefined,
     currency: "USD",
   },
-  etherscan: {
-    apiKey: process.env.POLYSCAN_API_KEY,
-  },
+
   namedAccounts: {
     deployer: 0,
   },
@@ -77,6 +75,15 @@ const config: HardhatUserConfig = {
           ? [process.env.POLYGON_MUMBAI_PRIVATE_KEY]
           : [],
     },
+    rinkeby: {
+      url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY ?? ""
+        }`,
+      accounts:
+        process.env.RINKEBY_PRIVATE_KEY !== undefined
+          ? [process.env.RINKEBY_PRIVATE_KEY]
+          : [],
+    },
+
     // devnets
     hardhat: {
       mining: {
@@ -85,6 +92,12 @@ const config: HardhatUserConfig = {
       },
       chainId: 1337
     },
+  },
+  etherscan: {
+    apiKey: {
+      polygon: process.env.POLYGON_API_KEY || "",
+      rinkeby: process.env.RINKEBY_API_KEY || ""
+    }
   },
 };
 

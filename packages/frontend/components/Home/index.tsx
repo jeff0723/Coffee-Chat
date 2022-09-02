@@ -72,7 +72,7 @@ const Home: FC = (props: Props) => {
         lng: 0
     })
     const { isLoading: writeLoading, write } = useContractWrite({
-        addressOrName: COFFEE_CHAT_ADDRESS,
+        addressOrName: chain?.id ? COFFEE_CHAT_ADDRESS[chain?.id] : "",
         contractInterface: COFFEE_CHAT,
         functionName: 'intializeChat',
         mode: 'recklesslyUnprepared',

@@ -12,7 +12,7 @@ import { ALCHEMY_KEY } from 'constant';
 import { Toaster } from 'react-hot-toast';
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [chain.polygonMumbai, chain.polygon, chain.localhost],
+  [chain.polygonMumbai, chain.polygon, chain.localhost, chain.rinkeby],
   [
     alchemyProvider({ apiKey: ALCHEMY_KEY }),
     publicProvider()
