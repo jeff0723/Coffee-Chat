@@ -1,5 +1,5 @@
 {
-  "name": "@tind3r-monorepo/hardhat",
+  "name": "@coffee-chat/hardhat",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -14,8 +14,6 @@
     "@openzeppelin/contracts": "^4.7.0",
     "@openzeppelin/contracts-upgradeable": "^4.7.0",
     "@openzeppelin/hardhat-upgrades": "^1.19.0",
-    "@tableland/evm": "^2.0.2",
-    "@tableland/sdk": "^2.0.1",
     "@typechain/ethers-v5": "^10.1.0",
     "@typechain/hardhat": "^6.1.2",
     "@types/chai": "^4.2.0",
@@ -47,5 +45,8 @@
     "coverage": "hardhat coverage",
     "localhost": "hardhat node",
     "console": "hardhat console"
+  },
+  "dependencies": {
+    "hardhat-ethernal": "^1.1.1"
   }
 }

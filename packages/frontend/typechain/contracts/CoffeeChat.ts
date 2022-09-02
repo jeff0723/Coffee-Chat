@@ -289,6 +289,7 @@ export interface CoffeeChatInterface extends utils.Interface {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
     "BeaconUpgraded(address)": EventFragment;
+    "CoffeChatIntialize(string,uint256,uint256,uint256)": EventFragment;
     "ConsecutiveTransfer(uint256,uint256,address,address)": EventFragment;
     "Initialized(uint8)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
@@ -300,6 +301,7 @@ export interface CoffeeChatInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CoffeChatIntialize"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ConsecutiveTransfer"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
@@ -351,6 +353,20 @@ export type BeaconUpgradedEvent = TypedEvent<
 >;
 
 export type BeaconUpgradedEventFilter = TypedEventFilter<BeaconUpgradedEvent>;
+
+export interface CoffeChatIntializeEventObject {
+  placeId: string;
+  lantitude: BigNumber;
+  longtitude: BigNumber;
+  tokenId: BigNumber;
+}
+export type CoffeChatIntializeEvent = TypedEvent<
+  [string, BigNumber, BigNumber, BigNumber],
+  CoffeChatIntializeEventObject
+>;
+
+export type CoffeChatIntializeEventFilter =
+  TypedEventFilter<CoffeChatIntializeEvent>;
 
 export interface ConsecutiveTransferEventObject {
   fromTokenId: BigNumber;
@@ -915,6 +931,19 @@ export interface CoffeeChat extends BaseContract {
     BeaconUpgraded(
       beacon?: PromiseOrValue<string> | null
     ): BeaconUpgradedEventFilter;
+
+    "CoffeChatIntialize(string,uint256,uint256,uint256)"(
+      placeId?: null,
+      lantitude?: null,
+      longtitude?: null,
+      tokenId?: null
+    ): CoffeChatIntializeEventFilter;
+    CoffeChatIntialize(
+      placeId?: null,
+      lantitude?: null,
+      longtitude?: null,
+      tokenId?: null
+    ): CoffeChatIntializeEventFilter;
 
     "ConsecutiveTransfer(uint256,uint256,address,address)"(
       fromTokenId?: PromiseOrValue<BigNumberish> | null,

@@ -5,6 +5,7 @@ import "@nomicfoundation/hardhat-toolbox";
 import "hardhat-contract-sizer";
 import "hardhat-deploy";
 import '@openzeppelin/hardhat-upgrades';
+import "hardhat-ethernal";
 
 dotenv.config();
 
@@ -27,6 +28,15 @@ const config: HardhatUserConfig = {
         runs: 200,
       },
     },
+  },
+  ethernal: {
+    email: process.env.ETHERNAL_EMAIL || "",
+    password: process.env.ETHERNAL_PASSWORD || "",
+    disableSync: false,
+    disableTrace: false,
+    uploadAst: false,
+    disabled: false,
+    resetOnStart: "CoffeeChat"
   },
   contractSizer: {
     alphaSort: true,
@@ -73,6 +83,7 @@ const config: HardhatUserConfig = {
         auto: !(process.env.HARDHAT_DISABLE_AUTO_MINING === "true"),
         interval: [100, 3000],
       },
+      chainId: 1337
     },
   },
 };

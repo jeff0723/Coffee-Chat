@@ -41,6 +41,13 @@ contract CoffeeChat is
     }
     mapping(uint256 => ChatInfo) public chatInfoById;
 
+    event CoffeChatIntialize(
+        string placeId,
+        uint256 lantitude,
+        uint256 longtitude,
+        uint256 tokenId
+    );
+
     function initialize() public initializerERC721A initializer {
         __ERC721A_init("CoffeeChat", "COFFEE");
         __EIP712_init("CoffeeChat", "1");
@@ -69,6 +76,7 @@ contract CoffeeChat is
         );
         chatInfoById[currentIndex] = _chatInfo;
         super._safeMint(_msgSender(), 1);
+        emit CoffeChatIntialize(placeId, lantitude, longtitude, currentIndex);
         currentIndex++;
     }
 
