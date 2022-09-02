@@ -155,6 +155,67 @@ export const COFFEE_CHAT = [
         "anonymous": false,
         "inputs": [
             {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "placeId",
+                "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint64",
+                "name": "lantitude",
+                "type": "uint64"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint64",
+                "name": "longtitude",
+                "type": "uint64"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint32",
+                "name": "startTime",
+                "type": "uint32"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint32",
+                "name": "endTime",
+                "type": "uint32"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "stakeAmount",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "bool",
+                "name": "isActive",
+                "type": "bool"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "initializer",
+                "type": "address"
+            }
+        ],
+        "name": "CoffeChatIntialize",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
                 "indexed": true,
                 "internalType": "uint256",
                 "name": "fromTokenId",
@@ -305,24 +366,24 @@ export const COFFEE_CHAT = [
                 "type": "string"
             },
             {
-                "internalType": "uint256",
+                "internalType": "uint64",
                 "name": "lantitude",
-                "type": "uint256"
+                "type": "uint64"
             },
             {
-                "internalType": "uint256",
+                "internalType": "uint64",
                 "name": "longtitude",
-                "type": "uint256"
+                "type": "uint64"
             },
             {
-                "internalType": "uint256",
+                "internalType": "uint32",
                 "name": "startTime",
-                "type": "uint256"
+                "type": "uint32"
             },
             {
-                "internalType": "uint256",
+                "internalType": "uint32",
                 "name": "endTime",
-                "type": "uint256"
+                "type": "uint32"
             },
             {
                 "internalType": "uint256",
@@ -377,27 +438,27 @@ export const COFFEE_CHAT = [
                 "type": "string"
             },
             {
-                "internalType": "uint256",
+                "internalType": "uint32",
                 "name": "startTime",
-                "type": "uint256"
+                "type": "uint32"
             },
             {
-                "internalType": "uint256",
+                "internalType": "uint32",
                 "name": "endTime",
-                "type": "uint256"
+                "type": "uint32"
             },
             {
-                "internalType": "uint256",
+                "internalType": "uint64",
                 "name": "lantitude",
-                "type": "uint256"
+                "type": "uint64"
             },
             {
-                "internalType": "uint256",
+                "internalType": "uint64",
                 "name": "longtitude",
-                "type": "uint256"
+                "type": "uint64"
             }
         ],
-        "name": "intializeChat",
+        "name": "initializeChat",
         "outputs": [],
         "stateMutability": "payable",
         "type": "function"

@@ -10,6 +10,8 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import { ALCHEMY_KEY } from 'constant';
 import { Toaster } from 'react-hot-toast';
+import { ApolloProvider } from '@apollo/client';
+import { client } from 'utils/apollo';
 
 const { chains, provider, webSocketProvider } = configureChains(
   [chain.polygonMumbai, chain.polygon, chain.localhost, chain.rinkeby],
@@ -37,12 +39,14 @@ const wagmiClient = createClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider appInfo={appInfo} chains={chains} showRecentTransactions={true}>
-        <Toaster position="top-right" />
-        <Component {...pageProps} />
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <ApolloProvider client={client}>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider appInfo={appInfo} chains={chains} showRecentTransactions={true}>
+          <Toaster position="top-right" />
+          <Component {...pageProps} />
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </ApolloProvider>
   )
 }
 

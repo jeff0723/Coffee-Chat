@@ -23,6 +23,9 @@ import usePlacesAutocomplete, {
     getGeocode,
     getLatLng,
 } from "use-places-autocomplete";
+import { COFFEE_CHAT_QUERY } from 'graphql/get-coffee-chat-query';
+import { useQuery } from '@apollo/client';
+import { client } from 'utils/apollo';
 
 type Props = {}
 type PlacePhoto = {
@@ -55,6 +58,13 @@ const Home: FC = (props: Props) => {
         libraries: ["places", 'geometry'],
     });
     const { chain, chains } = useNetwork()
+    useEffect(() => {
+        client.query({ query: COFFEE_CHAT_QUERY })
+            .then((data) => console.log('Subgraph data: ', data))
+            .catch((err) => {
+                console.log('Error fetching data: ', err)
+            })
+    }, [])
 
     const geolocation = useGeolocation();
     const [clicked, setClicked] = useState(false)
@@ -74,7 +84,7 @@ const Home: FC = (props: Props) => {
     const { isLoading: writeLoading, write } = useContractWrite({
         addressOrName: chain?.id ? COFFEE_CHAT_ADDRESS[chain?.id] : "",
         contractInterface: COFFEE_CHAT,
-        functionName: 'intializeChat',
+        functionName: 'initializeChat',
         mode: 'recklesslyUnprepared',
         onSuccess(data) {
             console.log(data)

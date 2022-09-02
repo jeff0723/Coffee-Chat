@@ -16,7 +16,7 @@ export enum SupportedChainId {
 }
 
 export const COFFEE_CHAT_ADDRESS: AddressMap = {
-    [SupportedChainId.RINKEBY]: '0x599bac49b296F4103b10D7Fe28acDD806769Cd3f',
+    [SupportedChainId.RINKEBY]: '0x6C78Af041aE5611d171c58f01e3cc5fe41e2fa1F',
     [SupportedChainId.HARDHAT]: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
 
 }
