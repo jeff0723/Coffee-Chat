@@ -1,0 +1,122 @@
+{
+  "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266": {
+    "voucher": {
+      "chatId": 0
+    },
+    "signature": "0x43b35e6f05fdcd2a6de4875f18702fcec0e3ca0361df78e9137ac66b8783d6f779af2d7f758e603a8eea2a443eecf9825942561258d165a8fb9cb1a41bea022f1c"
+  },
+  "0x70997970C51812dc3A010C7d01b50e0d17dc79C8": {
+    "voucher": {
+      "chatId": 1
+    },
+    "signature": "0xc0202787c26576c9f890e6b55c90b3845dd19990af75ed89ffb17c608d2fd01111aa75ba468a4dce2e3fad694ff8c9a80506ec97c81951bda69bd81b512411ed1c"
+  },
+  "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC": {
+    "voucher": {
+      "chatId": 2
+    },
+    "signature": "0x068dccb532e912602cbefd6c97bc767e1c6450a4f087456da149644f471163e13da2b461821b0051bb7fe2ee4459d84de5a0a5795672d48543055951979a243b1c"
+  },
+  "0x90F79bf6EB2c4f870365E785982E1f101E93b906": {
+    "voucher": {
+      "chatId": 3
+    },
+    "signature": "0x97d862cd51fdcdb3a6f5d030bc6c2666559c123164c3ad0de6c372afc6f69da44c95bd5f54179b2d4151107b21b82b4a6075ef46d18c27cb2188e7cea7be9cd31b"
+  },
+  "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65": {
+    "voucher": {
+      "chatId": 4
+    },
+    "signature": "0xe06d028b5f50402693dfbc907a3b609a0f7b1eaa93b832090b08fad769b285e065a2857d3da076e1c3cc1c7b297b7c5e215825da31381f50010746ce950cd6411b"
+  },
+  "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc": {
+    "voucher": {
+      "chatId": 5
+    },
+    "signature": "0xd304038122327e46daf8e9c4da2233e3de368df30f54d871030ddc4c61a550b672c063016af24f2c6a00b1f7035cf93e640197ab6b36e5465ccfdbe79c4e205d1b"
+  },
+  "0x976EA74026E726554dB657fA54763abd0C3a0aa9": {
+    "voucher": {
+      "chatId": 6
+    },
+    "signature": "0xfe2fd0cdf63af1f07bcacc4cc60961cd2ee031c7d5497d9a00f8f4e9db3282db5e4035d78316bb0255b29e4bcad374967c993f04e288541a09ad07de41cf3b241b"
+  },
+  "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955": {
+    "voucher": {
+      "chatId": 7
+    },
+    "signature": "0xf4a6cb920c2e79a02b391954996feb0c3c65fc3f71665046e52f670e86aac3de0ec5f70f879766ca46d8d665404b543a3cfab9552ad4c00f6c9b5b4cdcc5bb6a1b"
+  },
+  "0x23618e81E3f5cdF7f54C3d65f7FBc0aBf5B21E8f": {
+    "voucher": {
+      "chatId": 8
+    },
+    "signature": "0x2fa7a6bb6fcb0d914dda4eb0037ca9128b68dbdd9d602a76683f55815c5a622b770e77f8f04063c567682d746bd8bc76c760e9418e65d4a0100618c442adaddc1b"
+  },
+  "0xa0Ee7A142d267C1f36714E4a8F75612F20a79720": {
+    "voucher": {
+      "chatId": 9
+    },
+    "signature": "0x6166698c2e0d83dbf7b9effb0a4add89d53797f25a565548c8b8598e894ab1e24cd42393518745033b633754a53be1d5df3164efd93c5af6d23e0addc448a8cd1b"
+  },
+  "0xBcd4042DE499D14e55001CcbB24a551F3b954096": {
+    "voucher": {
+      "chatId": 10
+    },
+    "signature": "0x161b0732df78450e49f62c05050b2d2c2ebb23de6127cf202e52015cdc1ff8362482b0f9d0fc21d263f14114de16b1bc1ab7929fb56bed65757d8ce6b289b35d1c"
+  },
+  "0x71bE63f3384f5fb98995898A86B02Fb2426c5788": {
+    "voucher": {
+      "chatId": 11
+    },
+    "signature": "0x17c887bcb9b0af5f43e654a462f59d6e8cbf66546fc422cf6e5116b4a0455dc805ded32af2b2991cfb5f99c195f67b6f996788b29c19d8a10286058feffc2a5b1b"
+  },
+  "0xFABB0ac9d68B0B445fB7357272Ff202C5651694a": {
+    "voucher": {
+      "chatId": 12
+    },
+    "signature": "0xcae2e5559dc384b138b38352ff40e8994d7f86f4d720114926f50fdee667a7f66c9c29ca59a66f19ca34b0b338964493a697d2e48eb624b07f16a44d72fe34421b"
+  },
+  "0x1CBd3b2770909D4e10f157cABC84C7264073C9Ec": {
+    "voucher": {
+      "chatId": 13
+    },
+    "signature": "0xf1176a279878e3faecc073457bbdd546e762465d3c0c43703d322e53caff2c5821f4d446cd6f3e04172a52751752efc0c58b8e9814eede06c91c19940122e7c21b"
+  },
+  "0xdF3e18d64BC6A983f673Ab319CCaE4f1a57C7097": {
+    "voucher": {
+      "chatId": 14
+    },
+    "signature": "0x8120ddd725a3a11a513b6ae85ca189443ea5674e29dd02df79dd17ccfeb466e91c1c5581a0219c394cd07bd85b6df5f4a42fa35e22af76ea87595272d11465521b"
+  },
+  "0xcd3B766CCDd6AE721141F452C550Ca635964ce71": {
+    "voucher": {
+      "chatId": 15
+    },
+    "signature": "0x5264c936486e4cb1c35841a04d076a806c50ec6fd96a0ec4aa66d9b484895fe90497b4665bea97b5766d92c2e894cf31e2a6ca9da70360850870c16bef3953d11b"
+  },
+  "0x2546BcD3c84621e976D8185a91A922aE77ECEc30": {
+    "voucher": {
+      "chatId": 16
+    },
+    "signature": "0xbeef1dc695e5b4925cc4f73e4f9cf1ff8c623736c828474ed02e684ecd2195a763c22cf62245e8fff05fe2bd68e20d703992aa39c9e44cb172209dd2485435c91c"
+  },
+  "0xbDA5747bFD65F08deb54cb465eB87D40e51B197E": {
+    "voucher": {
+      "chatId": 17
+    },
+    "signature": "0x4e0eef6b6a3138a13b55dbe5315262d0505d1a452de8ee578f54a1df085614e228d9de1b09b24711cb987629788d97daac6a8ea76e2bb644463e1cd7e4548f611b"
+  },
+  "0xdD2FD4581271e230360230F9337D5c0430Bf44C0": {
+    "voucher": {
+      "chatId": 18
+    },
+    "signature": "0x898019d273989e0d272375d728765b9d98f8bd1a7191418947f213f41d82e92527abcb0949b474b5e8f50c597bd3e436369c941fd1f06abe106f2773fa42c28d1b"
+  },
+  "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199": {
+    "voucher": {
+      "chatId": 19
+    },
+    "signature": "0xe7ecc65352b8e2270e009b9ffbe65b3a4cb58724cf4bd9776860f6d58b0d2b2d587b0aaacc3c0f3424891e6318c5e67b1d9fb5bbbf14b7d87dc7f69b81f28a1d1b"
+  }
+}

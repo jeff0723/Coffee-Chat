@@ -35,7 +35,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         address: logicAddress,
         ...logicArtifact
     };
-    await save('CoffeeChat', logicDeployments);
+    await save('CoffeeChatLogic', logicDeployments);
 };
 export default func;
 func.tags = ["deployCoffeeChat", "deploy"];

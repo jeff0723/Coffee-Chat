@@ -41,7 +41,7 @@ export interface CoffeeChatInterface extends utils.Interface {
     "chatInfoById(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "initialize()": FunctionFragment;
-    "intializeChat(string,uint256,uint256,uint256,uint256)": FunctionFragment;
+    "initializeChat(string,uint32,uint32,uint64,uint64)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
@@ -71,7 +71,7 @@ export interface CoffeeChatInterface extends utils.Interface {
       | "chatInfoById"
       | "getApproved"
       | "initialize"
-      | "intializeChat"
+      | "initializeChat"
       | "isApprovedForAll"
       | "name"
       | "owner"
@@ -115,7 +115,7 @@ export interface CoffeeChatInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "intializeChat",
+    functionFragment: "initializeChat",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
@@ -221,7 +221,7 @@ export interface CoffeeChatInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "intializeChat",
+    functionFragment: "initializeChat",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -289,7 +289,7 @@ export interface CoffeeChatInterface extends utils.Interface {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
     "BeaconUpgraded(address)": EventFragment;
-    "CoffeChatIntialize(string,uint256,uint256,uint256)": EventFragment;
+    "CoffeChatIntialize(uint256,string,uint64,uint64,uint32,uint32,uint256,bool,address)": EventFragment;
     "ConsecutiveTransfer(uint256,uint256,address,address)": EventFragment;
     "Initialized(uint8)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
@@ -355,13 +355,28 @@ export type BeaconUpgradedEvent = TypedEvent<
 export type BeaconUpgradedEventFilter = TypedEventFilter<BeaconUpgradedEvent>;
 
 export interface CoffeChatIntializeEventObject {
+  tokenId: BigNumber;
   placeId: string;
   lantitude: BigNumber;
   longtitude: BigNumber;
-  tokenId: BigNumber;
+  startTime: number;
+  endTime: number;
+  stakeAmount: BigNumber;
+  isActive: boolean;
+  initializer: string;
 }
 export type CoffeChatIntializeEvent = TypedEvent<
-  [string, BigNumber, BigNumber, BigNumber],
+  [
+    BigNumber,
+    string,
+    BigNumber,
+    BigNumber,
+    number,
+    number,
+    BigNumber,
+    boolean,
+    string
+  ],
   CoffeChatIntializeEventObject
 >;
 
@@ -466,8 +481,8 @@ export interface CoffeeChat extends BaseContract {
         string,
         BigNumber,
         BigNumber,
-        BigNumber,
-        BigNumber,
+        number,
+        number,
         BigNumber,
         boolean,
         string
@@ -475,8 +490,8 @@ export interface CoffeeChat extends BaseContract {
         placeId: string;
         lantitude: BigNumber;
         longtitude: BigNumber;
-        startTime: BigNumber;
-        endTime: BigNumber;
+        startTime: number;
+        endTime: number;
         stakeAmount: BigNumber;
         isActive: boolean;
         initializer: string;
@@ -492,7 +507,7 @@ export interface CoffeeChat extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    intializeChat(
+    initializeChat(
       placeId: PromiseOrValue<string>,
       startTime: PromiseOrValue<BigNumberish>,
       endTime: PromiseOrValue<BigNumberish>,
@@ -616,8 +631,8 @@ export interface CoffeeChat extends BaseContract {
       string,
       BigNumber,
       BigNumber,
-      BigNumber,
-      BigNumber,
+      number,
+      number,
       BigNumber,
       boolean,
       string
@@ -625,8 +640,8 @@ export interface CoffeeChat extends BaseContract {
       placeId: string;
       lantitude: BigNumber;
       longtitude: BigNumber;
-      startTime: BigNumber;
-      endTime: BigNumber;
+      startTime: number;
+      endTime: number;
       stakeAmount: BigNumber;
       isActive: boolean;
       initializer: string;
@@ -642,7 +657,7 @@ export interface CoffeeChat extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  intializeChat(
+  initializeChat(
     placeId: PromiseOrValue<string>,
     startTime: PromiseOrValue<BigNumberish>,
     endTime: PromiseOrValue<BigNumberish>,
@@ -766,8 +781,8 @@ export interface CoffeeChat extends BaseContract {
         string,
         BigNumber,
         BigNumber,
-        BigNumber,
-        BigNumber,
+        number,
+        number,
         BigNumber,
         boolean,
         string
@@ -775,8 +790,8 @@ export interface CoffeeChat extends BaseContract {
         placeId: string;
         lantitude: BigNumber;
         longtitude: BigNumber;
-        startTime: BigNumber;
-        endTime: BigNumber;
+        startTime: number;
+        endTime: number;
         stakeAmount: BigNumber;
         isActive: boolean;
         initializer: string;
@@ -790,7 +805,7 @@ export interface CoffeeChat extends BaseContract {
 
     initialize(overrides?: CallOverrides): Promise<void>;
 
-    intializeChat(
+    initializeChat(
       placeId: PromiseOrValue<string>,
       startTime: PromiseOrValue<BigNumberish>,
       endTime: PromiseOrValue<BigNumberish>,
@@ -932,17 +947,27 @@ export interface CoffeeChat extends BaseContract {
       beacon?: PromiseOrValue<string> | null
     ): BeaconUpgradedEventFilter;
 
-    "CoffeChatIntialize(string,uint256,uint256,uint256)"(
+    "CoffeChatIntialize(uint256,string,uint64,uint64,uint32,uint32,uint256,bool,address)"(
+      tokenId?: null,
       placeId?: null,
       lantitude?: null,
       longtitude?: null,
-      tokenId?: null
+      startTime?: null,
+      endTime?: null,
+      stakeAmount?: null,
+      isActive?: null,
+      initializer?: null
     ): CoffeChatIntializeEventFilter;
     CoffeChatIntialize(
+      tokenId?: null,
       placeId?: null,
       lantitude?: null,
       longtitude?: null,
-      tokenId?: null
+      startTime?: null,
+      endTime?: null,
+      stakeAmount?: null,
+      isActive?: null,
+      initializer?: null
     ): CoffeChatIntializeEventFilter;
 
     "ConsecutiveTransfer(uint256,uint256,address,address)"(
@@ -1015,7 +1040,7 @@ export interface CoffeeChat extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    intializeChat(
+    initializeChat(
       placeId: PromiseOrValue<string>,
       startTime: PromiseOrValue<BigNumberish>,
       endTime: PromiseOrValue<BigNumberish>,
@@ -1146,7 +1171,7 @@ export interface CoffeeChat extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    intializeChat(
+    initializeChat(
       placeId: PromiseOrValue<string>,
       startTime: PromiseOrValue<BigNumberish>,
       endTime: PromiseOrValue<BigNumberish>,

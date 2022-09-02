@@ -3,14 +3,14 @@
   "proxies": [
     {
       "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-      "txHash": "0x2ba58b052cdfcff33affe779c54f55101abb632b7d49b935f16238125f50a257",
+      "txHash": "0x4681e1b6a0e463a11d3f804c167b4354ee35b7a41e6243bc7a44021eb3c423c4",
       "kind": "uups"
     }
   ],
   "impls": {
-    "f0a5e9066d0510ae626e027df95a0866cfb182febc46177de993b5bdc82208dc": {
+    "6ddd47edf13d15449ea943b19dc5d1a8f4df4f8c4d7e6922a22168e4902ac52e": {
       "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      "txHash": "0x33f3106d0695571e1d0def6f8348a208f2b7461f3a4374118a2070a78777d332",
+      "txHash": "0x96373240d7bc6501d6d1da423d1c1dc219fd97710b94558f2fd6115afabddf55",
       "layout": {
         "storage": [
           {
@@ -95,26 +95,10 @@
             "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
           },
           {
-            "label": "commission",
-            "offset": 0,
-            "slot": "253",
-            "type": "t_uint256",
-            "contract": "CoffeeChat",
-            "src": "contracts/CoffeeChat.sol:25"
-          },
-          {
-            "label": "currentIndex",
-            "offset": 0,
-            "slot": "254",
-            "type": "t_uint256",
-            "contract": "CoffeeChat",
-            "src": "contracts/CoffeeChat.sol:26"
-          },
-          {
             "label": "chatInfoById",
             "offset": 0,
-            "slot": "255",
-            "type": "t_mapping(t_uint256,t_struct(ChatInfo)3068_storage)",
+            "slot": "253",
+            "type": "t_mapping(t_uint256,t_struct(ChatInfo)1954_storage)",
             "contract": "CoffeeChat",
             "src": "contracts/CoffeeChat.sol:42"
           }
@@ -140,7 +124,7 @@
             "label": "bytes32",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_struct(ChatInfo)3068_storage)": {
+          "t_mapping(t_uint256,t_struct(ChatInfo)1954_storage)": {
             "label": "mapping(uint256 => struct CoffeeChat.ChatInfo)",
             "numberOfBytes": "32"
           },
@@ -148,7 +132,7 @@
             "label": "string",
             "numberOfBytes": "32"
           },
-          "t_struct(ChatInfo)3068_storage": {
+          "t_struct(ChatInfo)1954_storage": {
             "label": "struct CoffeeChat.ChatInfo",
             "members": [
               {

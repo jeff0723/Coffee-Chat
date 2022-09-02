@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.12;
 
-import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
+// import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/cryptography/draft-EIP712Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
@@ -12,7 +12,6 @@ import "erc721a-upgradeable/contracts/ERC721AUpgradeable.sol";
  @title Coffee Chat
  @author Jeffrey Lin
  */
-
 contract CoffeeChat is
     Initializable,
     UUPSUpgradeable,
@@ -23,14 +22,13 @@ contract CoffeeChat is
     using AddressUpgradeable for address;
 
     uint256 commission; // basisPoint
-    uint256 currentIndex;
 
     struct ChatInfo {
         string placeId;
-        uint256 lantitude;
-        uint256 longtitude;
-        uint256 startTime;
-        uint256 endTime;
+        uint64 lantitude;
+        uint64 longtitude;
+        uint32 startTime;
+        uint32 endTime;
         uint256 stakeAmount;
         bool isActive;
         address initializer;
@@ -39,13 +37,19 @@ contract CoffeeChat is
     struct RedeemVoucher {
         uint256 chatId;
     }
+
     mapping(uint256 => ChatInfo) public chatInfoById;
 
     event CoffeChatIntialize(
+        uint256 tokenId,
         string placeId,
-        uint256 lantitude,
-        uint256 longtitude,
-        uint256 tokenId
+        uint64 lantitude,
+        uint64 longtitude,
+        uint32 startTime,
+        uint32 endTime,
+        uint256 stakeAmount,
+        bool isActive,
+        address initializer
     );
 
     function initialize() public initializerERC721A initializer {
@@ -55,12 +59,12 @@ contract CoffeeChat is
         __UUPSUpgradeable_init();
     }
 
-    function intializeChat(
+    function initializeChat(
         string calldata placeId,
-        uint256 startTime,
-        uint256 endTime,
-        uint256 lantitude,
-        uint256 longtitude
+        uint32 startTime,
+        uint32 endTime,
+        uint64 lantitude,
+        uint64 longtitude
     ) external payable {
         require(msg.value > 0, "no stake amount");
         //stake money and start a chat -> get
@@ -74,10 +78,20 @@ contract CoffeeChat is
             true,
             _msgSender()
         );
-        chatInfoById[currentIndex] = _chatInfo;
-        super._safeMint(_msgSender(), 1);
-        emit CoffeChatIntialize(placeId, lantitude, longtitude, currentIndex);
-        currentIndex++;
+        uint256 nextId = _nextTokenId();
+        chatInfoById[nextId] = _chatInfo;
+        _safeMint(_msgSender(), 1);
+        emit CoffeChatIntialize(
+            nextId,
+            placeId,
+            lantitude,
+            longtitude,
+            startTime,
+            endTime,
+            msg.value,
+            true,
+            _msgSender()
+        );
     }
 
     function redeemReward(
@@ -92,7 +106,11 @@ contract CoffeeChat is
         require(_chatInfo.endTime > block.timestamp, "Chat has already ended!");
         require(_chatInfo.isActive, "Chat's over");
         _verify(voucher, signature);
-        payable(_msgSender()).transfer(_chatInfo.stakeAmount);
+        uint256 fee = _chatInfo.stakeAmount * commission / 10000;
+        if (fee > 0) {
+            AddressUpgradeable.sendValue(payable(owner()), fee);
+        }
+        AddressUpgradeable.sendValue(payable(_msgSender()), _chatInfo.stakeAmount - fee);
         _chatInfo.isActive = false;
     }
 
@@ -101,7 +119,7 @@ contract CoffeeChat is
         require(_chatInfo.endTime < block.timestamp, "Chat not over");
         require(_chatInfo.isActive, "Chat's over");
         require(_chatInfo.initializer == _msgSender(), "Not initializer");
-        payable(_msgSender()).transfer(_chatInfo.stakeAmount);
+        AddressUpgradeable.sendValue(payable(_msgSender()), _chatInfo.stakeAmount);
         _chatInfo.isActive = false;
     }
 
@@ -114,7 +132,7 @@ contract CoffeeChat is
         bytes32 digest = _hashTypedDataV4(
             keccak256(
                 abi.encode(
-                    keccak256("RedeemVoucher(uint chatId)"),
+                    keccak256("RedeemVoucher(uint256 chatId)"),
                     voucher.chatId
                 )
             )
@@ -127,7 +145,7 @@ contract CoffeeChat is
     }
 
     function setCommission(uint256 number) external onlyOwner {
-        require(number < 10000, "Over 100 percent");
+        require(number < 250, "Over 2.5%");
         commission = number;
     }
 
