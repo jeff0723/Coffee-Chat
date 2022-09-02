@@ -145,7 +145,7 @@ contract CoffeeChat is
     }
 
     function setCommission(uint256 number) external onlyOwner {
-        require(number < 250, "Over 2.5%");
+        require(number <= 250, "Over 2.5%");
         commission = number;
     }
 

@@ -2,7 +2,6 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import { ethers, upgrades, network } from "hardhat";
 
-
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     const { save } = hre.deployments;
     const chainId = await hre.getChainId();
