@@ -18,7 +18,7 @@ import { useContractWrite, useNetwork } from 'wagmi';
 
 import { useQuery } from '@apollo/client';
 import { CoffeeChat } from 'generated/types';
-import { COFFEE_CHAT_QUERY } from 'graphql/get-coffee-chat-query';
+import { COFFEE_CHAT_QUERY_FILTERED } from 'graphql/get-coffee-chat-query';
 import Countdown from 'react-countdown';
 import usePlacesAutocomplete, {
     getGeocode,
@@ -65,9 +65,19 @@ const Home: FC = (props: Props) => {
     });
     const { chain, chains } = useNetwork()
     const [coffeeChats, setCoffeeChats] = useState<CoffeeChat[]>([])
+    const geolocation = useGeolocation();
 
-    const { data, loading, error } = useQuery(COFFEE_CHAT_QUERY, {
+    const { data, loading, error } = useQuery(COFFEE_CHAT_QUERY_FILTERED, {
+        variables: {
+            lantitude1: ((geolocation.latitude - 0.1) * 10 ** 15).toString(),
+            lantitude2: ((geolocation.latitude + 0.1) * 10 ** 15).toString(),
+            longtitude1: ((geolocation.longitude - 0.1) * 10 ** 15).toString(),
+            longtitude2: ((geolocation.longitude + 0.1) * 10 ** 15).toString()
+
+        },
+        skip: !geolocation,
         onCompleted: (data) => {
+            console.log(data)
             setCoffeeChats(data.coffeeChats)
 
         },
@@ -77,7 +87,6 @@ const Home: FC = (props: Props) => {
     }
     )
 
-    const geolocation = useGeolocation();
     const [clicked, setClicked] = useState(false)
     const [coffeeChatClick, setCoffeeChatClick] = useState(false)
     const [selectedCoffeeChat, setSelectedCoffeeChat] = useState<CoffeeChat>()
@@ -96,14 +105,22 @@ const Home: FC = (props: Props) => {
         lat: 0,
         lng: 0
     })
+    const reset = () => {
+        setDrawerShow(false)
+        setModalOpen(false)
+        setStartTime("")
+        setEndTime("")
+        setInputAmount(0)
+    }
     const { isLoading: writeLoading, write } = useContractWrite({
         addressOrName: chain?.id ? COFFEE_CHAT_ADDRESS[chain?.id] : "",
         contractInterface: COFFEE_CHAT,
         functionName: 'initializeChat',
         mode: 'recklesslyUnprepared',
         onSuccess(data) {
-            console.log(data)
             toast.success("Successfully initiate a chat!")
+            reset()
+
         },
         onError(error: any) {
             toast.error(error?.data?.message ?? error?.message)
@@ -315,15 +332,15 @@ const Home: FC = (props: Props) => {
                             </div>
                             <div className='flex gap-2 items-center flex-wrap'>
                                 <div> <TagOutlined className='w-5 h-5' /> </div>
-                                {placeDetail?.types?.map((type) => (
-                                    <div className='py-1 px-2 text-gray-500 bg-black bg-opacity-10 rounded-xl'>{type}</div>
+                                {placeDetail?.types?.map((type, index) => (
+                                    <div key={index} className='py-1 px-2 text-gray-500 bg-black bg-opacity-10 rounded-xl'>{type}</div>
                                 ))}
                             </div>
 
 
                             <div className='flex overflow-scroll gap-2 '>
-                                {placePhotos.map((photo) => (
-                                    <img src={photo} className='w-2/5 rounded-lg' />
+                                {placePhotos.map((photo, index) => (
+                                    <img key={index} src={photo} className='w-2/5 rounded-lg' />
                                 ))}
 
                             </div>
