@@ -1,7 +1,13 @@
-import { EnvironmentOutlined, PhoneOutlined, TagOutlined, CoffeeOutlined } from '@ant-design/icons';
+import { EnvironmentOutlined, PhoneOutlined, TagOutlined } from '@ant-design/icons';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import {
+    Combobox,
+    ComboboxInput, ComboboxList,
+    ComboboxOption, ComboboxPopover
+} from "@reach/combobox";
+import "@reach/combobox/styles.css";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
-import { Button, Drawer, InputNumber, Modal, Rate, TimePicker } from 'antd';
+import { AutoComplete, Button, Drawer, Input, InputNumber, Modal, Rate, TimePicker } from 'antd';
 import { COFFEE_CHAT } from 'constant/abi';
 import { COFFEE_CHAT_ADDRESS } from 'constant/address';
 import { ethers } from 'ethers';
@@ -9,24 +15,18 @@ import { Dispatch, FC, useEffect, useMemo, useState } from 'react';
 import useGeolocation from 'react-hook-geolocation';
 import toast from 'react-hot-toast';
 import { useContractWrite, useNetwork } from 'wagmi';
-import { AutoComplete, Input } from 'antd';
-import {
-    Combobox,
-    ComboboxInput,
-    ComboboxPopover,
-    ComboboxList,
-    ComboboxOption,
-} from "@reach/combobox";
-import "@reach/combobox/styles.css";
 
+import { useQuery } from '@apollo/client';
+import { CoffeeChat } from 'generated/types';
+import { COFFEE_CHAT_QUERY } from 'graphql/get-coffee-chat-query';
+import Countdown from 'react-countdown';
 import usePlacesAutocomplete, {
     getGeocode,
-    getLatLng,
+    getLatLng
 } from "use-places-autocomplete";
-import { COFFEE_CHAT_QUERY } from 'graphql/get-coffee-chat-query';
-import { useQuery } from '@apollo/client';
-import { client } from 'utils/apollo';
-
+import { formatLatorLng } from 'utils/format';
+import { getDistance } from 'utils/getDistance';
+import styled from 'styled-components'
 type Props = {}
 type PlacePhoto = {
     height: number
@@ -52,25 +52,40 @@ const formatTimeStampFromTime = (time: string) => {
     return new Date(today + " " + time).valueOf() / 1000 // for smart contract input
 
 }
+const formatDistance = (distance: number) => {
+    if (distance < 1000) {
+        return Math.floor(distance).toString() + " M"
+    }
+    return (distance / 1000).toFixed(1) + " KM"
+}
 const Home: FC = (props: Props) => {
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: GOOGLE_API_KEY,
         libraries: ["places", 'geometry'],
     });
     const { chain, chains } = useNetwork()
-    useEffect(() => {
-        client.query({ query: COFFEE_CHAT_QUERY })
-            .then((data) => console.log('Subgraph data: ', data))
-            .catch((err) => {
-                console.log('Error fetching data: ', err)
-            })
-    }, [])
+    const [coffeeChats, setCoffeeChats] = useState<CoffeeChat[]>([])
+
+    const { data, loading, error } = useQuery(COFFEE_CHAT_QUERY, {
+        onCompleted: (data) => {
+            setCoffeeChats(data.coffeeChats)
+
+        },
+        onError: (error) => {
+            console.log(error)
+        }
+    }
+    )
 
     const geolocation = useGeolocation();
     const [clicked, setClicked] = useState(false)
+    const [coffeeChatClick, setCoffeeChatClick] = useState(false)
+    const [selectedCoffeeChat, setSelectedCoffeeChat] = useState<CoffeeChat>()
     const [placeId, setPlaceId] = useState("")
     const [drawerShow, setDrawerShow] = useState(false)
     const [placeDetail, setPlaceDetail] = useState<PlaceDetail>()
+    const [coffeeChatDetail, setCoffeeChatDetail] = useState<PlaceDetail>()
+    const [coffeeChatPlacePhotos, setCoffeeChatPlacePhotos] = useState<string[]>([])
     const [placePhotos, setPlacePhotos] = useState<string[]>([])
     const [modalOpen, setModalOpen] = useState(false)
     const [startTime, setStartTime] = useState("")
@@ -100,8 +115,12 @@ const Home: FC = (props: Props) => {
 
         const respone = await fetch(`/api/get-place-detail?place_id=${placeId}`)
         const data = await respone.json()
-        console.log(data)
         setPlaceDetail(data)
+    }
+    const getCoffeeChatPlaceDetail = async () => {
+        const respone = await fetch(`/api/get-place-detail?place_id=${selectedCoffeeChat?.placeId}`)
+        const data = await respone.json()
+        setCoffeeChatDetail(data)
     }
     const getPlacePhotos = async () => {
         if (placeDetail?.photos?.length) {
@@ -114,14 +133,29 @@ const Home: FC = (props: Props) => {
             }
             setPlacePhotos(photos)
         }
-
-
+    }
+    const getCoffeeChatPlacePhotos = async () => {
+        if (coffeeChatDetail?.photos?.length) {
+            const photos = []
+            for (let i = 0; i < coffeeChatDetail?.photos?.length; ++i) {
+                const photo = coffeeChatDetail?.photos[i]
+                const response = await fetch(`/api/get-photo?photo_reference=${photo.photo_reference}`)
+                const url = URL.createObjectURL(new Blob([await response.blob()]));
+                photos.push(url)
+            }
+            setCoffeeChatPlacePhotos(photos)
+        }
     }
     useEffect(() => {
         if (placeId) {
             getPlaceDetail()
         }
     }, [placeId])
+    useEffect(() => {
+        if (selectedCoffeeChat) {
+            getCoffeeChatPlaceDetail()
+        }
+    }, [selectedCoffeeChat])
     useEffect(() => {
         if (placeDetail?.photos?.length) {
             getPlacePhotos()
@@ -130,6 +164,14 @@ const Home: FC = (props: Props) => {
             setPlacePhotos([])
         }
     }, [placeDetail])
+    useEffect(() => {
+        if (coffeeChatDetail?.photos?.length) {
+            getCoffeeChatPlacePhotos()
+        }
+        else {
+            setCoffeeChatPlacePhotos([])
+        }
+    }, [coffeeChatDetail])
 
     const handleStake = async () => {
 
@@ -159,8 +201,7 @@ const Home: FC = (props: Props) => {
 
     }
     if (!isLoaded) return <div className='h-screen w-full flex justify-center items-center'>Loading...</div>;
-
-
+    console.log(selectedCoffeeChat)
     return (
         <div>
             <div className='flex justify-between items-center p-2'>
@@ -200,6 +241,36 @@ const Home: FC = (props: Props) => {
                     </div>
 
                 </Modal>
+                <Modal zIndex={201} width={300} footer={null} title="Info" visible={coffeeChatClick} onCancel={() => {
+                    setCoffeeChatClick(false)
+                    setSelectedCoffeeChat(undefined)
+                }}
+                >
+                    <div className='flex flex-col gap-2'>
+                        <div>👤 Initiater: <span className='font-bold'>{selectedCoffeeChat?.initializer}</span>
+                        </div>
+                        <div>💰 Staked amount:  <span className='font-bold'>{ethers.utils.formatEther(selectedCoffeeChat?.stakeAmount ?? "0")} MATIC</span></div>
+                        <div>👟 Distance: <span className='font-bold'>
+                            {formatDistance(getDistance(
+                                geolocation.latitude,
+                                geolocation.latitude,
+                                formatLatorLng(selectedCoffeeChat?.lantitude),
+                                formatLatorLng(selectedCoffeeChat?.lantitude)))}</span></div>
+                        <div>
+                            ⏰ Time Left: <Countdown date={Date.now() + 10000} className='font-bold' />
+                        </div>
+                        <div className='flex flex-col'>
+                            <div>📍 Location:  <span className='font-bold'>{coffeeChatDetail?.name}</span></div>
+                            <Rate allowHalf value={coffeeChatDetail?.rating} />
+                            <div className='flex overflow-scroll gap-2 '>
+                                {coffeeChatPlacePhotos.map((photo) => (
+                                    <img src={photo} className='w-2/5 rounded-lg' />
+                                ))}
+
+                            </div>
+                        </div>
+                    </div>
+                </Modal>
                 <Map
                     zoom={zoom}
                     latitude={geolocation.latitude}
@@ -210,7 +281,11 @@ const Home: FC = (props: Props) => {
                     setPlaceId={setPlaceId}
                     setDrawerShow={setDrawerShow}
                     clickedPoint={clickedPoint}
-                    setClickedPoint={setClickedPoint} />
+                    setClickedPoint={setClickedPoint}
+                    coffeeChats={coffeeChats}
+                    setCoffeeChatClick={setCoffeeChatClick}
+                    setSelectedCoffeeChat={setSelectedCoffeeChat}
+                />
                 <Drawer zIndex={100} title="Detail" placement="right" onClose={() => {
                     setDrawerShow(false)
                     setPlacePhotos([])
@@ -277,10 +352,27 @@ type MapProps = {
         lat: number;
         lng: number;
     }>
+    coffeeChats: CoffeeChat[]
+    setCoffeeChatClick: Dispatch<boolean>;
+    setSelectedCoffeeChat: Dispatch<CoffeeChat>;
+
 }
 
-
-const Map: FC<MapProps> = ({ zoom, latitude, longtitude, clicked, setClicked, placeId, setPlaceId, setDrawerShow, clickedPoint, setClickedPoint }) => {
+const Map: FC<MapProps> = ({
+    zoom,
+    latitude,
+    longtitude,
+    clicked,
+    setClicked,
+    placeId,
+    setPlaceId,
+    setDrawerShow,
+    clickedPoint,
+    setClickedPoint,
+    coffeeChats,
+    setCoffeeChatClick,
+    setSelectedCoffeeChat
+}) => {
     const center = useMemo(() => {
         if (clicked) {
             return {
@@ -293,6 +385,7 @@ const Map: FC<MapProps> = ({ zoom, latitude, longtitude, clicked, setClicked, pl
         }
     }, [latitude, longtitude, clicked, clickedPoint]);
     const [mapRef, setMapRef] = useState<google.maps.Map>();
+    const [open, setOpen] = useState(false)
 
     const handleMapClick = (e: google.maps.MapMouseEvent) => {
         // console.log('data: ', e)
@@ -314,15 +407,46 @@ const Map: FC<MapProps> = ({ zoom, latitude, longtitude, clicked, setClicked, pl
             lng
         })
     }
+    useEffect(() => {
+        mapRef?.panTo(center)
+    }, [center])
+
+
     return (
-        <GoogleMap onLoad={map => setMapRef(map)} zoom={zoom} center={center} mapContainerClassName="w-full h-[95vh]" onClick={handleMapClick}
-            onCenterChanged={
-                () => {
-                    mapRef?.panTo(center)
-                }
-            } >
+        <GoogleMap onLoad={map => setMapRef(map)} zoom={zoom} center={center} mapContainerClassName="w-full h-[95vh]" onClick={handleMapClick} >
             <Marker position={center} />
             {clicked && <Marker position={clickedPoint} />}
+            {coffeeChats.length && coffeeChats.map((coffeeChat) => (
+                <Marker
+                    position={{
+                        lat: coffeeChat.lantitude / 10 ** 15,
+                        lng: coffeeChat.longtitude / 10 ** 15
+                    }}
+                    icon={{
+                        path:
+                            "M80,56V24a8,8,0,0,1,16,0V56a8,8,0,0,1-16,0Zm40,8a8,8,0,0,0,8-8V24a8,8,0,0,0-16,0V56A8,8,0,0,0,120,64Zm32,0a8,8,0,0,0,8-8V24a8,8,0,0,0-16,0V56A8,8,0,0,0,152,64Zm96,56v8a40,40,0,0,1-37.5,39.9,98,98,0,0,1-27,40.1H208a8,8,0,0,1,0,16H32a8,8,0,0,1,0-16H56.5A96.4,96.4,0,0,1,24,136V88a8,8,0,0,1,8-8H208A40,40,0,0,1,248,120Zm-16,0a24,24,0,0,0-16-22.6V136a92.9,92.9,0,0,1-1.2,15A24,24,0,0,0,232,128Z",
+                        fillColor: "#6f4e37",
+                        fillOpacity: 1,
+                        scale: 0.15,
+                        strokeColor: "black",
+                        strokeWeight: 2,
+                    }}
+                    onClick={() => {
+                        console.log("coffeeChatClick")
+                        setCoffeeChatClick(true)
+                        setSelectedCoffeeChat(coffeeChat)
+                    }}
+                    onMouseDown={
+                        () => {
+                            console.log("coffeeChatClick")
+                            setCoffeeChatClick(true)
+                            setSelectedCoffeeChat(coffeeChat)
+                        }
+                    }
+                />
+
+            ))}
+
         </GoogleMap>
     );
 }
@@ -344,6 +468,14 @@ type AutoCompleteProps = {
     }>
 
 }
+const StyledInput = styled(Input)`
+    border: none; 
+    background: none;
+    &:hover {
+        border: none;
+      }
+    
+`
 const PlaceAutoComplete: FC<AutoCompleteProps> = ({ setZoom, clicked, setClicked, placeId, setPlaceId, setDrawerShow, clickedPoint, setClickedPoint }) => {
     const {
         ready,
@@ -382,15 +514,16 @@ const PlaceAutoComplete: FC<AutoCompleteProps> = ({ setZoom, clicked, setClicked
 
     return (
         <AutoComplete
+            allowClear={true}
             options={options}
             onSelect={onSelect}
             onSearch={onSearch}
-            placeholder="Search a place..."
             disabled={!ready}
-            className='w-[300px] border-none'
-            dropdownClassName='w-[500px]'
-
-        />)
+            dropdownMatchSelectWidth={500}
+            style={{ width: 300 }}
+            placeholder='Search a place...'
+        />
+    )
 }
 const PlacesAutocomplete = () => {
     const {

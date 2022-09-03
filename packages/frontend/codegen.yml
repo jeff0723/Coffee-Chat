@@ -1,0 +1,11 @@
+schema: https://api.studio.thegraph.com/query/19892/coffeechat/v0.0.3
+hooks:
+  afterOneFileWrite:
+    - eslint --fix
+    - prettier --write
+
+generates:
+  generated/types.ts:
+    plugins:
+      - typescript
+      - fragment-matcher

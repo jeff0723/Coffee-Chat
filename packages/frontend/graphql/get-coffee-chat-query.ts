@@ -11,6 +11,7 @@ export const COFFEE_CHAT_QUERY = gql`
             lantitude
             longtitude
             initializer
+            stakeAmount
           }
     }
 `
