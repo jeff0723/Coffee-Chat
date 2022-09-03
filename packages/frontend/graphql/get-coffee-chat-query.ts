@@ -15,7 +15,6 @@ export const COFFEE_CHAT_QUERY_FILTERED = gql`
             longtitude_lt:$longtitude2
         }) {
             id
-            tokenId
             placeId
             startTime
             endTime

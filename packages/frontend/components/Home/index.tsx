@@ -69,10 +69,10 @@ const Home: FC = (props: Props) => {
 
     const { data, loading, error } = useQuery(COFFEE_CHAT_QUERY_FILTERED, {
         variables: {
-            lantitude1: ((geolocation.latitude - 0.1) * 10 ** 15).toString(),
-            lantitude2: ((geolocation.latitude + 0.1) * 10 ** 15).toString(),
-            longtitude1: ((geolocation.longitude - 0.1) * 10 ** 15).toString(),
-            longtitude2: ((geolocation.longitude + 0.1) * 10 ** 15).toString()
+            lantitude1: ((geolocation.latitude - 1) * 10 ** 15).toString(),
+            lantitude2: ((geolocation.latitude + 1) * 10 ** 15).toString(),
+            longtitude1: ((geolocation.longitude - 1) * 10 ** 15).toString(),
+            longtitude2: ((geolocation.longitude + 1) * 10 ** 15).toString()
 
         },
         skip: !geolocation,
@@ -100,7 +100,7 @@ const Home: FC = (props: Props) => {
     const [startTime, setStartTime] = useState("")
     const [endTime, setEndTime] = useState("")
     const [inputAmount, setInputAmount] = useState(0)
-    const [zoom, setZoom] = useState(10)
+    const [zoom, setZoom] = useState(12)
     const [clickedPoint, setClickedPoint] = useState({
         lat: 0,
         lng: 0
