@@ -5,11 +5,10 @@ import {
 import { ExampleEntity, CoffeeChat } from "../generated/schema"
 
 export function handleCoffeChatIntialize(event: CoffeChatIntialize): void {
-  let coffeeChat = CoffeeChat.load(event.transaction.from.toHex())
+  let coffeeChat = CoffeeChat.load(event.params.tokenId.toString())
   if (!coffeeChat) {
-    coffeeChat = new CoffeeChat(event.transaction.from.toHex())
+    coffeeChat = new CoffeeChat(event.params.tokenId.toString())
   }
-  coffeeChat.tokenId = event.params.tokenId
   coffeeChat.placeId = event.params.placeId
   coffeeChat.startTime = event.params.startTime
   coffeeChat.endTime = event.params.endTime

@@ -101,15 +101,6 @@ export class CoffeeChat extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get tokenId(): BigInt {
-    let value = this.get("tokenId");
-    return value!.toBigInt();
-  }
-
-  set tokenId(value: BigInt) {
-    this.set("tokenId", Value.fromBigInt(value));
-  }
-
   get placeId(): string {
     let value = this.get("placeId");
     return value!.toString();

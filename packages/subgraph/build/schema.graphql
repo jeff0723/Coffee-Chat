@@ -7,7 +7,6 @@ type ExampleEntity @entity {
 
 type CoffeeChat @entity {
   id: ID!
-  tokenId: BigInt!
   placeId: String!
   lantitude: BigInt!
   longtitude: BigInt!
