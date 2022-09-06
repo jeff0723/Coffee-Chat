@@ -28,7 +28,7 @@
     "react-hook-form": "^7.34.2",
     "react-hook-geolocation": "^1.1.0",
     "react-hot-toast": "^2.3.0",
-    "react-qr-reader": "^3.0.0-beta-1",
+    "react-qr-reader": "^2.2.1",
     "react-responsive": "^9.0.0-beta.10",
     "styled-components": "^5.3.5",
     "use-places-autocomplete": "^4.0.0",

@@ -1,6 +1,6 @@
 
+import Qrscan from 'components/QrcodeScanner';
 import React, { useState } from 'react'
-import { QrReader } from 'react-qr-reader';
 
 
 type Props = {}
@@ -10,20 +10,7 @@ const QRcode = (props: Props) => {
 
     return (
         <>
-            <QrReader
-                constraints={{ facingMode: 'user' }}
-                onResult={(result, error) => {
-                    if (!!result) {
-                        setData(result.getText())
-                    }
-
-                    if (!!error) {
-                        console.info(error);
-                    }
-                }}
-                videoStyle={{ outerHeight: '100%' }}
-            />
-            <p>{data}</p>
+            <Qrscan />
         </>
     );
 };

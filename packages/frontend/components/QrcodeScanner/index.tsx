@@ -1,39 +1,38 @@
-import React, { Component } from 'react'
-const isBrowser = typeof window != 'undefined';
+import React, { useState } from 'react';
+import QrReader from 'react-qr-reader';
 
-if (isBrowser) {
-    var QrReader = require('react-qr-reader');
-}
+import styles from './Qrscan.module.css';
 
+const Qrscan = () => {
 
-class QRReader extends Component {
-    state = {
-        result: 'No result'
-    }
+    const [result, setResult] = useState('No result');
 
-    handleScan = (data: string) => {
-        if (data) {
-            this.setState({
-                result: data
-            })
-        }
-    }
-    handleError = (err: string) => {
+    const handleError = (err: string) => {
         console.error(err)
     }
-    render() {
-        return isBrowser && (
-            <div>
-                <QrReader
-                    delay={300}
-                    onError={this.handleError}
-                    onScan={this.handleScan}
-                    style={{ width: '100%' }}
-                />
-                <p>{this.state.result}</p>
-            </div>
-        )
+
+    const handleScan = (result: string | null) => {
+        if (result) {
+            setResult(result)
+        }
     }
+
+    const previewStyle = {
+        height: 240,
+        width: 320,
+    }
+
+    return (
+        <div >
+            <QrReader
+                delay={500}
+                style={previewStyle}
+                onError={handleError}
+                onScan={handleScan}
+            />
+            <div>{result}</div>
+        </div>
+    );
 }
 
-export default QRReader;
+export default Qrscan;
