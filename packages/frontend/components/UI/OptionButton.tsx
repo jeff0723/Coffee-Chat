@@ -4,17 +4,20 @@ import styled from "styled-components";
 import { Dialog, Transition } from "@headlessui/react";
 import { Domain } from "domain";
 import { CoffeeOutlined, CameraOutlined, StarOutlined, CarryOutOutlined } from '@ant-design/icons';
-import { Tooltip } from 'antd';
+import { Modal, Tooltip } from 'antd';
 import CoffeeChatList from './CoffeeChatList';
+
 
 type Props = {}
 const OptionButton = (props: Props) => {
     const [createPostOpen, setCreatePostOpen] = useState(false)
     const [optionShow, setOptionShow] = useState(false)
     const [coffeeChatListModalOpen, toggleCoffeeChatList] = useReducer(state => !state, false)
-
+    const [cameraOpen, setCameraOpen] = useState(false)
     const [creaetCommunityOpen, setCreateCommunityOpen] = useState(false)
     const [createNFTPostOpen, setCreateNFTPostOpen] = useState(false)
+    const [qrCode, setQrCode] = useState('')
+
     return (
         <div className="absolute flex flex-col left-5 bottom-5 gap-2">
             <Transition appear show={optionShow} as={Fragment}>
@@ -48,7 +51,7 @@ const OptionButton = (props: Props) => {
                         <div className="ml-8 flex gap-2  items-center pr-2">
                             <Tooltip title="Open camera">
                                 <div className="w-10 h-10 bg-white rounded-full flex justify-center items-center hover:bg-opacity-90"
-                                    onClick={() => setCreatePostOpen(true)}>
+                                    onClick={() => setCameraOpen(true)}>
                                     <CameraOutlined />
 
                                 </div>

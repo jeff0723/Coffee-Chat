@@ -14,7 +14,7 @@ import { ethers } from 'ethers';
 import { Dispatch, FC, useEffect, useMemo, useReducer, useState } from 'react';
 import useGeolocation from 'react-hook-geolocation';
 import toast from 'react-hot-toast';
-import { useContractWrite, useNetwork } from 'wagmi';
+import { usePrepareContractWrite, useContractWrite, useNetwork } from 'wagmi';
 
 import { useQuery } from '@apollo/client';
 import { CoffeeChat } from 'generated/types';
