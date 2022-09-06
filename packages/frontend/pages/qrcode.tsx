@@ -1,21 +1,31 @@
+
 import React, { useState } from 'react'
-import Html5QrcodePlugin from 'components/QrcodeScanner'
+import { QrReader } from 'react-qr-reader';
+
+
 type Props = {}
 
 const QRcode = (props: Props) => {
-    const [qrCode, setQrCode] = useState('')
-    const handleScan = (data: string) => {
-        console.log(data)
-    }
+    const [data, setData] = useState('No result');
+
     return (
-        <div>
-            <Html5QrcodePlugin
-                fps={10}
-                qrbox={250}
-                disableFlip={false}
-                qrCodeSuccessCallback={handleScan} />
-        </div>
-    )
-}
+        <>
+            <QrReader
+                constraints={{ facingMode: 'user' }}
+                onResult={(result, error) => {
+                    if (!!result) {
+                        setData(result.getText())
+                    }
+
+                    if (!!error) {
+                        console.info(error);
+                    }
+                }}
+                videoStyle={{ outerHeight: '100%' }}
+            />
+            <p>{data}</p>
+        </>
+    );
+};
 
 export default QRcode
