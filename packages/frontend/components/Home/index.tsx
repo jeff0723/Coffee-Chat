@@ -1,4 +1,4 @@
-import { EnvironmentOutlined, PhoneOutlined, TagOutlined } from '@ant-design/icons';
+import { CoffeeOutlined, EnvironmentOutlined, PhoneOutlined, TagOutlined } from '@ant-design/icons';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import {
     Combobox,
@@ -7,18 +7,18 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
-import { AutoComplete, Button, Drawer, Input, InputNumber, Modal, Rate, TimePicker } from 'antd';
+import { AutoComplete, Button, Drawer, Input, InputNumber, Modal, Popover, Rate, TimePicker } from 'antd';
 import { COFFEE_CHAT } from 'constant/abi';
 import { COFFEE_CHAT_ADDRESS } from 'constant/address';
 import { ethers } from 'ethers';
-import { Dispatch, FC, useEffect, useMemo, useState } from 'react';
+import { Dispatch, FC, useEffect, useMemo, useReducer, useState } from 'react';
 import useGeolocation from 'react-hook-geolocation';
 import toast from 'react-hot-toast';
 import { useContractWrite, useNetwork } from 'wagmi';
 
 import { useQuery } from '@apollo/client';
 import { CoffeeChat } from 'generated/types';
-import { COFFEE_CHAT_QUERY_FILTERED } from 'graphql/get-coffee-chat-query';
+import { COFFEE_CHAT_QUERY_FILTERED_BY_POINT } from 'graphql/get-coffee-chat-query';
 import Countdown from 'react-countdown';
 import usePlacesAutocomplete, {
     getGeocode,
@@ -27,6 +27,7 @@ import usePlacesAutocomplete, {
 import { formatLatorLng } from 'utils/format';
 import { getDistance } from 'utils/getDistance';
 import styled from 'styled-components'
+import CoffeeChatList from 'components/UI/CoffeeChatList';
 type Props = {}
 type PlacePhoto = {
     height: number
@@ -67,7 +68,7 @@ const Home: FC = (props: Props) => {
     const [coffeeChats, setCoffeeChats] = useState<CoffeeChat[]>([])
     const geolocation = useGeolocation();
 
-    const { data, loading, error } = useQuery(COFFEE_CHAT_QUERY_FILTERED, {
+    const { data, loading, error } = useQuery(COFFEE_CHAT_QUERY_FILTERED_BY_POINT, {
         variables: {
             lantitude1: ((geolocation.latitude - 1) * 10 ** 15).toString(),
             lantitude2: ((geolocation.latitude + 1) * 10 ** 15).toString(),
@@ -88,6 +89,7 @@ const Home: FC = (props: Props) => {
     )
 
     const [clicked, setClicked] = useState(false)
+    const [coffeeChatListModalOpen, toggle] = useReducer(state => !state, false)
     const [coffeeChatClick, setCoffeeChatClick] = useState(false)
     const [selectedCoffeeChat, setSelectedCoffeeChat] = useState<CoffeeChat>()
     const [placeId, setPlaceId] = useState("")
@@ -220,18 +222,36 @@ const Home: FC = (props: Props) => {
     if (!isLoaded) return <div className='h-screen w-full flex justify-center items-center'>Loading...</div>;
     console.log(selectedCoffeeChat)
     return (
-        <div>
+        <div className='relative'>
+            <Popover
+                placement='top'
+                content={
+                    <div>
+                        hi
+                    </div>
+                }>
+                <button
+                    className='absolute left-10 bottom-10 z-40 rounded-full flex justify-center items-center p-2 bg-white w-16 h-16 hover:text-[#6f4e37] hover:bg-opacity-90'
+                    onClick={toggle}>
+                    <CoffeeOutlined className='text-[25px]' color='#6f4e37' />
+                </button>
+            </Popover>
+            <CoffeeChatList open={coffeeChatListModalOpen} toggle={toggle} />
             <div className='flex justify-between items-center p-2'>
                 <div className='text-[24px] font-bold'>☕ Coffee chat</div>
-                <PlaceAutoComplete
-                    setZoom={setZoom}
-                    clicked={clicked}
-                    setClicked={setClicked}
-                    placeId={placeId}
-                    setPlaceId={setPlaceId}
-                    setDrawerShow={setDrawerShow}
-                    clickedPoint={clickedPoint}
-                    setClickedPoint={setClickedPoint} />
+                <div className='flex item-centers gap-2s'>
+                    <PlaceAutoComplete
+                        setZoom={setZoom}
+                        clicked={clicked}
+                        setClicked={setClicked}
+                        placeId={placeId}
+                        setPlaceId={setPlaceId}
+                        setDrawerShow={setDrawerShow}
+                        clickedPoint={clickedPoint}
+                        setClickedPoint={setClickedPoint} />
+
+                </div>
+
                 <ConnectButton />
             </div>
             <div className='flex'>
@@ -345,6 +365,7 @@ const Home: FC = (props: Props) => {
 
                             </div>
                         </div>
+
                         <Button className='rounded-2xl' onClick={() => { setModalOpen(true) }}>Coffee chat</Button>
                     </div>
                 </Drawer>
