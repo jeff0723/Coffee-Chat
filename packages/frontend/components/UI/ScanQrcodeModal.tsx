@@ -10,9 +10,7 @@ type Props = {
 const ScanQrcodeModal = ({ open, toggle }: Props) => {
     return (
         <Modal visible={open} onCancel={() => toggle(open)} footer={null} bodyStyle={{ height: 400 }}>
-            <div className='flex jutify-center items-center'>
-                <Qrscan />
-            </div>
+            <Qrscan />
         </Modal>
     )
 }
