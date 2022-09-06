@@ -10,8 +10,8 @@ type Props = {
 const ScanQrcodeModal = ({ open, toggle }: Props) => {
     return (
         <Modal visible={open} onCancel={() => toggle(open)} footer={null} bodyStyle={{ height: 400 }}>
-            {/* <Qrscan /> */}
-            <QrScanner />
+            <Qrscan />
+            {/* <QrScanner /> */}
         </Modal>
     )
 }
