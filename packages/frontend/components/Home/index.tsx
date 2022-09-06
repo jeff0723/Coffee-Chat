@@ -454,7 +454,7 @@ const Map: FC<MapProps> = ({
 
 
     return (
-        <GoogleMap onLoad={map => setMapRef(map)} zoom={zoom} center={center} mapContainerClassName="w-full h-[95vh] sm:h-[85vh]" onClick={handleMapClick} >
+        <GoogleMap onLoad={map => setMapRef(map)} zoom={zoom} center={center} mapContainerClassName="w-full h-[95vh]" onClick={handleMapClick} >
             <Marker position={center} />
             {clicked && <Marker position={clickedPoint} />}
             {coffeeChats.length && coffeeChats.map((coffeeChat, index) => (
