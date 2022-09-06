@@ -97,7 +97,7 @@ contract CoffeeChat is
     function redeemReward(
         RedeemVoucher calldata voucher,
         bytes calldata signature,
-        address payable _to
+        address payable receiver
     ) external {
         ChatInfo storage _chatInfo = chatInfoById[voucher.chatId];
         require(
@@ -111,7 +111,7 @@ contract CoffeeChat is
         if (fee > 0) {
             AddressUpgradeable.sendValue(payable(owner()), fee);
         }
-        AddressUpgradeable.sendValue(_to, _chatInfo.stakeAmount - fee);
+        AddressUpgradeable.sendValue(receiver, _chatInfo.stakeAmount - fee);
         _chatInfo.isActive = false;
     }
 

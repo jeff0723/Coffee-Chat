@@ -47,7 +47,7 @@ export interface CoffeeChatInterface extends utils.Interface {
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "proxiableUUID()": FunctionFragment;
-    "redeemReward((uint256),bytes)": FunctionFragment;
+    "redeemReward((uint256),bytes,address)": FunctionFragment;
     "refund(uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
@@ -140,7 +140,11 @@ export interface CoffeeChatInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "redeemReward",
-    values: [CoffeeChat.RedeemVoucherStruct, PromiseOrValue<BytesLike>]
+    values: [
+      CoffeeChat.RedeemVoucherStruct,
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "refund",
@@ -536,6 +540,7 @@ export interface CoffeeChat extends BaseContract {
     redeemReward(
       voucher: CoffeeChat.RedeemVoucherStruct,
       signature: PromiseOrValue<BytesLike>,
+      receiver: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -686,6 +691,7 @@ export interface CoffeeChat extends BaseContract {
   redeemReward(
     voucher: CoffeeChat.RedeemVoucherStruct,
     signature: PromiseOrValue<BytesLike>,
+    receiver: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -834,6 +840,7 @@ export interface CoffeeChat extends BaseContract {
     redeemReward(
       voucher: CoffeeChat.RedeemVoucherStruct,
       signature: PromiseOrValue<BytesLike>,
+      receiver: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1069,6 +1076,7 @@ export interface CoffeeChat extends BaseContract {
     redeemReward(
       voucher: CoffeeChat.RedeemVoucherStruct,
       signature: PromiseOrValue<BytesLike>,
+      receiver: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1200,6 +1208,7 @@ export interface CoffeeChat extends BaseContract {
     redeemReward(
       voucher: CoffeeChat.RedeemVoucherStruct,
       signature: PromiseOrValue<BytesLike>,
+      receiver: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
