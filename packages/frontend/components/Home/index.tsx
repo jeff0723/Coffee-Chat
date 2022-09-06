@@ -220,7 +220,6 @@ const Home: FC = (props: Props) => {
 
     }
     if (!isLoaded) return <div className='h-screen w-full flex justify-center items-center'>Loading...</div>;
-    console.log(selectedCoffeeChat)
     return (
         <div className='relative'>
 
@@ -262,7 +261,7 @@ const Home: FC = (props: Props) => {
                                 }
                             } />
                         </div>
-                        <Button className='mt-20' onClick={handleStake}>Let's go</Button>
+                        <Button className='mt-20' onClick={handleStake}>Let&apos; go</Button>
 
                     </div>
 
@@ -289,8 +288,8 @@ const Home: FC = (props: Props) => {
                             <div>📍 Location:  <span className='font-bold'>{coffeeChatDetail?.name}</span></div>
                             <Rate allowHalf value={coffeeChatDetail?.rating} />
                             <div className='flex overflow-scroll gap-2 '>
-                                {coffeeChatPlacePhotos.map((photo) => (
-                                    <img src={photo} className='w-2/5 rounded-lg' />
+                                {coffeeChatPlacePhotos.map((photo, index) => (
+                                    <img src={photo} className='w-2/5 rounded-lg' key={`image-${index}`} />
                                 ))}
 
                             </div>
@@ -443,8 +442,9 @@ const Map: FC<MapProps> = ({
         <GoogleMap onLoad={map => setMapRef(map)} zoom={zoom} center={center} mapContainerClassName="w-full h-[95vh]" onClick={handleMapClick} >
             <Marker position={center} />
             {clicked && <Marker position={clickedPoint} />}
-            {coffeeChats.length && coffeeChats.map((coffeeChat) => (
+            {coffeeChats.length && coffeeChats.map((coffeeChat, index) => (
                 <Marker
+                    key={`coffee-chat-${index}`}
                     position={{
                         lat: coffeeChat.lantitude / 10 ** 15,
                         lng: coffeeChat.longtitude / 10 ** 15
