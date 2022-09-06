@@ -20,7 +20,7 @@ export default async function handler(
     const signer = new DefenderRelaySigner(credentials, provider, { speed: 'fast' });
 
     const coffeeChat = new ethers.Contract(COFFEE_CHAT_ADDRESS[4], COFFEE_CHAT, signer);
-    const tx = await coffeeChat.redeemReward()
+    const tx = await coffeeChat.redeemReward([chatId], signature, redeemer)
     const mined = await tx.wait();
     res.status(200).json({ name: 'John Doe' })
 }
