@@ -99,7 +99,8 @@ contract CoffeeChat is
         bytes calldata signature,
         address payable receiver
     ) external {
-        ChatInfo storage _chatInfo = chatInfoById[voucher.chatId];
+        uint256 chatId = voucher.chatId;
+        ChatInfo storage _chatInfo = chatInfoById[chatId];
         require(
             _chatInfo.startTime < block.timestamp,
             "Chat hasn't started yet!"
@@ -113,6 +114,7 @@ contract CoffeeChat is
         }
         AddressUpgradeable.sendValue(receiver, _chatInfo.stakeAmount - fee);
         _chatInfo.isActive = false;
+        _burn(chatId);
     }
 
     function refund(uint256 chatId) external {
@@ -125,6 +127,7 @@ contract CoffeeChat is
             _chatInfo.stakeAmount
         );
         _chatInfo.isActive = false;
+        _burn(chatId);
     }
 
     /// @dev Verify voucher
