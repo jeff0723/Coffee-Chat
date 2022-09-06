@@ -90,7 +90,6 @@ const Home: FC = (props: Props) => {
     )
 
     const [clicked, setClicked] = useState(false)
-    const [coffeeChatListModalOpen, toggle] = useReducer(state => !state, false)
     const [coffeeChatClick, setCoffeeChatClick] = useState(false)
     const [selectedCoffeeChat, setSelectedCoffeeChat] = useState<CoffeeChat>()
     const [placeId, setPlaceId] = useState("")
@@ -226,7 +225,7 @@ const Home: FC = (props: Props) => {
         <div className='relative'>
 
             <OptionButton />
-            <CoffeeChatList open={coffeeChatListModalOpen} toggle={toggle} />
+
             <div className='flex justify-between items-center p-2'>
                 <div className='text-[24px] font-bold'>☕ Coffee chat</div>
                 <div className='flex item-centers gap-2s'>

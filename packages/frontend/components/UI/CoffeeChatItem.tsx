@@ -3,13 +3,14 @@ import { CoffeeChat } from 'generated/types'
 import React, { memo, useEffect, useState } from 'react'
 import { QrcodeOutlined } from '@ant-design/icons'
 import { TypedDataDomain } from "@ethersproject/abstract-signer";
-import { useNetwork } from 'wagmi';
+import { useAccount, useNetwork } from 'wagmi';
 import { COFFEE_CHAT_ADDRESS } from 'constant/address';
 import { TypedDataField } from "@ethersproject/abstract-signer";
 import { useSignTypedData } from 'wagmi';
 import { VOUCHER_TYPE } from 'constant/voucher';
 import toast from 'react-hot-toast';
 import { Modal } from 'antd';
+import { QRCodeCanvas } from 'qrcode.react';
 
 type Props = {
   info: CoffeeChat
@@ -39,6 +40,7 @@ const CoffeeChatItem = ({ info }: Props) => {
   const [placeDetail, setPlaceDetail] = useState<PlaceDetail>()
   const [thumbnail, setThumbnail] = useState<string>("")
   const { chain } = useNetwork()
+  const { address } = useAccount()
   const [open, setOpen] = useState(false)
   const signature = localStorage.getItem(`signature-${info?.id}`)
   const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({
@@ -92,6 +94,11 @@ const CoffeeChatItem = ({ info }: Props) => {
     }
     setOpen(true)
   }
+  const handleRedeem = async () => {
+    if (!signature || !address) return
+    const data = await fetch(`/api/redeem-reward?signature=${signature}&redeemer=${address}&chatId=${info?.id}`).then(res => res.json())
+    console.log(data)
+  }
   return (
     <div className='flex flex-col gap-2 items-center w-32 py-2'>
       <img src={thumbnail} className='w-28 h-28 rounded-lg' />
@@ -103,9 +110,14 @@ const CoffeeChatItem = ({ info }: Props) => {
           onClick={() => (handleSign(info?.id))}>
           <QrcodeOutlined className="mr-1" /> Redeem Code</button>
       </div>
-      <Modal visible={open} onCancel={() => { setOpen(false) }} footer={null}>
-        <div>{signature}</div>
-        <div>{info.id}</div>
+      <Modal visible={open} onCancel={() => { setOpen(false) }} footer={null} width={350}>
+        <div>
+          <QRCodeCanvas
+            value={`/api/redeem-reward?signature=${signature}&redeemer=${address}&chatId=${info?.id}`}
+            size={300}
+          />
+          <button onClick={handleRedeem}>redeem</button>
+        </div>
       </Modal>
     </div>
   )

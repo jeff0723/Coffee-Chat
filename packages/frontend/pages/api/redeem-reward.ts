@@ -7,7 +7,7 @@ import { COFFEE_CHAT } from 'constant/abi'
 const API_KEY = process.env.NEXT_PUBLIC_RELAYER_API_KEY || ""
 const API_SECRET = process.env.NEXT_PUBLIC_RELAYER_API_SECRET || ""
 type Data = {
-    name: string
+    status: string
 }
 
 export default async function handler(
@@ -20,7 +20,12 @@ export default async function handler(
     const signer = new DefenderRelaySigner(credentials, provider, { speed: 'fast' });
 
     const coffeeChat = new ethers.Contract(COFFEE_CHAT_ADDRESS[4], COFFEE_CHAT, signer);
+    console.log("start to redeem")
     const tx = await coffeeChat.redeemReward([chatId], signature, redeemer)
-    const mined = await tx.wait();
-    res.status(200).json({ name: 'John Doe' })
+    const receipt = await tx.wait();
+    if (receipt.status) {
+        res.status(200).json({ status: 'success' })
+        console.log("redeem success")
+    }
+    res.status(400)
 }

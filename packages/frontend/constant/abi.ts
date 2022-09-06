@@ -563,6 +563,11 @@ export const COFFEE_CHAT = [
                 "internalType": "bytes",
                 "name": "signature",
                 "type": "bytes"
+            },
+            {
+                "internalType": "address payable",
+                "name": "receiver",
+                "type": "address"
             }
         ],
         "name": "redeemReward",
