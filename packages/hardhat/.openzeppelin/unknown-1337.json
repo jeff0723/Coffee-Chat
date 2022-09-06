@@ -3,14 +3,14 @@
   "proxies": [
     {
       "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-      "txHash": "0x4681e1b6a0e463a11d3f804c167b4354ee35b7a41e6243bc7a44021eb3c423c4",
+      "txHash": "0x5290760ec2dc596c025633ceb2ecc72faa5f1ac87ecc2ec4ebfe687f09a800a2",
       "kind": "uups"
     }
   ],
   "impls": {
-    "6ddd47edf13d15449ea943b19dc5d1a8f4df4f8c4d7e6922a22168e4902ac52e": {
+    "fbc60d0204bae5681245901d9df982de7b595e1ecc6e63cb8aa460a571a6be91": {
       "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      "txHash": "0x96373240d7bc6501d6d1da423d1c1dc219fd97710b94558f2fd6115afabddf55",
+      "txHash": "0xa2c8a30a8c1954a9a2ef1a1ab62b57f1b33fd9e307277b20f7942c5c2750ae17",
       "layout": {
         "storage": [
           {
@@ -95,12 +95,20 @@
             "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
           },
           {
-            "label": "chatInfoById",
+            "label": "commission",
             "offset": 0,
             "slot": "253",
-            "type": "t_mapping(t_uint256,t_struct(ChatInfo)1954_storage)",
+            "type": "t_uint256",
             "contract": "CoffeeChat",
-            "src": "contracts/CoffeeChat.sol:42"
+            "src": "contracts/CoffeeChat.sol:24"
+          },
+          {
+            "label": "chatInfoById",
+            "offset": 0,
+            "slot": "254",
+            "type": "t_mapping(t_uint256,t_struct(ChatInfo)1956_storage)",
+            "contract": "CoffeeChat",
+            "src": "contracts/CoffeeChat.sol:41"
           }
         ],
         "types": {
@@ -124,7 +132,7 @@
             "label": "bytes32",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_struct(ChatInfo)1954_storage)": {
+          "t_mapping(t_uint256,t_struct(ChatInfo)1956_storage)": {
             "label": "mapping(uint256 => struct CoffeeChat.ChatInfo)",
             "numberOfBytes": "32"
           },
@@ -132,7 +140,7 @@
             "label": "string",
             "numberOfBytes": "32"
           },
-          "t_struct(ChatInfo)1954_storage": {
+          "t_struct(ChatInfo)1956_storage": {
             "label": "struct CoffeeChat.ChatInfo",
             "members": [
               {
@@ -143,52 +151,265 @@
               },
               {
                 "label": "lantitude",
-                "type": "t_uint256",
+                "type": "t_uint64",
                 "offset": 0,
                 "slot": "1"
               },
               {
                 "label": "longtitude",
-                "type": "t_uint256",
-                "offset": 0,
-                "slot": "2"
+                "type": "t_uint64",
+                "offset": 8,
+                "slot": "1"
               },
               {
                 "label": "startTime",
-                "type": "t_uint256",
-                "offset": 0,
-                "slot": "3"
+                "type": "t_uint32",
+                "offset": 16,
+                "slot": "1"
               },
               {
                 "label": "endTime",
-                "type": "t_uint256",
-                "offset": 0,
-                "slot": "4"
+                "type": "t_uint32",
+                "offset": 20,
+                "slot": "1"
               },
               {
                 "label": "stakeAmount",
                 "type": "t_uint256",
                 "offset": 0,
-                "slot": "5"
+                "slot": "2"
               },
               {
                 "label": "isActive",
                 "type": "t_bool",
                 "offset": 0,
-                "slot": "6"
+                "slot": "3"
               },
               {
                 "label": "initializer",
                 "type": "t_address",
                 "offset": 1,
-                "slot": "6"
+                "slot": "3"
               }
             ],
-            "numberOfBytes": "224"
+            "numberOfBytes": "128"
           },
           "t_uint256": {
             "label": "uint256",
             "numberOfBytes": "32"
+          },
+          "t_uint32": {
+            "label": "uint32",
+            "numberOfBytes": "4"
+          },
+          "t_uint64": {
+            "label": "uint64",
+            "numberOfBytes": "8"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "4fe91f8386923800457acd489e159748dda268bcd5c542201fcd8470f371c1d6": {
+      "address": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      "txHash": "0x6a1434313b5540c05262e086420b81bb641132b0baf0d11fe4cfa18ab150890b",
+      "layout": {
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC1967UpgradeUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/ERC1967/ERC1967UpgradeUpgradeable.sol:211"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "UUPSUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol:107"
+          },
+          {
+            "label": "_HASHED_NAME",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_bytes32",
+            "contract": "EIP712Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/cryptography/draft-EIP712Upgradeable.sol:32"
+          },
+          {
+            "label": "_HASHED_VERSION",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_bytes32",
+            "contract": "EIP712Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/cryptography/draft-EIP712Upgradeable.sol:33"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "103",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "EIP712Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/cryptography/draft-EIP712Upgradeable.sol:120"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "153",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "203",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "204",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "commission",
+            "offset": 0,
+            "slot": "253",
+            "type": "t_uint256",
+            "contract": "CoffeeChat",
+            "src": "contracts/CoffeeChat.sol:24"
+          },
+          {
+            "label": "chatInfoById",
+            "offset": 0,
+            "slot": "254",
+            "type": "t_mapping(t_uint256,t_struct(ChatInfo)1956_storage)",
+            "contract": "CoffeeChat",
+            "src": "contracts/CoffeeChat.sol:41"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(ChatInfo)1956_storage)": {
+            "label": "mapping(uint256 => struct CoffeeChat.ChatInfo)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(ChatInfo)1956_storage": {
+            "label": "struct CoffeeChat.ChatInfo",
+            "members": [
+              {
+                "label": "placeId",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "lantitude",
+                "type": "t_uint64",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "longtitude",
+                "type": "t_uint64",
+                "offset": 8,
+                "slot": "1"
+              },
+              {
+                "label": "startTime",
+                "type": "t_uint32",
+                "offset": 16,
+                "slot": "1"
+              },
+              {
+                "label": "endTime",
+                "type": "t_uint32",
+                "offset": 20,
+                "slot": "1"
+              },
+              {
+                "label": "stakeAmount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "isActive",
+                "type": "t_bool",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "initializer",
+                "type": "t_address",
+                "offset": 1,
+                "slot": "3"
+              }
+            ],
+            "numberOfBytes": "128"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint32": {
+            "label": "uint32",
+            "numberOfBytes": "4"
+          },
+          "t_uint64": {
+            "label": "uint64",
+            "numberOfBytes": "8"
           },
           "t_uint8": {
             "label": "uint8",
