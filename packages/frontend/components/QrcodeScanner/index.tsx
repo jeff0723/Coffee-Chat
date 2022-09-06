@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import QrReader from 'react-qr-reader';
 
-import styles from './Qrscan.module.css';
 
 const Qrscan = () => {
 
@@ -30,7 +29,7 @@ const Qrscan = () => {
                 onError={handleError}
                 onScan={handleScan}
             />
-            <div>{result}</div>
+
         </div>
     );
 }
