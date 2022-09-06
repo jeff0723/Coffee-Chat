@@ -28,6 +28,7 @@ import { formatLatorLng } from 'utils/format';
 import { getDistance } from 'utils/getDistance';
 import styled from 'styled-components'
 import CoffeeChatList from 'components/UI/CoffeeChatList';
+import OptionButton from 'components/UI/OptionButton';
 type Props = {}
 type PlacePhoto = {
     height: number
@@ -223,19 +224,8 @@ const Home: FC = (props: Props) => {
     console.log(selectedCoffeeChat)
     return (
         <div className='relative'>
-            <Popover
-                placement='top'
-                content={
-                    <div>
-                        hi
-                    </div>
-                }>
-                <button
-                    className='absolute left-10 bottom-10 z-40 rounded-full flex justify-center items-center p-2 bg-white w-16 h-16 hover:text-[#6f4e37] hover:bg-opacity-90'
-                    onClick={toggle}>
-                    <CoffeeOutlined className='text-[25px]' color='#6f4e37' />
-                </button>
-            </Popover>
+
+            <OptionButton />
             <CoffeeChatList open={coffeeChatListModalOpen} toggle={toggle} />
             <div className='flex justify-between items-center p-2'>
                 <div className='text-[24px] font-bold'>☕ Coffee chat</div>

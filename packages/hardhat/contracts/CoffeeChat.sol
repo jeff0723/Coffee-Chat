@@ -96,7 +96,8 @@ contract CoffeeChat is
 
     function redeemReward(
         RedeemVoucher calldata voucher,
-        bytes calldata signature
+        bytes calldata signature,
+        address payable _to
     ) external {
         ChatInfo storage _chatInfo = chatInfoById[voucher.chatId];
         require(
@@ -106,11 +107,11 @@ contract CoffeeChat is
         require(_chatInfo.endTime > block.timestamp, "Chat has already ended!");
         require(_chatInfo.isActive, "Chat's over");
         _verify(voucher, signature);
-        uint256 fee = _chatInfo.stakeAmount * commission / 10000;
+        uint256 fee = (_chatInfo.stakeAmount * commission) / 10000;
         if (fee > 0) {
             AddressUpgradeable.sendValue(payable(owner()), fee);
         }
-        AddressUpgradeable.sendValue(payable(_msgSender()), _chatInfo.stakeAmount - fee);
+        AddressUpgradeable.sendValue(_to, _chatInfo.stakeAmount - fee);
         _chatInfo.isActive = false;
     }
 
@@ -119,7 +120,10 @@ contract CoffeeChat is
         require(_chatInfo.endTime < block.timestamp, "Chat not over");
         require(_chatInfo.isActive, "Chat's over");
         require(_chatInfo.initializer == _msgSender(), "Not initializer");
-        AddressUpgradeable.sendValue(payable(_msgSender()), _chatInfo.stakeAmount);
+        AddressUpgradeable.sendValue(
+            payable(_msgSender()),
+            _chatInfo.stakeAmount
+        );
         _chatInfo.isActive = false;
     }
 
