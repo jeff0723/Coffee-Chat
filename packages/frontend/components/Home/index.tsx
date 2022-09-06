@@ -29,6 +29,8 @@ import { getDistance } from 'utils/getDistance';
 import styled from 'styled-components'
 import CoffeeChatList from 'components/UI/CoffeeChatList';
 import OptionButton from 'components/UI/OptionButton';
+import { useMediaQuery } from 'react-responsive'
+
 type Props = {}
 type PlacePhoto = {
     height: number
@@ -61,6 +63,9 @@ const formatDistance = (distance: number) => {
     return (distance / 1000).toFixed(1) + " KM"
 }
 const Home: FC = (props: Props) => {
+    const isMobile = useMediaQuery({
+        query: '(max-width: 475px)'
+    })
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: GOOGLE_API_KEY,
         libraries: ["places", 'geometry'],
@@ -225,23 +230,33 @@ const Home: FC = (props: Props) => {
 
             <OptionButton />
 
-            <div className='flex justify-between items-center p-2'>
-                <div className='text-[24px] font-bold'>☕ Coffee chat</div>
-                <div className='flex item-centers gap-2s'>
-                    <PlaceAutoComplete
-                        setZoom={setZoom}
-                        clicked={clicked}
-                        setClicked={setClicked}
-                        placeId={placeId}
-                        setPlaceId={setPlaceId}
-                        setDrawerShow={setDrawerShow}
-                        clickedPoint={clickedPoint}
-                        setClickedPoint={setClickedPoint} />
+            {!isMobile ?
+                <div className='flex justify-between items-center p-2'>
+                    <div className='text-[24px] font-bold'>☕ Coffee chat</div>
+                    <div className='flex item-centers gap-2s'>
+                        <PlaceAutoComplete
+                            setZoom={setZoom}
+                            clicked={clicked}
+                            setClicked={setClicked}
+                            placeId={placeId}
+                            setPlaceId={setPlaceId}
+                            setDrawerShow={setDrawerShow}
+                            clickedPoint={clickedPoint}
+                            setClickedPoint={setClickedPoint} />
 
-                </div>
+                    </div>
 
-                <ConnectButton />
-            </div>
+                    <ConnectButton />
+                </div> :
+                <div className='flex flex-col'>
+                    <div className='flex justify-between items-center p-2'
+                    >
+                        <div className='font-bold'>☕ Coffee chat</div>
+                        <ConnectButton accountStatus={{
+                            smallScreen: 'avatar'
+                        }} />
+                    </div>
+                </div>}
             <div className='flex'>
                 <Modal zIndex={200} width={300} footer={null} title="Stake your chat" visible={modalOpen} onCancel={() => { setModalOpen(false) }} wrapClassName="rounded-lg">
 
