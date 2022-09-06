@@ -7,6 +7,7 @@ import "@openzeppelin/contracts-upgradeable/utils/cryptography/draft-EIP712Upgra
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "erc721a-upgradeable/contracts/ERC721AUpgradeable.sol";
+import "./CoffeeNFT.sol";
 
 /**
  @title Coffee Chat
@@ -39,6 +40,8 @@ contract CoffeeChat is
     }
 
     mapping(uint256 => ChatInfo) public chatInfoById;
+
+    CoffeeNFT public coffeeNFTContract;
 
     event CoffeChatIntialize(
         uint256 tokenId,
@@ -115,6 +118,7 @@ contract CoffeeChat is
         AddressUpgradeable.sendValue(receiver, _chatInfo.stakeAmount - fee);
         _chatInfo.isActive = false;
         _burn(chatId);
+        coffeeNFTContract.mint(_chatInfo.initializer, receiver);
     }
 
     function refund(uint256 chatId) external {
@@ -154,6 +158,10 @@ contract CoffeeChat is
     function setCommission(uint256 number) external onlyOwner {
         require(number <= 250, "Over 2.5%");
         commission = number;
+    }
+
+    function setCoffeeNFT(address coffeeNFTAddress) external onlyOwner {
+        coffeeNFTContract = CoffeeNFT(coffeeNFTAddress);
     }
 
     function _authorizeUpgrade(address newImplementation)

@@ -39,6 +39,7 @@ export interface CoffeeChatInterface extends utils.Interface {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "chatInfoById(uint256)": FunctionFragment;
+    "coffeeNFTContract()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "initialize()": FunctionFragment;
     "initializeChat(string,uint32,uint32,uint64,uint64)": FunctionFragment;
@@ -53,6 +54,7 @@ export interface CoffeeChatInterface extends utils.Interface {
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
+    "setCoffeeNFT(address)": FunctionFragment;
     "setCommission(uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
@@ -69,6 +71,7 @@ export interface CoffeeChatInterface extends utils.Interface {
       | "approve"
       | "balanceOf"
       | "chatInfoById"
+      | "coffeeNFTContract"
       | "getApproved"
       | "initialize"
       | "initializeChat"
@@ -83,6 +86,7 @@ export interface CoffeeChatInterface extends utils.Interface {
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
       | "setApprovalForAll"
+      | "setCoffeeNFT"
       | "setCommission"
       | "supportsInterface"
       | "symbol"
@@ -105,6 +109,10 @@ export interface CoffeeChatInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "chatInfoById",
     values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "coffeeNFTContract",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
@@ -176,6 +184,10 @@ export interface CoffeeChatInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<boolean>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setCoffeeNFT",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setCommission",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
@@ -220,6 +232,10 @@ export interface CoffeeChatInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "coffeeNFTContract",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
@@ -258,6 +274,10 @@ export interface CoffeeChatInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setApprovalForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setCoffeeNFT",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -502,6 +522,8 @@ export interface CoffeeChat extends BaseContract {
       }
     >;
 
+    coffeeNFTContract(overrides?: CallOverrides): Promise<[string]>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -571,6 +593,11 @@ export interface CoffeeChat extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setCoffeeNFT(
+      coffeeNFTAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -653,6 +680,8 @@ export interface CoffeeChat extends BaseContract {
     }
   >;
 
+  coffeeNFTContract(overrides?: CallOverrides): Promise<string>;
+
   getApproved(
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -722,6 +751,11 @@ export interface CoffeeChat extends BaseContract {
   setApprovalForAll(
     operator: PromiseOrValue<string>,
     approved: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setCoffeeNFT(
+    coffeeNFTAddress: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -804,6 +838,8 @@ export interface CoffeeChat extends BaseContract {
       }
     >;
 
+    coffeeNFTContract(overrides?: CallOverrides): Promise<string>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -869,6 +905,11 @@ export interface CoffeeChat extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setCoffeeNFT(
+      coffeeNFTAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1038,6 +1079,8 @@ export interface CoffeeChat extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    coffeeNFTContract(overrides?: CallOverrides): Promise<BigNumber>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1110,6 +1153,11 @@ export interface CoffeeChat extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setCoffeeNFT(
+      coffeeNFTAddress: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setCommission(
       number: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1169,6 +1217,8 @@ export interface CoffeeChat extends BaseContract {
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    coffeeNFTContract(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -1239,6 +1289,11 @@ export interface CoffeeChat extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setCoffeeNFT(
+      coffeeNFTAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
