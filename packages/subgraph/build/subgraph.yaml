@@ -19,7 +19,7 @@ dataSources:
         - name: CoffeeChat
           file: CoffeeChat/abis/CoffeeChat.json
       eventHandlers:
-        - event: CoffeChatIntialize(uint256,string,uint64,uint64,uint32,uint32,uint256,bool,address)
+        - event: CoffeChatIntialize(uint256,string,uint64,uint64,uint32,uint32,uint256,address)
           handler: handleCoffeChatIntialize
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleCoffeeChatClose
