@@ -375,7 +375,9 @@ export interface CoffeeNFT extends BaseContract {
     eloOf(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    ): Promise<
+      [BigNumber, BigNumber] & { rateCount: BigNumber; elo: BigNumber }
+    >;
 
     initialize(
       _coffeeChatAddress: PromiseOrValue<string>,
@@ -476,7 +478,7 @@ export interface CoffeeNFT extends BaseContract {
   eloOf(
     arg0: PromiseOrValue<string>,
     overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  ): Promise<[BigNumber, BigNumber] & { rateCount: BigNumber; elo: BigNumber }>;
 
   initialize(
     _coffeeChatAddress: PromiseOrValue<string>,
@@ -577,7 +579,9 @@ export interface CoffeeNFT extends BaseContract {
     eloOf(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<
+      [BigNumber, BigNumber] & { rateCount: BigNumber; elo: BigNumber }
+    >;
 
     initialize(
       _coffeeChatAddress: PromiseOrValue<string>,

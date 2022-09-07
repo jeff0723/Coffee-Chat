@@ -18,7 +18,12 @@ contract CoffeeNFT is
 {
     address public coffeeChatAddress;
 
-    mapping(address => uint256) public eloOf;
+    struct PersonalElo {
+        uint128 rateCount;
+        uint128 elo;
+    }
+
+    mapping(address => PersonalElo) public eloOf;
 
     function initialize(address _coffeeChatAddress) public initializer {
         __ERC1155_init("");
@@ -35,7 +40,9 @@ contract CoffeeNFT is
     function rate(address target, uint8 points) external {
         require(points <= 5, "can't rate over 5");
         _burn(_msgSender(), uint160(target), 1);
-        eloOf[target] += points;
+        PersonalElo storage _elo = eloOf[target];
+        _elo.rateCount += 1;
+        _elo.elo += points;
     }
 
     function _authorizeUpgrade(address newImplementation)
