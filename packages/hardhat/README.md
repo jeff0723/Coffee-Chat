@@ -1,13 +1,25 @@
-# Sample Hardhat Project
+# CoffeeChat
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
-
-Try running some of the following tasks:
-
+## Deploy
 ```shell
-npx hardhat help
-npx hardhat test
-GAS_REPORT=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
+# deploy both
+yarn deploy --network rinkeby --tags deploy
+
+# only CoffeeChat
+yarn deploy --network rinkeby --tags deployCoffeeChat
+
+# only CoffeeNFT
+yarn deploy --network rinkeby --tags deployCoffeeNFT
+```
+
+## Upgrade
+```shell
+# upgrade both
+yarn deploy --network rinkeby --tags upgrade
+
+# only CoffeeChat
+yarn deploy --network rinkeby --tags upgradeCoffeeChat
+
+# only CoffeeNFT
+yarn deploy --network rinkeby --tags upgradeCoffeeNFT
 ```
