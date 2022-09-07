@@ -7,13 +7,14 @@ const Qrscan = () => {
     const canvasRef = useRef()
     const [data, setData] = useState("")
     const [qrcode, setQrcode] = useState()
+    const [scanning, setScanning] = useState(false)
     useEffect(() => {
         if (qrcode)
             qrcode.callback = (res) => {
                 if (res) {
                     console.log(res)
                     setData(res)
-
+                    setScanning(false)
                     if (videoRef.current) {
                         videoRef.current.srcObject.getTracks().forEach(track => {
                             track.stop();
@@ -25,6 +26,13 @@ const Qrscan = () => {
                 }
             };
     }, [qrcode])
+    const tick = () => {
+        const canvas = canvasRef.current.getContext("2d");
+        canvasRef.current.height = videoRef.current.videoHeight
+        canvasRef.current.width = videoRef.current.videoWidth
+        canvas.drawImage(videoRef.current, 0, 0, canvasRef.current.height, canvasRef.current.width);
+        scanning && requestAnimationFrame(tick);
+    }
     const scan = useCallback(() => {
         if (qrcode) {
             try {
@@ -45,6 +53,8 @@ const Qrscan = () => {
         ).then(stream => {
             videoRef.current.srcObject = stream;
             canvasRef.current.hidden = false
+            setScanning(true)
+            tick()
             scan()
         })
     }
