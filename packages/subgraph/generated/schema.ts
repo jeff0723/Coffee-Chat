@@ -163,4 +163,13 @@ export class CoffeeChat extends Entity {
   set initializer(value: Bytes) {
     this.set("initializer", Value.fromBytes(value));
   }
+
+  get isActive(): boolean {
+    let value = this.get("isActive");
+    return value!.toBoolean();
+  }
+
+  set isActive(value: boolean) {
+    this.set("isActive", Value.fromBoolean(value));
+  }
 }

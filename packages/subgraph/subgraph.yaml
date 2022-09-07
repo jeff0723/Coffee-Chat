@@ -21,4 +21,6 @@ dataSources:
       eventHandlers:
         - event: CoffeChatIntialize(uint256,string,uint64,uint64,uint32,uint32,uint256,bool,address)
           handler: handleCoffeChatIntialize
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleCoffeeChatClose
       file: ./src/coffee-chat.ts
