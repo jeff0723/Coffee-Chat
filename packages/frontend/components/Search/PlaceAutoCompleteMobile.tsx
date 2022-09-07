@@ -1,7 +1,6 @@
 import "@reach/combobox/styles.css";
 import { AutoComplete } from 'antd';
 import { Dispatch, FC } from 'react';
-
 import {
     Combobox,
     ComboboxInput, ComboboxList,
@@ -62,11 +61,11 @@ const PlaceAutoCompleteMobile: FC<AutoCompleteProps> = ({ setOpen, setZoom, clic
         setOpen(false)
     }
     return (
+
         <Combobox onSelect={onSelect}>
-            <input
+            <ComboboxInput
                 value={value}
                 onChange={(e) => {
-                    console.log('change')
                     setValue(e.target.value)
                 }}
                 disabled={!ready}
