@@ -12,11 +12,10 @@ const Qrscan = () => {
     const [qrcode, setQrcode] = useState()
     useEffect(() => {
         if (qrcode)
-            qrcode.callback = res => {
+            qrcode.callback = (res) => {
                 if (res) {
                     console.log(res)
                     setData(res)
-                    scanning = false;
                     if (videoRef.current) {
                         videoRef.current.srcObject.getTracks().forEach(track => {
                             track.stop();
@@ -27,7 +26,7 @@ const Qrscan = () => {
             };
     }, [qrcode])
     const scan = () => {
-        if (qrcode.current) {
+        if (qrcode) {
             try {
                 qrcode.decode();
             } catch (e) {
