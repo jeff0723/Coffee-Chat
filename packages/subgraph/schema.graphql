@@ -14,5 +14,7 @@ type CoffeeChat @entity {
   endTime: BigInt!
   stakeAmount: BigInt!
   initializer: Bytes!
-  isActive: Boolean
+  redeemer: Bytes
+  isActive: Boolean!
+  metadataURI: String!
 }

@@ -328,7 +328,8 @@ export interface CoffeeChatInterface extends utils.Interface {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
     "BeaconUpgraded(address)": EventFragment;
-    "CoffeChatIntialize(uint256,string,uint64,uint64,uint32,uint32,uint256,address)": EventFragment;
+    "CoffeChatIntialize(uint256,string,uint64,uint64,uint32,uint32,uint256,address,string)": EventFragment;
+    "CoffeeChatRedeem(uint256,address)": EventFragment;
     "Initialized(uint8)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
@@ -340,6 +341,7 @@ export interface CoffeeChatInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "CoffeChatIntialize"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CoffeeChatRedeem"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
@@ -400,14 +402,37 @@ export interface CoffeChatIntializeEventObject {
   endTime: number;
   stakeAmount: BigNumber;
   initializer: string;
+  metadataURI: string;
 }
 export type CoffeChatIntializeEvent = TypedEvent<
-  [BigNumber, string, BigNumber, BigNumber, number, number, BigNumber, string],
+  [
+    BigNumber,
+    string,
+    BigNumber,
+    BigNumber,
+    number,
+    number,
+    BigNumber,
+    string,
+    string
+  ],
   CoffeChatIntializeEventObject
 >;
 
 export type CoffeChatIntializeEventFilter =
   TypedEventFilter<CoffeChatIntializeEvent>;
+
+export interface CoffeeChatRedeemEventObject {
+  tokenId: BigNumber;
+  redeemer: string;
+}
+export type CoffeeChatRedeemEvent = TypedEvent<
+  [BigNumber, string],
+  CoffeeChatRedeemEventObject
+>;
+
+export type CoffeeChatRedeemEventFilter =
+  TypedEventFilter<CoffeeChatRedeemEvent>;
 
 export interface InitializedEventObject {
   version: number;
@@ -984,7 +1009,7 @@ export interface CoffeeChat extends BaseContract {
       beacon?: PromiseOrValue<string> | null
     ): BeaconUpgradedEventFilter;
 
-    "CoffeChatIntialize(uint256,string,uint64,uint64,uint32,uint32,uint256,address)"(
+    "CoffeChatIntialize(uint256,string,uint64,uint64,uint32,uint32,uint256,address,string)"(
       tokenId?: null,
       placeId?: null,
       lantitude?: null,
@@ -992,7 +1017,8 @@ export interface CoffeeChat extends BaseContract {
       startTime?: null,
       endTime?: null,
       stakeAmount?: null,
-      initializer?: null
+      initializer?: null,
+      metadataURI?: null
     ): CoffeChatIntializeEventFilter;
     CoffeChatIntialize(
       tokenId?: null,
@@ -1002,8 +1028,18 @@ export interface CoffeeChat extends BaseContract {
       startTime?: null,
       endTime?: null,
       stakeAmount?: null,
-      initializer?: null
+      initializer?: null,
+      metadataURI?: null
     ): CoffeChatIntializeEventFilter;
+
+    "CoffeeChatRedeem(uint256,address)"(
+      tokenId?: null,
+      redeemer?: null
+    ): CoffeeChatRedeemEventFilter;
+    CoffeeChatRedeem(
+      tokenId?: null,
+      redeemer?: null
+    ): CoffeeChatRedeemEventFilter;
 
     "Initialized(uint8)"(version?: null): InitializedEventFilter;
     Initialized(version?: null): InitializedEventFilter;

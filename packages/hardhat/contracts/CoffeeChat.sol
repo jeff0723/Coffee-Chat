@@ -45,7 +45,13 @@ contract CoffeeChat is
         uint32 startTime,
         uint32 endTime,
         uint256 stakeAmount,
-        address initializer
+        address initializer,
+        string metadataURI
+    );
+    
+    event CoffeeChatRedeem(
+        uint256 tokenId,
+        address redeemer
     );
 
     mapping(uint256 => ChatInfo) public chatInfoById;
@@ -88,6 +94,8 @@ contract CoffeeChat is
         chatInfoById[chatId] = _chatInfo;
         _safeMint(_msgSender(), chatId);
         _setTokenURI(chatId, metadataURI);
+        
+        ++nextTokenId;
 
         emit CoffeChatIntialize(
             chatId,
@@ -97,10 +105,9 @@ contract CoffeeChat is
             startTime,
             endTime,
             msg.value,
-            _msgSender()
+            _msgSender(),
+            metadataURI
         );
-
-        ++nextTokenId;
     }
 
     function redeemReward(
@@ -129,6 +136,11 @@ contract CoffeeChat is
         
         _burn(chatId);
         delete chatInfoById[chatId];
+
+        emit CoffeeChatRedeem(
+            chatId,
+            _msgSender()
+        );
     }
 
     function refund(uint256 chatId) external {

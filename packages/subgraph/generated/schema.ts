@@ -164,6 +164,23 @@ export class CoffeeChat extends Entity {
     this.set("initializer", Value.fromBytes(value));
   }
 
+  get redeemer(): Bytes | null {
+    let value = this.get("redeemer");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set redeemer(value: Bytes | null) {
+    if (!value) {
+      this.unset("redeemer");
+    } else {
+      this.set("redeemer", Value.fromBytes(<Bytes>value));
+    }
+  }
+
   get isActive(): boolean {
     let value = this.get("isActive");
     return value!.toBoolean();
@@ -171,5 +188,14 @@ export class CoffeeChat extends Entity {
 
   set isActive(value: boolean) {
     this.set("isActive", Value.fromBoolean(value));
+  }
+
+  get metadataURI(): string {
+    let value = this.get("metadataURI");
+    return value!.toString();
+  }
+
+  set metadataURI(value: string) {
+    this.set("metadataURI", Value.fromString(value));
   }
 }

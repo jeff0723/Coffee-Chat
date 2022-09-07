@@ -1,6 +1,6 @@
 import { BigInt, Address } from "@graphprotocol/graph-ts"
 import {
-  CoffeChatIntialize, Transfer,
+  CoffeChatIntialize, CoffeeChatRedeem, Transfer, 
 } from "../generated/CoffeeChat/CoffeeChat"
 import { ExampleEntity, CoffeeChat } from "../generated/schema"
 
@@ -18,8 +18,17 @@ export function handleCoffeChatIntialize(event: CoffeChatIntialize): void {
   coffeeChat.longtitude = event.params.longtitude
   coffeeChat.stakeAmount = event.params.stakeAmount
   coffeeChat.initializer = event.params.initializer
+  coffeeChat.metadataURI = event.params.metadataURI
   coffeeChat.isActive = true
   coffeeChat.save()
+}
+
+export function handleCoffeeChatRedeem(event: CoffeeChatRedeem): void {
+  let coffeeChat = CoffeeChat.load(event.params.tokenId.toString())
+  if (coffeeChat) {
+    coffeeChat.redeemer = event.params.redeemer
+    coffeeChat.save()
+  }
 }
 
 export function handleCoffeeChatClose(event: Transfer): void {
