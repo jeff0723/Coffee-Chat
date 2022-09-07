@@ -60,7 +60,7 @@ const PlaceAutoCompleteMobile: FC<AutoCompleteProps> = ({ setOpen, setZoom, clic
         setValue("")
         setOpen(false)
     }
-    console.log(data)
+
     return (
 
         <Combobox onSelect={onSelect}>
