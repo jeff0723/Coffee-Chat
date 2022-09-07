@@ -116,7 +116,6 @@ const CoffeeChatItem = ({ info }: Props) => {
             value={`signature=${signature}&chatId=${info?.id}`}
             size={300}
           />
-          <button onClick={handleRedeem}>redeem</button>
         </div>
       </Modal>
     </div>

@@ -54,12 +54,11 @@ const Qrscan = () => {
                     constraints={{ facingMode: "environment" }}
                     style={{ width: "100%", height: "auto" }}
                 />
-                {
-                    signature && chatId &&
-                    <div className='flex flex-col'>
+                {signature && chatId &&
+                    <div className='flex flex-col mt-2 gap-2 '>
                         <div>Signature: {signature}</div>
                         <div>ChatId: {chatId}</div>
-                        <button onClick={handleRedeem}>Redeem</button>
+                        <button onClick={handleRedeem} className='p-2 bg-black rounded-xl text-white'>Redeem</button>
                     </div>
                 }
             </div>
