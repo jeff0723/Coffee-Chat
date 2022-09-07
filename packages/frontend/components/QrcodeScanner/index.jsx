@@ -5,7 +5,7 @@ import { QrReader } from "react-qr-reader";
 import { useAccount, useContractWrite, useNetwork } from 'wagmi';
 import toast from 'react-hot-toast';
 
-const Qrscan = () => {
+const Qrscan = ({ toggle, open }) => {
     const { address } = useAccount()
     const { chain } = useNetwork()
     const [signature, setSignature] = useState("")
@@ -17,6 +17,9 @@ const Qrscan = () => {
         mode: 'recklesslyUnprepared',
         onSuccess(data) {
             toast.success("Successfully redeem reward!")
+            setSignature("")
+            setChatId("")
+            toggle(open)
         },
         onError(error) {
             toast.error(error?.data?.message ?? error?.message)
