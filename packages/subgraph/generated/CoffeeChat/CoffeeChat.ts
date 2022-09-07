@@ -146,6 +146,32 @@ export class CoffeChatIntialize__Params {
   get initializer(): Address {
     return this._event.parameters[7].value.toAddress();
   }
+
+  get metadataURI(): string {
+    return this._event.parameters[8].value.toString();
+  }
+}
+
+export class CoffeeChatRedeem extends ethereum.Event {
+  get params(): CoffeeChatRedeem__Params {
+    return new CoffeeChatRedeem__Params(this);
+  }
+}
+
+export class CoffeeChatRedeem__Params {
+  _event: CoffeeChatRedeem;
+
+  constructor(event: CoffeeChatRedeem) {
+    this._event = event;
+  }
+
+  get tokenId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get redeemer(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
 }
 
 export class Initialized extends ethereum.Event {
