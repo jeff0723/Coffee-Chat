@@ -12,6 +12,8 @@ import { ALCHEMY_KEY } from 'constant';
 import { Toaster } from 'react-hot-toast';
 import { ApolloProvider } from '@apollo/client';
 import { client } from 'utils/apollo';
+import { useEffect } from 'react';
+import { RealViewportProvider } from "next-real-viewport";
 
 const { chains, provider, webSocketProvider } = configureChains(
   [chain.polygonMumbai, chain.polygon, chain.localhost, chain.rinkeby],
@@ -37,13 +39,17 @@ const wagmiClient = createClient({
   webSocketProvider
 })
 
+
 function MyApp({ Component, pageProps }: AppProps) {
+
   return (
     <ApolloProvider client={client}>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider appInfo={appInfo} chains={chains} showRecentTransactions={true}>
-          <Toaster position="top-right" />
-          <Component {...pageProps} />
+          <RealViewportProvider>
+            <Toaster position="top-right" />
+            <Component {...pageProps} />
+          </RealViewportProvider>
         </RainbowKitProvider>
       </WagmiConfig>
     </ApolloProvider>
