@@ -248,7 +248,7 @@ const Home: FC = (props: Props) => {
             `ipfs://${path}`
         ]
 
-        write?.({
+        await write?.({
             recklesslySetUnpreparedArgs: inputStruct, recklesslySetUnpreparedOverrides: {
                 value: amount
             }

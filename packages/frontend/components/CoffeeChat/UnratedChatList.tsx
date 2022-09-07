@@ -3,21 +3,21 @@ import { CoffeeChat } from 'generated/types'
 import { COFFEE_CHAT_QUERY_FILTERED_BY_ADDRESS } from 'graphql/get-coffee-chat-query'
 import { useState } from 'react'
 import { useAccount } from 'wagmi'
-import ActiveChatItem from './ActiveChatItem'
+import UnratedChatItem from './UnratedChatItem'
 
 type Props = {
     coffeeChatList: CoffeeChat[]
 }
 
-const ActiveChatList = ({ coffeeChatList }: Props) => {
+const UnratedChatList = ({ coffeeChatList }: Props) => {
 
     return (
         <div className='flex flex-wrap gap-2 justify-center'>
             {coffeeChatList?.map((coffeeChat, index) => (
-                <ActiveChatItem key={`active-coffeechat-${index}`} info={coffeeChat} />
+                <UnratedChatItem key={`unrated-coffeechat-${index}`} info={coffeeChat} />
             ))}
         </div>
     )
 }
 
-export default ActiveChatList
+export default UnratedChatList

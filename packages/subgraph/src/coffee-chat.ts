@@ -19,6 +19,8 @@ export function handleCoffeeChatIntialize(event: CoffeeChatIntialize): void {
   coffeeChat.stakeAmount = event.params.stakeAmount
   coffeeChat.initializer = event.params.initializer
   coffeeChat.metadataURI = event.params.metadataURI
+  coffeeChat.redeemer = ZERO_ADDERSS
+  coffeeChat.points = -1
   coffeeChat.isActive = true
   coffeeChat.save()
 }

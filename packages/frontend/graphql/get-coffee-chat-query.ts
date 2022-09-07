@@ -51,3 +51,40 @@ export const COFFEE_CHAT_QUERY_FILTERED_BY_ADDRESS = gql`
     }
 `
 
+export const COFFEE_CHAT_QUERY_ALL = gql`
+    query {
+        coffeeChats {
+            id
+            placeId
+            startTime
+            endTime
+            lantitude
+            longtitude
+            initializer
+            stakeAmount
+            isActive
+          }
+    }
+`
+
+export const COFFEE_CHAT_QUERY_FILTER_BY_REDEEMER_UNRATED = gql`
+    query(
+        $redeemer:String!
+        $threshold:Int!
+    ){
+        coffeeChats(where:{
+            redeemer:$redeemer
+            points_lt:$threshold
+        }) {
+            id
+            placeId
+            startTime
+            endTime
+            lantitude
+            longtitude
+            initializer
+            stakeAmount
+            isActive
+          }
+    }
+`
