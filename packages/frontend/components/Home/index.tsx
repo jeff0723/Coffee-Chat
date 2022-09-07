@@ -119,12 +119,21 @@ const Home: FC = (props: Props) => {
         setEndTime("")
         setInputAmount(0)
     }
-
-    const { isLoading: writeLoading, write } = useContractWrite({
+    const { config, error: prepareError } = usePrepareContractWrite({
         addressOrName: chain?.id ? COFFEE_CHAT_ADDRESS[chain?.id] : "",
         contractInterface: COFFEE_CHAT,
         functionName: 'initializeChat',
-        mode: 'recklesslyUnprepared',
+        args: ["0", "0", "0", "0", "0"],
+        overrides: {
+            value: ethers.utils.parseEther('0.01'),
+        },
+        onError(error) {
+            console.log(error)
+        }
+    })
+    const { isLoading: writeLoading, write } = useContractWrite({
+
+        ...config,
         onSuccess(data) {
             toast.success("Successfully initiate a chat!")
             reset()
