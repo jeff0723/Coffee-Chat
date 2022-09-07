@@ -40,6 +40,7 @@ export interface CoffeeChatInterface extends utils.Interface {
     "balanceOf(address)": FunctionFragment;
     "chatInfoById(uint256)": FunctionFragment;
     "coffeeNFTContract()": FunctionFragment;
+    "eloOf(address)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "initialize()": FunctionFragment;
     "initializeChat(string,uint32,uint32,uint64,uint64)": FunctionFragment;
@@ -48,6 +49,7 @@ export interface CoffeeChatInterface extends utils.Interface {
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "proxiableUUID()": FunctionFragment;
+    "rate(address,uint8)": FunctionFragment;
     "redeemReward((uint256),bytes,address)": FunctionFragment;
     "refund(uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
@@ -72,6 +74,7 @@ export interface CoffeeChatInterface extends utils.Interface {
       | "balanceOf"
       | "chatInfoById"
       | "coffeeNFTContract"
+      | "eloOf"
       | "getApproved"
       | "initialize"
       | "initializeChat"
@@ -80,6 +83,7 @@ export interface CoffeeChatInterface extends utils.Interface {
       | "owner"
       | "ownerOf"
       | "proxiableUUID"
+      | "rate"
       | "redeemReward"
       | "refund"
       | "renounceOwnership"
@@ -115,6 +119,10 @@ export interface CoffeeChatInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "eloOf",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getApproved",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
@@ -145,6 +153,10 @@ export interface CoffeeChatInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "proxiableUUID",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "rate",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "redeemReward",
@@ -235,6 +247,7 @@ export interface CoffeeChatInterface extends utils.Interface {
     functionFragment: "coffeeNFTContract",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "eloOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
@@ -255,6 +268,7 @@ export interface CoffeeChatInterface extends utils.Interface {
     functionFragment: "proxiableUUID",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "rate", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "redeemReward",
     data: BytesLike
@@ -524,6 +538,13 @@ export interface CoffeeChat extends BaseContract {
 
     coffeeNFTContract(overrides?: CallOverrides): Promise<[string]>;
 
+    eloOf(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { rateCount: BigNumber; elo: BigNumber }
+    >;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -558,6 +579,12 @@ export interface CoffeeChat extends BaseContract {
     ): Promise<[string]>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
+
+    rate(
+      target: PromiseOrValue<string>,
+      points: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     redeemReward(
       voucher: CoffeeChat.RedeemVoucherStruct,
@@ -682,6 +709,11 @@ export interface CoffeeChat extends BaseContract {
 
   coffeeNFTContract(overrides?: CallOverrides): Promise<string>;
 
+  eloOf(
+    arg0: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<[BigNumber, BigNumber] & { rateCount: BigNumber; elo: BigNumber }>;
+
   getApproved(
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -716,6 +748,12 @@ export interface CoffeeChat extends BaseContract {
   ): Promise<string>;
 
   proxiableUUID(overrides?: CallOverrides): Promise<string>;
+
+  rate(
+    target: PromiseOrValue<string>,
+    points: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   redeemReward(
     voucher: CoffeeChat.RedeemVoucherStruct,
@@ -840,6 +878,13 @@ export interface CoffeeChat extends BaseContract {
 
     coffeeNFTContract(overrides?: CallOverrides): Promise<string>;
 
+    eloOf(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { rateCount: BigNumber; elo: BigNumber }
+    >;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -872,6 +917,12 @@ export interface CoffeeChat extends BaseContract {
     ): Promise<string>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<string>;
+
+    rate(
+      target: PromiseOrValue<string>,
+      points: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     redeemReward(
       voucher: CoffeeChat.RedeemVoucherStruct,
@@ -1081,6 +1132,11 @@ export interface CoffeeChat extends BaseContract {
 
     coffeeNFTContract(overrides?: CallOverrides): Promise<BigNumber>;
 
+    eloOf(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1115,6 +1171,12 @@ export interface CoffeeChat extends BaseContract {
     ): Promise<BigNumber>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<BigNumber>;
+
+    rate(
+      target: PromiseOrValue<string>,
+      points: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
     redeemReward(
       voucher: CoffeeChat.RedeemVoucherStruct,
@@ -1220,6 +1282,11 @@ export interface CoffeeChat extends BaseContract {
 
     coffeeNFTContract(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    eloOf(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1254,6 +1321,12 @@ export interface CoffeeChat extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    rate(
+      target: PromiseOrValue<string>,
+      points: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
     redeemReward(
       voucher: CoffeeChat.RedeemVoucherStruct,

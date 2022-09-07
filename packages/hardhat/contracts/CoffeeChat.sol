@@ -43,6 +43,13 @@ contract CoffeeChat is
 
     CoffeeNFT public coffeeNFTContract;
 
+    struct PersonalElo {
+        uint128 rateCount;
+        uint128 elo;
+    }
+
+    mapping(address => PersonalElo) public eloOf;
+
     event CoffeChatIntialize(
         uint256 tokenId,
         string placeId,
@@ -132,6 +139,14 @@ contract CoffeeChat is
         );
         _chatInfo.isActive = false;
         _burn(chatId);
+    }
+
+    function rate(address target, uint8 points) external {
+        require(points <= 5, "can't rate over 5");
+        coffeeNFTContract.burn(_msgSender(), target);
+        PersonalElo storage _elo = eloOf[target];
+        _elo.rateCount += 1;
+        _elo.elo += points;
     }
 
     /// @dev Verify voucher

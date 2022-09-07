@@ -32,14 +32,13 @@ export interface CoffeeNFTInterface extends utils.Interface {
   functions: {
     "balanceOf(address,uint256)": FunctionFragment;
     "balanceOfBatch(address[],uint256[])": FunctionFragment;
+    "burn(address,address)": FunctionFragment;
     "coffeeChatAddress()": FunctionFragment;
-    "eloOf(address)": FunctionFragment;
     "initialize(address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "mint(address,address)": FunctionFragment;
     "owner()": FunctionFragment;
     "proxiableUUID()": FunctionFragment;
-    "rate(address,uint8)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,uint256,bytes)": FunctionFragment;
@@ -55,14 +54,13 @@ export interface CoffeeNFTInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "balanceOf"
       | "balanceOfBatch"
+      | "burn"
       | "coffeeChatAddress"
-      | "eloOf"
       | "initialize"
       | "isApprovedForAll"
       | "mint"
       | "owner"
       | "proxiableUUID"
-      | "rate"
       | "renounceOwnership"
       | "safeBatchTransferFrom"
       | "safeTransferFrom"
@@ -83,12 +81,12 @@ export interface CoffeeNFTInterface extends utils.Interface {
     values: [PromiseOrValue<string>[], PromiseOrValue<BigNumberish>[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "coffeeChatAddress",
-    values?: undefined
+    functionFragment: "burn",
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "eloOf",
-    values: [PromiseOrValue<string>]
+    functionFragment: "coffeeChatAddress",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "initialize",
@@ -106,10 +104,6 @@ export interface CoffeeNFTInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "proxiableUUID",
     values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "rate",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
@@ -165,11 +159,11 @@ export interface CoffeeNFTInterface extends utils.Interface {
     functionFragment: "balanceOfBatch",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "coffeeChatAddress",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "eloOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
@@ -181,7 +175,6 @@ export interface CoffeeNFTInterface extends utils.Interface {
     functionFragment: "proxiableUUID",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "rate", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
@@ -370,14 +363,13 @@ export interface CoffeeNFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber[]]>;
 
-    coffeeChatAddress(overrides?: CallOverrides): Promise<[string]>;
+    burn(
+      rater: PromiseOrValue<string>,
+      target: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
-    eloOf(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber] & { rateCount: BigNumber; elo: BigNumber }
-    >;
+    coffeeChatAddress(overrides?: CallOverrides): Promise<[string]>;
 
     initialize(
       _coffeeChatAddress: PromiseOrValue<string>,
@@ -399,12 +391,6 @@ export interface CoffeeNFT extends BaseContract {
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
-
-    rate(
-      target: PromiseOrValue<string>,
-      points: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -473,12 +459,13 @@ export interface CoffeeNFT extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber[]>;
 
-  coffeeChatAddress(overrides?: CallOverrides): Promise<string>;
+  burn(
+    rater: PromiseOrValue<string>,
+    target: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
-  eloOf(
-    arg0: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<[BigNumber, BigNumber] & { rateCount: BigNumber; elo: BigNumber }>;
+  coffeeChatAddress(overrides?: CallOverrides): Promise<string>;
 
   initialize(
     _coffeeChatAddress: PromiseOrValue<string>,
@@ -500,12 +487,6 @@ export interface CoffeeNFT extends BaseContract {
   owner(overrides?: CallOverrides): Promise<string>;
 
   proxiableUUID(overrides?: CallOverrides): Promise<string>;
-
-  rate(
-    target: PromiseOrValue<string>,
-    points: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -574,14 +555,13 @@ export interface CoffeeNFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber[]>;
 
-    coffeeChatAddress(overrides?: CallOverrides): Promise<string>;
-
-    eloOf(
-      arg0: PromiseOrValue<string>,
+    burn(
+      rater: PromiseOrValue<string>,
+      target: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber] & { rateCount: BigNumber; elo: BigNumber }
-    >;
+    ): Promise<void>;
+
+    coffeeChatAddress(overrides?: CallOverrides): Promise<string>;
 
     initialize(
       _coffeeChatAddress: PromiseOrValue<string>,
@@ -603,12 +583,6 @@ export interface CoffeeNFT extends BaseContract {
     owner(overrides?: CallOverrides): Promise<string>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<string>;
-
-    rate(
-      target: PromiseOrValue<string>,
-      points: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
@@ -760,12 +734,13 @@ export interface CoffeeNFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    coffeeChatAddress(overrides?: CallOverrides): Promise<BigNumber>;
-
-    eloOf(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
+    burn(
+      rater: PromiseOrValue<string>,
+      target: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    coffeeChatAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
     initialize(
       _coffeeChatAddress: PromiseOrValue<string>,
@@ -787,12 +762,6 @@ export interface CoffeeNFT extends BaseContract {
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<BigNumber>;
-
-    rate(
-      target: PromiseOrValue<string>,
-      points: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -862,12 +831,13 @@ export interface CoffeeNFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    coffeeChatAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    eloOf(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
+    burn(
+      rater: PromiseOrValue<string>,
+      target: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
+
+    coffeeChatAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     initialize(
       _coffeeChatAddress: PromiseOrValue<string>,
@@ -889,12 +859,6 @@ export interface CoffeeNFT extends BaseContract {
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    rate(
-      target: PromiseOrValue<string>,
-      points: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
