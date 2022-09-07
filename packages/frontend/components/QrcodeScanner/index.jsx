@@ -1,25 +1,55 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import dynamic from "next/dynamic";
 import Script from 'next/script';
+import { useMediaQuery } from 'react-responsive';
 const QrReader = dynamic(() => import('react-qr-reader'), { ssr: false })
 
 
 const Qrscan = () => {
     const videoRef = useRef()
-    const stream = useRef();
+    const qrcode = useRef()
+    const [data, setData] = useState("")
+
+    useEffect(() => {
+        console.log(window)
+        qrcode.current = window.qrcode
+        qrcode.current.callback = res => {
+            if (res) {
+                console.log(res)
+                setData(res)
+                scanning = false;
+
+                video.srcObject.getTracks().forEach(track => {
+                    track.stop();
+                });
+
+
+            }
+        };
+    }, [])
+    const scan = () => {
+        if (qrcode.current) {
+            try {
+                qrcode.decode();
+            } catch (e) {
+                setTimeout(scan, 300);
+            }
+        }
+    }
     const handleCamera = async () => {
-        const video = document.querySelector('video');
         const constraints = {
             audio: false,
             video: { facingMode: "environment" }
         };
 
-        stream.current = await navigator.mediaDevices.getUserMedia(
+        navigator.mediaDevices.getUserMedia(
             constraints //will change
-        );
-        videoRef.current.srcObject = stream.current;
+        ).then(stream => {
+            videoRef.current.srcObject = stream;
+            scan()
+        })
 
-        console.log("stream", stream.current);
+
     }
     return (
         <div>
@@ -31,6 +61,10 @@ const Qrscan = () => {
                 autoPlay
                 playsInline
                 style={{ height: "auto", width: "100%" }} />
+            <div>
+                Data: {data}
+            </div>
+            <Script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js" />
         </div>
     );
 }
