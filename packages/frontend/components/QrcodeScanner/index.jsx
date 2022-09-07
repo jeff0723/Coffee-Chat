@@ -11,7 +11,11 @@ const Qrscan = () => {
     useEffect(() => {
         if (qrcode)
             qrcode.callback = (res) => {
+                console.log('hi outside callback')
+
                 if (res) {
+                    console.log('hi inside callback')
+
                     console.log(res)
                     setData(res)
                     setScanning(false)
@@ -27,7 +31,12 @@ const Qrscan = () => {
             };
     }, [qrcode])
     const tick = () => {
+        console.log('tick')
         const canvas = canvasRef.current.getContext("2d");
+        console.log(canvas)
+        console.log(videoRef.current.videoHeight)
+        console.log(videoRef.current.videoWidth)
+        console.log(videoRef.current)
         canvasRef.current.height = videoRef.current.videoHeight
         canvasRef.current.width = videoRef.current.videoWidth
         canvas.drawImage(videoRef.current, 0, 0, canvasRef.current.height, canvasRef.current.width);
@@ -35,8 +44,9 @@ const Qrscan = () => {
     }
     const scan = useCallback(() => {
         if (qrcode) {
+
             try {
-                qrcode.decode();
+                qrcode.decode()
             } catch (e) {
                 setTimeout(scan, 300);
             }
@@ -64,7 +74,7 @@ const Qrscan = () => {
             <div onClick={handleCamera}>
                 camera on
             </div>
-            <canvas ref={canvasRef} hidden={true} id="qr-canvas" className='w-0 h-0'></canvas>
+            <canvas ref={canvasRef} hidden={true} id="qr-canvas"></canvas>
             <video
                 ref={videoRef}
                 autoPlay
