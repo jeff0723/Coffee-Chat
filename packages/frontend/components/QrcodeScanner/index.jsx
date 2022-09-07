@@ -7,26 +7,25 @@ const QrReader = dynamic(() => import('react-qr-reader'), { ssr: false })
 
 const Qrscan = () => {
     const videoRef = useRef()
-    const qrcode = useRef()
+    const windowRef = useRef()
     const [data, setData] = useState("")
-
+    const [qrcode, setQrcode] = useState()
     useEffect(() => {
-        console.log(window)
-        qrcode.current = window.qrcode
-        qrcode.current.callback = res => {
-            if (res) {
-                console.log(res)
-                setData(res)
-                scanning = false;
+        if (qrcode)
+            qrcode.callback = res => {
+                if (res) {
+                    console.log(res)
+                    setData(res)
+                    scanning = false;
+                    if (videoRef.current) {
+                        videoRef.current.srcObject.getTracks().forEach(track => {
+                            track.stop();
+                        });
+                    }
 
-                videoRef.current.srcObject.getTracks().forEach(track => {
-                    track.stop();
-                });
-
-
-            }
-        };
-    }, [])
+                }
+            };
+    }, [qrcode])
     const scan = () => {
         if (qrcode.current) {
             try {
@@ -51,6 +50,7 @@ const Qrscan = () => {
 
 
     }
+    console.log("outside:", qrcode)
     return (
         <div>
             <div onClick={handleCamera}>
@@ -64,7 +64,12 @@ const Qrscan = () => {
             <div>
                 Data: {data}
             </div>
-            <Script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js" />
+            <Script
+                src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"
+                onLoad={() => {
+                    setQrcode(window.qrcode)
+                }}
+            />
         </div>
     );
 }
