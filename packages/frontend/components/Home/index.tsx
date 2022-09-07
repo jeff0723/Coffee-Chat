@@ -1,4 +1,4 @@
-import { CoffeeOutlined, EnvironmentOutlined, PhoneOutlined, TagOutlined } from '@ant-design/icons';
+import { CoffeeOutlined, EnvironmentOutlined, PhoneOutlined, TagOutlined, SearchOutlined } from '@ant-design/icons';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import {
     Combobox,
@@ -260,7 +260,11 @@ const Home: FC = (props: Props) => {
                 <div className='flex flex-col'>
                     <div className='flex justify-between items-center p-2'
                     >
-                        <div className='font-bold'>☕ Coffee chat</div>
+                        <div className='flex justify-between items-center gap-4'>
+                            <div className='font-bold'>☕ Coffee chat</div>
+                            <SearchOutlined className='text-[20px]' />
+                        </div>
+
                         <ConnectButton accountStatus={{
                             smallScreen: 'avatar'
                         }} />

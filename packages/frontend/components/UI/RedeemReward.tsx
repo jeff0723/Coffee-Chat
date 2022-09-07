@@ -27,7 +27,7 @@ const RedeemReward = ({ signature, chatId, setSignature, setChatId, toggle, open
         args: [[chatId], signature, address],
         onError(error) {
             console.log("Camera: ", error)
-
+            toast.error('Reward has already been redeemed!')
         }
 
     })
