@@ -19,7 +19,7 @@ const OptionButton = (props: Props) => {
     const [qrCode, setQrCode] = useState('')
 
     return (
-        <div className="absolute flex flex-col left-5 bottom-5 gap-2 sm:bottom-100">
+        <div className="absolute flex flex-col left-5 bottom-5 gap-2 ">
             <Transition appear show={optionShow} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={() => { setOptionShow(false) }}>
                     <Transition.Child
@@ -80,7 +80,7 @@ const OptionButton = (props: Props) => {
             </Transition>
 
             <button
-                className='absolute left-5 bottom-5 z-40 rounded-full flex justify-center items-center p-2 bg-white w-16 h-16 hover:text-[#6f4e37] hover:bg-opacity-90'
+                className='absolute left-5 bottom-5 z-10 rounded-full flex justify-center items-center p-2 bg-white w-16 h-16 hover:text-[#6f4e37] hover:bg-opacity-90'
                 onClick={() => setOptionShow(!optionShow)}>
                 <CoffeeOutlined className='text-[25px]' color='#6f4e37' />
             </button>
