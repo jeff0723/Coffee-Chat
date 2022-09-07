@@ -1,81 +1,51 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Script from 'next/script';
+import { COFFEE_CHAT } from 'constant/abi';
+import { COFFEE_CHAT_ADDRESS } from 'constant/address';
+import { useState } from 'react';
 import { QrReader } from "react-qr-reader";
-
+import { useAccount, useContractWrite } from 'wagmi';
+import toast from 'react-hot-toast';
 
 const Qrscan = () => {
-    const videoRef = useRef()
-    const canvasRef = useRef()
-    const [data, setData] = useState("")
-    const [qrcode, setQrcode] = useState()
-    const [scanning, setScanning] = useState(false)
-    // useEffect(() => {
-    //     if (qrcode) {
-    //         console.log('hi outside callback')
-    //         qrcode.callback = (res) => {
-    //             console.log('hi inside callback')
-    //             if (res) {
-    //                 console.log('hi inside callback')
-    //                 console.log(res)
-    //                 setData(res)
-    //                 setScanning(false)
-    //                 if (videoRef.current) {
-    //                     videoRef.current.srcObject.getTracks().forEach(track => {
-    //                         track.stop();
-    //                     });
-    //                 }
-    //                 canvasRef.current.hidden = true
-
-
-    //             }
-    //         };
-    //     }
-    // }, [qrcode])
-    // const tick = () => {
-    //     console.log('tick')
-    //     const canvas = canvasRef.current.getContext("2d");
-    //     canvasRef.current.height = videoRef.current.videoHeight
-    //     canvasRef.current.width = videoRef.current.videoWidth
-    //     canvas.drawImage(videoRef.current, 0, 0, canvasRef.current.height, canvasRef.current.width);
-    //     scanning && requestAnimationFrame(tick);
-    // }
-    // const scan = () => {
-    //     if (qrcode) {
-    //         try {
-    //             qrcode.decode()
-    //         } catch (e) {
-    //             setTimeout(scan, 300);
-    //         }
-    //     }
-    // }
-    // const handleCamera = async () => {
-    //     const constraints = {
-    //         audio: false,
-    //         video: { facingMode: "environment" }
-    //     };
-
-    //     navigator.mediaDevices.getUserMedia(
-    //         constraints //will change
-    //     ).then(stream => {
-    //         videoRef.current.srcObject = stream;
-    //         canvasRef.current.hidden = false
-    //         setScanning(true)
-    //         tick()
-    //         scan()
-    //     })
-    // }
-    // console.log(scanning)
+    const { address } = useAccount()
+    const [signature, setSignature] = useState("")
+    const [chatId, setChatId] = useState("")
+    const { isLoading: writeLoading, write } = useContractWrite({
+        addressOrName: chain?.id ? COFFEE_CHAT_ADDRESS[chain?.id] : "",
+        contractInterface: COFFEE_CHAT,
+        functionName: 'redeemReward',
+        mode: 'recklesslyUnprepared',
+        onSuccess(data) {
+            toast.success("Successfully redeem reward!")
+        },
+        onError(error) {
+            toast.error(error?.data?.message ?? error?.message)
+            console.log(error)
+        }
+    })
+    const handleRedeem = async () => {
+        if (!address) return toast.error("Please connect to wallet!")
+        if (signature && chatId && address) {
+            const inputStruct = [
+                [chatId],
+                signature,
+                address
+            ]
+            await write?.({
+                recklesslySetUnpreparedArgs: inputStruct
+            })
+        }
+    }
     return (
         <div>
             <div >
                 <QrReader
                     onResult={(result, error) => {
-                        if (!!result) {
-                            setData(result?.text);
-                        }
-
-                        if (!!error) {
-                            console.info(error);
+                        if (result) {
+                            const params = new URLSearchParams(result?.text)
+                            const _signature = params.get('signature')
+                            const _chatId = params.get('chatId')
+                            setSignature(_signature)
+                            setChatId(_chatId)
                         }
 
                     }
@@ -83,27 +53,16 @@ const Qrscan = () => {
                     constraints={{ facingMode: "environment" }}
                     style={{ width: "40%", height: "40%" }}
                 />
-                <p>{data}</p>
+                {
+                    signature && chatId &&
+                    <div className='flex flex-col'>
+                        <div>Signature: {signature}</div>
+                        <div>ChatId: {chatId}</div>
+                        <button onClick={handleRedeem}>Redeem</button>
+                    </div>
+                }
             </div>
-            {/* <div onClick={handleCamera}>
-                camera on
-            </div>
-            <canvas ref={canvasRef} hidden={true} id="qr-canvas"></canvas>
-            <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                style={{ height: "auto", width: "100%" }} />
-            <div>
-                Data: {data}
-            </div>
-            <Script
-                src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"
-                onLoad={() => {
-                    console.log("set qr code")
-                    setQrcode(window.qrcode)
-                }}
-            /> */}
+
         </div>
     );
 }

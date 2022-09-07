@@ -113,7 +113,7 @@ const CoffeeChatItem = ({ info }: Props) => {
       <Modal visible={open} onCancel={() => { setOpen(false) }} footer={null} width={350}>
         <div>
           <QRCodeCanvas
-            value={`/api/redeem-reward?signature=${signature}&redeemer=${address}&chatId=${info?.id}`}
+            value={`signature=${signature}&chatId=${info?.id}`}
             size={300}
           />
           <button onClick={handleRedeem}>redeem</button>
