@@ -88,7 +88,8 @@ const Home: FC = (props: Props) => {
             lantitude2: ((geolocation.latitude + 1) * 10 ** 15).toString(),
             longtitude1: ((geolocation.longitude - 1) * 10 ** 15).toString(),
             longtitude2: ((geolocation.longitude + 1) * 10 ** 15).toString(),
-            now: currentTime
+            now: currentTime,
+            isactive: true,
         },
         skip: !geolocation,
         onCompleted: (data) => {
