@@ -11,12 +11,9 @@ import ScanQrcodeModal from './ScanQrcodeModal';
 
 type Props = {}
 const OptionButton = (props: Props) => {
-    const [createPostOpen, setCreatePostOpen] = useState(false)
     const [optionShow, setOptionShow] = useState(false)
     const [coffeeChatListModalOpen, toggleCoffeeChatList] = useReducer(state => !state, false)
     const [cameraOpen, toggleCamera] = useReducer(state => !state, false)
-    const [creaetCommunityOpen, setCreateCommunityOpen] = useState(false)
-    const [createNFTPostOpen, setCreateNFTPostOpen] = useState(false)
     const [qrCode, setQrCode] = useState('')
 
     return (
