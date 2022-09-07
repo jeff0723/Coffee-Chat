@@ -2,7 +2,7 @@ import { COFFEE_CHAT } from 'constant/abi';
 import { COFFEE_CHAT_ADDRESS } from 'constant/address';
 import { useState } from 'react';
 import { QrReader } from "react-qr-reader";
-import { useAccount, useContractWrite, useNetwork } from 'wagmi';
+import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi';
 import toast from 'react-hot-toast';
 
 const Qrscan = ({ toggle, open }) => {
@@ -10,11 +10,19 @@ const Qrscan = ({ toggle, open }) => {
     const { chain } = useNetwork()
     const [signature, setSignature] = useState("")
     const [chatId, setChatId] = useState("")
-    const { isLoading: writeLoading, write } = useContractWrite({
+    const { config, error } = usePrepareContractWrite({
         addressOrName: chain?.id ? COFFEE_CHAT_ADDRESS[chain?.id] : "",
         contractInterface: COFFEE_CHAT,
         functionName: 'redeemReward',
-        mode: 'recklesslyUnprepared',
+        args: [["0"], "0", address],
+        onError(error) {
+            console.log(error)
+
+        }
+
+    })
+    const { isLoading: writeLoading, write } = useContractWrite({
+        ...config,
         onSuccess(data) {
             toast.success("Successfully redeem reward!")
             setSignature("")
@@ -39,6 +47,7 @@ const Qrscan = ({ toggle, open }) => {
             })
         }
     }
+
     return (
         <div>
             <div >

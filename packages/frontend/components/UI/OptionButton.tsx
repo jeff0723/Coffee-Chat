@@ -58,7 +58,7 @@ const OptionButton = (props: Props) => {
                         <div className="ml-8 flex gap-2 items-center pr-2">
                             <Tooltip title="Rate your chat">
                                 <div className="w-10 h-10 bg-white  rounded-full flex justify-center items-center hover:bg-opacity-90"
-                                    onClick={() => setCreateCommunityOpen(true)}>
+                                    onClick={() => { }}>
                                     <StarOutlined />
                                 </div>
                             </Tooltip>
