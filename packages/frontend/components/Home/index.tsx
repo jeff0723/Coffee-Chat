@@ -379,10 +379,12 @@ const Home: FC = (props: Props) => {
                     setCoffeeChatClick={setCoffeeChatClick}
                     setSelectedCoffeeChat={setSelectedCoffeeChat}
                 />
-                <Drawer zIndex={100} title="Detail" placement="right" onClose={() => {
+                <Drawer zIndex={100} title="Detail" placement={isMobile ? "bottom" : "right"} onClose={() => {
                     setDrawerShow(false)
                     setPlacePhotos([])
-                }} visible={drawerShow}>
+                }} visible={drawerShow}
+                    height={600}
+                >
                     <div className='flex flex-col justify-between h-full'>
                         <div className='flex flex-col gap-2'>
                             <div className='flex gap-2 items-center'>
