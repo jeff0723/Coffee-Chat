@@ -60,10 +60,11 @@ const PlaceAutoCompleteMobile: FC<AutoCompleteProps> = ({ setOpen, setZoom, clic
         setValue("")
         setOpen(false)
     }
+    console.log(data)
     return (
 
         <Combobox onSelect={onSelect}>
-            <ComboboxInput
+            <input
                 value={value}
                 onChange={(e) => {
                     setValue(e.target.value)
@@ -72,14 +73,12 @@ const PlaceAutoCompleteMobile: FC<AutoCompleteProps> = ({ setOpen, setZoom, clic
                 className='bg-transparent focus:outline-none w-full text-[16px]'
                 placeholder="Search an place..."
             />
-            <ComboboxPopover className='z-20' >
-                <ComboboxList>
-                    {status === "OK" &&
-                        data.map(({ place_id, description }) => (
-                            <ComboboxOption key={place_id} value={description} />
-                        ))}
-                </ComboboxList>
-            </ComboboxPopover>
+            <ComboboxList>
+                {status === "OK" &&
+                    data.map(({ place_id, description }) => (
+                        <ComboboxOption key={place_id} value={description} />
+                    ))}
+            </ComboboxList>
         </Combobox>
     );
 };
