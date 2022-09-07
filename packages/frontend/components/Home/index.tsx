@@ -235,7 +235,7 @@ const Home: FC = (props: Props) => {
     }
     if (!isLoaded) return <div className='h-screen w-full flex justify-center items-center'>Loading...</div>;
     return (
-        <div className='relative'>
+        <div className='relative w-full h-full'>
 
             <OptionButton />
 
@@ -270,7 +270,7 @@ const Home: FC = (props: Props) => {
                         }} />
                     </div>
                 </div>}
-            <div className='flex'>
+            <div className='flex w-full h-full'>
                 <Modal zIndex={200} width={300} footer={null} title="Stake your chat" visible={modalOpen} onCancel={() => { setModalOpen(false) }} wrapClassName="rounded-lg">
 
                     <div className='flex flex-col gap-2'>
@@ -428,6 +428,9 @@ const Map: FC<MapProps> = ({
     setCoffeeChatClick,
     setSelectedCoffeeChat
 }) => {
+    const isMobile = useMediaQuery({
+        query: '(max-width: 475px)'
+    })
     const center = useMemo(() => {
         if (clicked) {
             return {
@@ -467,7 +470,7 @@ const Map: FC<MapProps> = ({
 
 
     return (
-        <GoogleMap onLoad={map => setMapRef(map)} zoom={zoom} center={center} mapContainerClassName="w-full h-[95vh]" onClick={handleMapClick} >
+        <GoogleMap onLoad={map => setMapRef(map)} zoom={zoom} center={center} mapContainerClassName="w-full h-[95vh]" onClick={handleMapClick} mapContainerStyle={{ height: isMobile ? "90vh" : "95vh" }} >
             <Marker position={center} />
             {clicked && <Marker position={clickedPoint} />}
             {coffeeChats.length && coffeeChats.map((coffeeChat, index) => (
