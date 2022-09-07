@@ -8,10 +8,7 @@ type Props = {
     toggle: Dispatch<boolean>
 }
 
-const previewStyle = {
-    height: 320,
-    width: 320,
-}
+
 
 const ScanQrcodeModal = ({ open, toggle }: Props) => {
     const isMobile = useMediaQuery({

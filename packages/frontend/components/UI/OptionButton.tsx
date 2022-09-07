@@ -8,6 +8,7 @@ import { Modal, Tooltip } from 'antd';
 import CoffeeChatList from './CoffeeChatList';
 import ScanQrcodeModal from './ScanQrcodeModal';
 import { useMediaQuery } from 'react-responsive'
+import RatingModal from './RatingModal';
 
 
 type Props = {}
@@ -16,7 +17,7 @@ const OptionButton = (props: Props) => {
     const [optionShow, setOptionShow] = useState(false)
     const [coffeeChatListModalOpen, toggleCoffeeChatList] = useReducer(state => !state, false)
     const [cameraOpen, toggleCamera] = useReducer(state => !state, false)
-    const [qrCode, setQrCode] = useState('')
+    const [ratingOpen, toggleRating] = useReducer(state => !state, false)
 
     return (
         <div className="absolute flex flex-col left-5 bottom-5 gap-2 ">
@@ -60,7 +61,7 @@ const OptionButton = (props: Props) => {
                         <div className="ml-8 flex gap-2 items-center pr-2">
                             <Tooltip title="Rate your chat">
                                 <div className="w-10 h-10 bg-white  rounded-full flex justify-center items-center hover:bg-opacity-90"
-                                    onClick={() => { }}>
+                                    onClick={() => { toggleRating() }}>
                                     <StarOutlined />
                                 </div>
                             </Tooltip>
@@ -85,7 +86,8 @@ const OptionButton = (props: Props) => {
                 <CoffeeOutlined className='text-[25px]' color='#6f4e37' />
             </button>
             <CoffeeChatList open={coffeeChatListModalOpen} toggle={toggleCoffeeChatList} />
-            <ScanQrcodeModal open={cameraOpen} toggle={toggleCamera}></ScanQrcodeModal>
+            <ScanQrcodeModal open={cameraOpen} toggle={toggleCamera} />
+            <RatingModal open={ratingOpen} toggle={toggleRating} />
         </div>
     )
 }
