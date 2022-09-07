@@ -33,6 +33,7 @@ import { useMediaQuery } from 'react-responsive'
 import { uploadIpfs } from 'utils/uploadIPFS';
 import PlaceAutoComplete from 'components/Search/PlaceAutoComplete';
 import SearchModal from 'components/Search/SearchModal';
+import Head from 'next/head';
 
 
 
@@ -255,7 +256,9 @@ const Home: FC = (props: Props) => {
     if (!isLoaded) return <div className='h-screen w-full flex justify-center items-center'>Loading...</div>;
     return (
         <div className='relative w-full h-full'>
-
+            <Head>
+                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+            </Head>
             <OptionButton />
             <SearchModal
                 open={mobileSearchOpen}

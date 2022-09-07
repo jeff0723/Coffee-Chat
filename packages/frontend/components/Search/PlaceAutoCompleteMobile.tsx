@@ -65,7 +65,8 @@ const PlaceAutoCompleteMobile: FC<AutoCompleteProps> = ({ setOpen, setZoom, clic
         <Combobox onSelect={onSelect}>
             <ComboboxInput
                 value={value}
-                onChange={(e) => setValue(e.target.value)}
+                onCompositionUpdate={(e) => { }}
+                onChange={(e) => { setValue(e.target.value) }}
                 disabled={!ready}
                 className='bg-transparent focus:outline-none w-full text-[16px]'
                 placeholder="Search an place..."
