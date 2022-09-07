@@ -6,7 +6,7 @@ dataSources:
     name: CoffeeChat
     network: rinkeby
     source:
-      address: "0x6C78Af041aE5611d171c58f01e3cc5fe41e2fa1F"
+      address: "0xe4916af0e8EFeb9C95C42139706f891ea0b50FE6"
       abi: CoffeeChat
       startBlock: 11310605
     mapping:
@@ -19,7 +19,7 @@ dataSources:
         - name: CoffeeChat
           file: ./abis/CoffeeChat.json
       eventHandlers:
-        - event: CoffeChatIntialize(uint256,string,uint64,uint64,uint32,uint32,uint256,bool,address)
+        - event: CoffeChatIntialize(uint256,string,uint64,uint64,uint32,uint32,uint256,address)
           handler: handleCoffeChatIntialize
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleCoffeeChatClose

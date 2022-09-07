@@ -243,6 +243,24 @@ export const COFFEE_NFT = [
         "type": "function"
     },
     {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "rater",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "target",
+                "type": "address"
+            }
+        ],
+        "name": "burn",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
         "inputs": [],
         "name": "coffeeChatAddress",
         "outputs": [
@@ -250,25 +268,6 @@ export const COFFEE_NFT = [
                 "internalType": "address",
                 "name": "",
                 "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "name": "eloOf",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
             }
         ],
         "stateMutability": "view",
@@ -353,24 +352,6 @@ export const COFFEE_NFT = [
             }
         ],
         "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "target",
-                "type": "address"
-            },
-            {
-                "internalType": "uint8",
-                "name": "points",
-                "type": "uint8"
-            }
-        ],
-        "name": "rate",
-        "outputs": [],
-        "stateMutability": "nonpayable",
         "type": "function"
     },
     {

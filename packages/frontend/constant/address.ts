@@ -16,10 +16,10 @@ export enum SupportedChainId {
 }
 
 export const COFFEE_CHAT_ADDRESS: AddressMap = {
-    [SupportedChainId.RINKEBY]: '0x6C78Af041aE5611d171c58f01e3cc5fe41e2fa1F',
+    [SupportedChainId.RINKEBY]: '0xe4916af0e8EFeb9C95C42139706f891ea0b50FE6',
     [SupportedChainId.HARDHAT]: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
 }
 export const COFFEE_NFT_ADDRESS: AddressMap = {
-    [SupportedChainId.RINKEBY]: '0x548D59F7900bb263b40a3db33F35412cDAF9a234',
+    [SupportedChainId.RINKEBY]: '0x82CEeBeBdD00a5E72FCaa75b448e6705b616a05F',
 
 }

@@ -1,75 +1,5 @@
 export const COFFEE_CHAT = [
     {
-        "inputs": [],
-        "name": "ApprovalCallerNotOwnerNorApproved",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "ApprovalQueryForNonexistentToken",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "ApproveToCaller",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "BalanceQueryForZeroAddress",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "MintERC2309QuantityExceedsLimit",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "MintToZeroAddress",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "MintZeroQuantity",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "OwnerQueryForNonexistentToken",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "OwnershipNotInitializedForExtraData",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "TransferCallerNotOwnerNorApproved",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "TransferFromIncorrectOwner",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "TransferToNonERC721ReceiverImplementer",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "TransferToZeroAddress",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "URIQueryForNonexistentToken",
-        "type": "error"
-    },
-    {
         "anonymous": false,
         "inputs": [
             {
@@ -198,49 +128,12 @@ export const COFFEE_CHAT = [
             },
             {
                 "indexed": false,
-                "internalType": "bool",
-                "name": "isActive",
-                "type": "bool"
-            },
-            {
-                "indexed": false,
                 "internalType": "address",
                 "name": "initializer",
                 "type": "address"
             }
         ],
         "name": "CoffeChatIntialize",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "uint256",
-                "name": "fromTokenId",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "toTokenId",
-                "type": "uint256"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "from",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "to",
-                "type": "address"
-            }
-        ],
-        "name": "ConsecutiveTransfer",
         "type": "event"
     },
     {
@@ -361,19 +254,9 @@ export const COFFEE_CHAT = [
         "name": "chatInfoById",
         "outputs": [
             {
-                "internalType": "string",
-                "name": "placeId",
-                "type": "string"
-            },
-            {
-                "internalType": "uint64",
-                "name": "lantitude",
-                "type": "uint64"
-            },
-            {
-                "internalType": "uint64",
-                "name": "longtitude",
-                "type": "uint64"
+                "internalType": "address",
+                "name": "initializer",
+                "type": "address"
             },
             {
                 "internalType": "uint32",
@@ -389,16 +272,6 @@ export const COFFEE_CHAT = [
                 "internalType": "uint256",
                 "name": "stakeAmount",
                 "type": "uint256"
-            },
-            {
-                "internalType": "bool",
-                "name": "isActive",
-                "type": "bool"
-            },
-            {
-                "internalType": "address",
-                "name": "initializer",
-                "type": "address"
             }
         ],
         "stateMutability": "view",
@@ -412,6 +285,30 @@ export const COFFEE_CHAT = [
                 "internalType": "contract CoffeeNFT",
                 "name": "",
                 "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "eloOf",
+        "outputs": [
+            {
+                "internalType": "uint128",
+                "name": "rateCount",
+                "type": "uint128"
+            },
+            {
+                "internalType": "uint128",
+                "name": "elo",
+                "type": "uint128"
             }
         ],
         "stateMutability": "view",
@@ -469,10 +366,21 @@ export const COFFEE_CHAT = [
                 "internalType": "uint64",
                 "name": "longtitude",
                 "type": "uint64"
+            },
+            {
+                "internalType": "string",
+                "name": "metadataURI",
+                "type": "string"
             }
         ],
         "name": "initializeChat",
-        "outputs": [],
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "chatId",
+                "type": "uint256"
+            }
+        ],
         "stateMutability": "payable",
         "type": "function"
     },
@@ -508,6 +416,19 @@ export const COFFEE_CHAT = [
                 "internalType": "string",
                 "name": "",
                 "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "nextTokenId",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
             }
         ],
         "stateMutability": "view",
@@ -556,6 +477,24 @@ export const COFFEE_CHAT = [
             }
         ],
         "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "target",
+                "type": "address"
+            },
+            {
+                "internalType": "uint8",
+                "name": "points",
+                "type": "uint8"
+            }
+        ],
+        "name": "rate",
+        "outputs": [],
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
@@ -650,7 +589,7 @@ export const COFFEE_CHAT = [
             },
             {
                 "internalType": "bytes",
-                "name": "_data",
+                "name": "data",
                 "type": "bytes"
             }
         ],
@@ -749,19 +688,6 @@ export const COFFEE_CHAT = [
                 "internalType": "string",
                 "name": "",
                 "type": "string"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "totalSupply",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
             }
         ],
         "stateMutability": "view",
