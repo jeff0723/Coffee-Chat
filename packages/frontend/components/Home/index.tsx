@@ -73,18 +73,18 @@ const Home: FC = (props: Props) => {
     const { chain, chains } = useNetwork()
     const [coffeeChats, setCoffeeChats] = useState<CoffeeChat[]>([])
     const geolocation = useGeolocation();
-
+    const [currentTime,] = useState((new Date().valueOf() / 1000).toFixed(0))
     const { data, loading, error } = useQuery(COFFEE_CHAT_QUERY_FILTERED_BY_POINT, {
         variables: {
             lantitude1: ((geolocation.latitude - 1) * 10 ** 15).toString(),
             lantitude2: ((geolocation.latitude + 1) * 10 ** 15).toString(),
             longtitude1: ((geolocation.longitude - 1) * 10 ** 15).toString(),
-            longtitude2: ((geolocation.longitude + 1) * 10 ** 15).toString()
-
+            longtitude2: ((geolocation.longitude + 1) * 10 ** 15).toString(),
+            now: currentTime
         },
         skip: !geolocation,
         onCompleted: (data) => {
-            console.log(data)
+
             setCoffeeChats(data.coffeeChats)
 
         },
@@ -119,6 +119,7 @@ const Home: FC = (props: Props) => {
         setEndTime("")
         setInputAmount(0)
     }
+
     const { isLoading: writeLoading, write } = useContractWrite({
         addressOrName: chain?.id ? COFFEE_CHAT_ADDRESS[chain?.id] : "",
         contractInterface: COFFEE_CHAT,
@@ -207,7 +208,6 @@ const Home: FC = (props: Props) => {
         const { lat, lng } = clickedPoint
         const lantitude = (lat * 10 ** 15).toString()
         const longitude = (lng * 10 ** 15).toString()
-        console.log(chain?.id)
         const inputStruct = [
             placeId,
             startTimeStamp,
@@ -276,7 +276,7 @@ const Home: FC = (props: Props) => {
                                 }
                             } />
                         </div>
-                        <Button className='mt-20' onClick={handleStake}>Let&apos; go</Button>
+                        <button className='mt-20 bg-black text-white p-2 rounded-xl hover:bg-opacity-80' onClick={handleStake}>Let&apos; go</button>
 
                     </div>
 
@@ -297,7 +297,7 @@ const Home: FC = (props: Props) => {
                                 formatLatorLng(selectedCoffeeChat?.lantitude),
                                 formatLatorLng(selectedCoffeeChat?.lantitude)))}</span></div>
                         <div>
-                            ⏰ Time Left: <Countdown date={Date.now() + 10000} className='font-bold' />
+                            ⏰ Time Left: <Countdown daysInHours={true} date={new Date((+selectedCoffeeChat?.endTime) * 1000)} className='font-bold' />
                         </div>
                         <div className='flex flex-col'>
                             <div>📍 Location:  <span className='font-bold'>{coffeeChatDetail?.name}</span></div>
@@ -369,7 +369,8 @@ const Home: FC = (props: Props) => {
                             </div>
                         </div>
 
-                        <Button className='rounded-2xl' onClick={() => { setModalOpen(true) }}>Coffee chat</Button>
+                        <button className='flex justify-center items-center rounded-2xl bg-black text-white p-3 hover:bg-opacity-80' onClick={() => { setModalOpen(true) }} >
+                            <CoffeeOutlined className='text-[20px] mr-2' /> Coffee chat</button>
                     </div>
                 </Drawer>
             </div>
@@ -436,7 +437,6 @@ const Map: FC<MapProps> = ({
         //@ts-ignore
         if (e.placeId) {
             //@ts-ignore
-            console.log(e?.placeId)
             //@ts-ignore
             setPlaceId(e?.placeId)
             setDrawerShow(true)
@@ -474,13 +474,11 @@ const Map: FC<MapProps> = ({
                         strokeWeight: 2,
                     }}
                     onClick={() => {
-                        console.log("coffeeChatClick")
                         setCoffeeChatClick(true)
                         setSelectedCoffeeChat(coffeeChat)
                     }}
                     onMouseDown={
                         () => {
-                            console.log("coffeeChatClick")
                             setCoffeeChatClick(true)
                             setSelectedCoffeeChat(coffeeChat)
                         }

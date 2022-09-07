@@ -34,12 +34,12 @@ export type CoffeeChat = {
   endTime: Scalars["BigInt"];
   id: Scalars["ID"];
   initializer: Scalars["Bytes"];
+  isActive?: Maybe<Scalars["Boolean"]>;
   lantitude: Scalars["BigInt"];
   longtitude: Scalars["BigInt"];
   placeId: Scalars["String"];
   stakeAmount: Scalars["BigInt"];
   startTime: Scalars["BigInt"];
-  tokenId: Scalars["BigInt"];
 };
 
 export type CoffeeChat_Filter = {
@@ -67,6 +67,10 @@ export type CoffeeChat_Filter = {
   initializer_not?: InputMaybe<Scalars["Bytes"]>;
   initializer_not_contains?: InputMaybe<Scalars["Bytes"]>;
   initializer_not_in?: InputMaybe<Array<Scalars["Bytes"]>>;
+  isActive?: InputMaybe<Scalars["Boolean"]>;
+  isActive_in?: InputMaybe<Array<Scalars["Boolean"]>>;
+  isActive_not?: InputMaybe<Scalars["Boolean"]>;
+  isActive_not_in?: InputMaybe<Array<Scalars["Boolean"]>>;
   lantitude?: InputMaybe<Scalars["BigInt"]>;
   lantitude_gt?: InputMaybe<Scalars["BigInt"]>;
   lantitude_gte?: InputMaybe<Scalars["BigInt"]>;
@@ -119,26 +123,18 @@ export type CoffeeChat_Filter = {
   startTime_lte?: InputMaybe<Scalars["BigInt"]>;
   startTime_not?: InputMaybe<Scalars["BigInt"]>;
   startTime_not_in?: InputMaybe<Array<Scalars["BigInt"]>>;
-  tokenId?: InputMaybe<Scalars["BigInt"]>;
-  tokenId_gt?: InputMaybe<Scalars["BigInt"]>;
-  tokenId_gte?: InputMaybe<Scalars["BigInt"]>;
-  tokenId_in?: InputMaybe<Array<Scalars["BigInt"]>>;
-  tokenId_lt?: InputMaybe<Scalars["BigInt"]>;
-  tokenId_lte?: InputMaybe<Scalars["BigInt"]>;
-  tokenId_not?: InputMaybe<Scalars["BigInt"]>;
-  tokenId_not_in?: InputMaybe<Array<Scalars["BigInt"]>>;
 };
 
 export enum CoffeeChat_OrderBy {
   EndTime = "endTime",
   Id = "id",
   Initializer = "initializer",
+  IsActive = "isActive",
   Lantitude = "lantitude",
   Longtitude = "longtitude",
   PlaceId = "placeId",
   StakeAmount = "stakeAmount",
-  StartTime = "startTime",
-  TokenId = "tokenId"
+  StartTime = "startTime"
 }
 
 export type ExampleEntity = {

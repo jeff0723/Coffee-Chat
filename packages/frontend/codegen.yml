@@ -1,4 +1,4 @@
-schema: https://api.studio.thegraph.com/query/19892/coffeechat/v0.0.3
+schema: https://api.studio.thegraph.com/query/19892/coffeechat/v0.0.5
 hooks:
   afterOneFileWrite:
     - eslint --fix

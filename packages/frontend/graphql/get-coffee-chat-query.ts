@@ -6,6 +6,7 @@ export const COFFEE_CHAT_QUERY_FILTERED_BY_POINT = gql`
         $lantitude2:BigInt!
         $longtitude1:BigInt!
         $longtitude2:BigInt!
+        $now:BigInt!
 
     ){
         coffeeChats(where:{
@@ -13,6 +14,7 @@ export const COFFEE_CHAT_QUERY_FILTERED_BY_POINT = gql`
             lantitude_lt:$lantitude2
             longtitude_gt:$longtitude1
             longtitude_lt:$longtitude2
+            endTime_gt:$now
         }) {
             id
             placeId
@@ -22,6 +24,7 @@ export const COFFEE_CHAT_QUERY_FILTERED_BY_POINT = gql`
             longtitude
             initializer
             stakeAmount
+            isActive
           }
     }
 `
@@ -42,6 +45,8 @@ export const COFFEE_CHAT_QUERY_FILTERED_BY_ADDRESS = gql`
             longtitude
             initializer
             stakeAmount
+            isActive
           }
     }
 `
+

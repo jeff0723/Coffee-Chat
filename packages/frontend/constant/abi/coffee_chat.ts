@@ -405,6 +405,19 @@ export const COFFEE_CHAT = [
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "coffeeNFTContract",
+        "outputs": [
+            {
+                "internalType": "contract CoffeeNFT",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "uint256",
@@ -660,6 +673,19 @@ export const COFFEE_CHAT = [
             }
         ],
         "name": "setApprovalForAll",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "coffeeNFTAddress",
+                "type": "address"
+            }
+        ],
+        "name": "setCoffeeNFT",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
