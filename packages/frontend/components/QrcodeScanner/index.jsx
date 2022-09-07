@@ -1,13 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import dynamic from "next/dynamic";
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
-import { useMediaQuery } from 'react-responsive';
-const QrReader = dynamic(() => import('react-qr-reader'), { ssr: false })
 
 
 const Qrscan = () => {
     const videoRef = useRef()
-    const windowRef = useRef()
+    const canvasRef = useRef()
     const [data, setData] = useState("")
     const [qrcode, setQrcode] = useState()
     useEffect(() => {
@@ -16,16 +13,19 @@ const Qrscan = () => {
                 if (res) {
                     console.log(res)
                     setData(res)
+
                     if (videoRef.current) {
                         videoRef.current.srcObject.getTracks().forEach(track => {
                             track.stop();
                         });
                     }
+                    canvasRef.current.hidden = true
+
 
                 }
             };
     }, [qrcode])
-    const scan = () => {
+    const scan = useCallback(() => {
         if (qrcode) {
             try {
                 qrcode.decode();
@@ -33,7 +33,7 @@ const Qrscan = () => {
                 setTimeout(scan, 300);
             }
         }
-    }
+    }, [qrcode])
     const handleCamera = async () => {
         const constraints = {
             audio: false,
@@ -44,17 +44,17 @@ const Qrscan = () => {
             constraints //will change
         ).then(stream => {
             videoRef.current.srcObject = stream;
+            canvasRef.current.hidden = false
             scan()
         })
-
-
     }
-    console.log("outside:", qrcode)
+
     return (
         <div>
             <div onClick={handleCamera}>
                 camera on
             </div>
+            <canvas ref={canvasRef} hidden={true} id="qr-canvas" className='w-0 h-0'></canvas>
             <video
                 ref={videoRef}
                 autoPlay

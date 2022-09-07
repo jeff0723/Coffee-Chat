@@ -1,7 +1,6 @@
 import { Modal } from 'antd'
 import Qrscan from 'components/QrcodeScanner';
 import React, { Dispatch } from 'react'
-import QrScanner from 'components/QrcodeScanner/Scanner'
 import { useMediaQuery } from 'react-responsive';
 
 type Props = {
