@@ -26,6 +26,9 @@ export function handleCoffeeChatClose(event: Transfer): void {
   // if burn the token, remain data but set isActive = false
   if (event.params.to.equals(ZERO_ADDERSS)) {
     let coffeeChat = CoffeeChat.load(event.params.tokenId.toString())
-    if (coffeeChat) coffeeChat.isActive = false
+    if (coffeeChat) {
+      coffeeChat.isActive = false
+      coffeeChat.save()
+    }
   }
 }

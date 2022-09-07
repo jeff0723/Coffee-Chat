@@ -28,6 +28,16 @@ export type { IERC1155ReceiverUpgradeable } from "./@openzeppelin/contracts-upgr
 export { IERC1155ReceiverUpgradeable__factory } from "./factories/@openzeppelin/contracts-upgradeable/token/ERC1155/IERC1155ReceiverUpgradeable__factory";
 export type { IERC1155Upgradeable } from "./@openzeppelin/contracts-upgradeable/token/ERC1155/IERC1155Upgradeable";
 export { IERC1155Upgradeable__factory } from "./factories/@openzeppelin/contracts-upgradeable/token/ERC1155/IERC1155Upgradeable__factory";
+export type { ERC721Upgradeable } from "./@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable";
+export { ERC721Upgradeable__factory } from "./factories/@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable__factory";
+export type { ERC721URIStorageUpgradeable } from "./@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable";
+export { ERC721URIStorageUpgradeable__factory } from "./factories/@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable__factory";
+export type { IERC721MetadataUpgradeable } from "./@openzeppelin/contracts-upgradeable/token/ERC721/extensions/IERC721MetadataUpgradeable";
+export { IERC721MetadataUpgradeable__factory } from "./factories/@openzeppelin/contracts-upgradeable/token/ERC721/extensions/IERC721MetadataUpgradeable__factory";
+export type { IERC721ReceiverUpgradeable } from "./@openzeppelin/contracts-upgradeable/token/ERC721/IERC721ReceiverUpgradeable";
+export { IERC721ReceiverUpgradeable__factory } from "./factories/@openzeppelin/contracts-upgradeable/token/ERC721/IERC721ReceiverUpgradeable__factory";
+export type { IERC721Upgradeable } from "./@openzeppelin/contracts-upgradeable/token/ERC721/IERC721Upgradeable";
+export { IERC721Upgradeable__factory } from "./factories/@openzeppelin/contracts-upgradeable/token/ERC721/IERC721Upgradeable__factory";
 export type { ContextUpgradeable } from "./@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable";
 export { ContextUpgradeable__factory } from "./factories/@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable__factory";
 export type { EIP712Upgradeable } from "./@openzeppelin/contracts-upgradeable/utils/cryptography/draft-EIP712Upgradeable.sol/EIP712Upgradeable";

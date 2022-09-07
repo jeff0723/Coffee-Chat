@@ -23,7 +23,7 @@ async function main() {
     let sigMap = new Map<string, {voucher: RedeemVoucher, signature: string}>();
     await Promise.all(users.map(async (user, chatId) => {
         const voucher: RedeemVoucher = { chatId };
-        const signature: string = await signer._signTypedData(domainData, VOUCHER_TYPE, voucher);
+        const signature: string = await user._signTypedData(domainData, VOUCHER_TYPE, voucher);
         sigMap.set(user.address, {voucher, signature});
         return signature;
     }));
