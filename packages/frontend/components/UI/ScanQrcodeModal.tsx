@@ -14,7 +14,7 @@ const ScanQrcodeModal = ({ open, toggle }: Props) => {
     })
     return (
         <Modal visible={open} onCancel={() => toggle(open)} footer={null} bodyStyle={{ height: isMobile ? 700 : 400 }}>
-            <Qrscan />
+            <Qrscan toggle={toggle} open={open} />
             {/* <QrScanner /> */}
         </Modal>
     )
