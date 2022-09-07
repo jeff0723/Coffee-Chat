@@ -58,7 +58,9 @@ type PlaceDetail = {
 
 const GOOGLE_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY || ""
 const formatTimeStampFromTime = (time: string) => {
-    const today = new Date().toJSON().slice(0, 10).replace(/-/g, '/')
+    // const today = new Date().toJSON().slice(0, 10).replace(/-/g, '/')
+    const today = new Date().toLocaleDateString()
+    // console.log(today)
     return new Date(today + " " + time).valueOf() / 1000 // for smart contract input
 
 }
@@ -245,7 +247,7 @@ const Home: FC = (props: Props) => {
             `ipfs://${path}`
         ]
 
-        await write?.({
+        write?.({
             recklesslySetUnpreparedArgs: inputStruct, recklesslySetUnpreparedOverrides: {
                 value: amount
             }
@@ -332,7 +334,7 @@ const Home: FC = (props: Props) => {
                                 autoSize={{ minRows: 3, maxRows: 5 }} />
                         </div>
                         <button className='mt-20 bg-black text-white p-2 rounded-xl flex justify-center items-end hover:bg-opacity-80' onClick={handleStake}>
-                            {isUploading && <LoadingOutlined className='mr-2 text-[15px]' />} Let&apos; go</button>
+                            {isUploading && <LoadingOutlined className='mr-2 text-[15px]' />} Let&apos;s go</button>
 
                     </div>
 

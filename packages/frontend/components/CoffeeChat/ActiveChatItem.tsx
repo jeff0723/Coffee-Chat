@@ -53,11 +53,13 @@ const ActiveChatItem = ({ info }: Props) => {
 
         const respone = await fetch(`/api/get-place-detail?place_id=${info.placeId}`)
         const data = await respone.json()
-        const detail = {
-            ...data,
-            photo: data.photos[0]
+        if (data && data.photos) {
+            const detail = {
+                ...data,
+                photo: data.photos[0]
+            }
+            setPlaceDetail(detail)
         }
-        setPlaceDetail(detail)
     }
     const getPlacePhoto = async () => {
         const photo = placeDetail?.photo
