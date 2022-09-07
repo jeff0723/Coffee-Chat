@@ -19,6 +19,7 @@
     "antd": "^4.22.8",
     "defender-relay-client": "^1.28.1",
     "ethers": "^5.7.0",
+    "ipfs-http-client": "^57.0.3",
     "next": "12.2.5",
     "next-real-viewport": "^0.7.2",
     "qrcode.react": "^3.1.0",

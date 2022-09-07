@@ -1,4 +1,4 @@
-import { CoffeeOutlined, EnvironmentOutlined, PhoneOutlined, TagOutlined, SearchOutlined } from '@ant-design/icons';
+import { CoffeeOutlined, EnvironmentOutlined, PhoneOutlined, TagOutlined, SearchOutlined, LoadingOutlined } from '@ant-design/icons';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import {
     Combobox,
@@ -30,6 +30,8 @@ import styled from 'styled-components'
 import CoffeeChatList from 'components/UI/CoffeeChatList';
 import OptionButton from 'components/UI/OptionButton';
 import { useMediaQuery } from 'react-responsive'
+import { uploadIpfs } from 'utils/uploadIPFS';
+
 
 type Props = {}
 type PlacePhoto = {
@@ -107,7 +109,9 @@ const Home: FC = (props: Props) => {
     const [startTime, setStartTime] = useState("")
     const [endTime, setEndTime] = useState("")
     const [inputAmount, setInputAmount] = useState(0)
+    const [inputDescription, setInputDescription] = useState("")
     const [zoom, setZoom] = useState(12)
+    const [isUploading, setIsUploading] = useState(false)
     const [clickedPoint, setClickedPoint] = useState({
         lat: 0,
         lng: 0
@@ -123,12 +127,12 @@ const Home: FC = (props: Props) => {
         addressOrName: chain?.id ? COFFEE_CHAT_ADDRESS[chain?.id] : "",
         contractInterface: COFFEE_CHAT,
         functionName: 'initializeChat',
-        args: ["0", "0", "0", "0", "0"],
+        args: ["0", "0", "0", "0", "0", "ipfs://"],
         overrides: {
             value: ethers.utils.parseEther('0.01'),
         },
         onError(error) {
-            console.log(error)
+            console.log("map:", error)
         }
     })
     const { isLoading: writeLoading, write } = useContractWrite({
@@ -217,12 +221,22 @@ const Home: FC = (props: Props) => {
         const { lat, lng } = clickedPoint
         const lantitude = (lat * 10 ** 15).toString()
         const longitude = (lng * 10 ** 15).toString()
+
+        const json = {
+            name: `coffee chat`,
+            description: inputDescription,
+            image: ""
+        }
+        setIsUploading(true)
+        const { path } = await uploadIpfs(json).finally(() => setIsUploading(false))
+
         const inputStruct = [
             placeId,
             startTimeStamp,
             endTimeStamp,
             lantitude,
-            longitude
+            longitude,
+            `ipfs://${path}`
         ]
 
         await write?.({
@@ -270,7 +284,7 @@ const Home: FC = (props: Props) => {
                         }} />
                     </div>
                 </div>}
-            <div className='flex w-full h-full'>
+            <div className='flex'>
                 <Modal zIndex={200} width={300} footer={null} title="Stake your chat" visible={modalOpen} onCancel={() => { setModalOpen(false) }} wrapClassName="rounded-lg">
 
                     <div className='flex flex-col gap-2'>
@@ -289,7 +303,16 @@ const Home: FC = (props: Props) => {
                                 }
                             } />
                         </div>
-                        <button className='mt-20 bg-black text-white p-2 rounded-xl hover:bg-opacity-80' onClick={handleStake}>Let&apos; go</button>
+                        <div>
+                            <label>Description</label>
+                            <Input.TextArea
+                                value={inputDescription}
+                                onChange={(e) => { setInputDescription(e.target.value) }}
+                                placeholder="Type something that help people recognize you. e.g. College student wearing stripe T-shirt and Jordan 11."
+                                autoSize={{ minRows: 3, maxRows: 5 }} />
+                        </div>
+                        <button className='mt-20 bg-black text-white p-2 rounded-xl flex justify-center items-end hover:bg-opacity-80' onClick={handleStake}>
+                            {isUploading && <LoadingOutlined className='mr-2 text-[15px]' />} Let&apos; go</button>
 
                     </div>
 
