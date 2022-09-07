@@ -11,7 +11,7 @@ const Qrscan = () => {
         const video = document.querySelector('video');
         const constraints = {
             audio: false,
-            video: true
+            video: { facingMode: "environment" }
         };
 
         stream.current = await navigator.mediaDevices.getUserMedia(
