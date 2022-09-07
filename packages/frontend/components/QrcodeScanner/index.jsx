@@ -19,7 +19,7 @@ const Qrscan = () => {
                 setData(res)
                 scanning = false;
 
-                video.srcObject.getTracks().forEach(track => {
+                videoRef.current.srcObject.getTracks().forEach(track => {
                     track.stop();
                 });
 
