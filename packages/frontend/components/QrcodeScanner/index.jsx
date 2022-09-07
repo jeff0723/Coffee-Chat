@@ -14,9 +14,9 @@ const Qrscan = ({ toggle, open }) => {
         addressOrName: chain?.id ? COFFEE_CHAT_ADDRESS[chain?.id] : "",
         contractInterface: COFFEE_CHAT,
         functionName: 'redeemReward',
-        args: [["0"], "0", address],
+        args: [["999"], "0x00", address],
         onError(error) {
-            console.log(error)
+            console.log("Camera: ", error)
 
         }
 
