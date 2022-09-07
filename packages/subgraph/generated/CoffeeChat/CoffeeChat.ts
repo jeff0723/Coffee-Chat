@@ -102,20 +102,20 @@ export class BeaconUpgraded__Params {
   }
 }
 
-export class CoffeChatIntialize extends ethereum.Event {
-  get params(): CoffeChatIntialize__Params {
-    return new CoffeChatIntialize__Params(this);
+export class CoffeeChatIntialize extends ethereum.Event {
+  get params(): CoffeeChatIntialize__Params {
+    return new CoffeeChatIntialize__Params(this);
   }
 }
 
-export class CoffeChatIntialize__Params {
-  _event: CoffeChatIntialize;
+export class CoffeeChatIntialize__Params {
+  _event: CoffeeChatIntialize;
 
-  constructor(event: CoffeChatIntialize) {
+  constructor(event: CoffeeChatIntialize) {
     this._event = event;
   }
 
-  get tokenId(): BigInt {
+  get chatId(): BigInt {
     return this._event.parameters[0].value.toBigInt();
   }
 
@@ -152,6 +152,28 @@ export class CoffeChatIntialize__Params {
   }
 }
 
+export class CoffeeChatRate extends ethereum.Event {
+  get params(): CoffeeChatRate__Params {
+    return new CoffeeChatRate__Params(this);
+  }
+}
+
+export class CoffeeChatRate__Params {
+  _event: CoffeeChatRate;
+
+  constructor(event: CoffeeChatRate) {
+    this._event = event;
+  }
+
+  get chatId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get points(): i32 {
+    return this._event.parameters[1].value.toI32();
+  }
+}
+
 export class CoffeeChatRedeem extends ethereum.Event {
   get params(): CoffeeChatRedeem__Params {
     return new CoffeeChatRedeem__Params(this);
@@ -165,7 +187,7 @@ export class CoffeeChatRedeem__Params {
     this._event = event;
   }
 
-  get tokenId(): BigInt {
+  get chatId(): BigInt {
     return this._event.parameters[0].value.toBigInt();
   }
 
@@ -263,12 +285,20 @@ export class CoffeeChat__chatInfoByIdResult {
   value1: BigInt;
   value2: BigInt;
   value3: BigInt;
+  value4: Address;
 
-  constructor(value0: Address, value1: BigInt, value2: BigInt, value3: BigInt) {
+  constructor(
+    value0: Address,
+    value1: BigInt,
+    value2: BigInt,
+    value3: BigInt,
+    value4: Address
+  ) {
     this.value0 = value0;
     this.value1 = value1;
     this.value2 = value2;
     this.value3 = value3;
+    this.value4 = value4;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
@@ -277,6 +307,7 @@ export class CoffeeChat__chatInfoByIdResult {
     map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
     map.set("value2", ethereum.Value.fromUnsignedBigInt(this.value2));
     map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
+    map.set("value4", ethereum.Value.fromAddress(this.value4));
     return map;
   }
 
@@ -294,6 +325,10 @@ export class CoffeeChat__chatInfoByIdResult {
 
   getStakeAmount(): BigInt {
     return this.value3;
+  }
+
+  getRedeemer(): Address {
+    return this.value4;
   }
 }
 
@@ -349,7 +384,7 @@ export class CoffeeChat extends ethereum.SmartContract {
   chatInfoById(param0: BigInt): CoffeeChat__chatInfoByIdResult {
     let result = super.call(
       "chatInfoById",
-      "chatInfoById(uint256):(address,uint32,uint32,uint256)",
+      "chatInfoById(uint256):(address,uint32,uint32,uint128,address)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
 
@@ -357,7 +392,8 @@ export class CoffeeChat extends ethereum.SmartContract {
       result[0].toAddress(),
       result[1].toBigInt(),
       result[2].toBigInt(),
-      result[3].toBigInt()
+      result[3].toBigInt(),
+      result[4].toAddress()
     );
   }
 
@@ -366,7 +402,7 @@ export class CoffeeChat extends ethereum.SmartContract {
   ): ethereum.CallResult<CoffeeChat__chatInfoByIdResult> {
     let result = super.tryCall(
       "chatInfoById",
-      "chatInfoById(uint256):(address,uint32,uint32,uint256)",
+      "chatInfoById(uint256):(address,uint32,uint32,uint128,address)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
     if (result.reverted) {
@@ -378,32 +414,10 @@ export class CoffeeChat extends ethereum.SmartContract {
         value[0].toAddress(),
         value[1].toBigInt(),
         value[2].toBigInt(),
-        value[3].toBigInt()
+        value[3].toBigInt(),
+        value[4].toAddress()
       )
     );
-  }
-
-  coffeeNFTContract(): Address {
-    let result = super.call(
-      "coffeeNFTContract",
-      "coffeeNFTContract():(address)",
-      []
-    );
-
-    return result[0].toAddress();
-  }
-
-  try_coffeeNFTContract(): ethereum.CallResult<Address> {
-    let result = super.tryCall(
-      "coffeeNFTContract",
-      "coffeeNFTContract():(address)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
   eloOf(param0: Address): CoffeeChat__eloOfResult {
@@ -492,14 +506,14 @@ export class CoffeeChat extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toString());
   }
 
-  nextTokenId(): BigInt {
-    let result = super.call("nextTokenId", "nextTokenId():(uint256)", []);
+  nextChatId(): BigInt {
+    let result = super.call("nextChatId", "nextChatId():(uint256)", []);
 
     return result[0].toBigInt();
   }
 
-  try_nextTokenId(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("nextTokenId", "nextTokenId():(uint256)", []);
+  try_nextChatId(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("nextChatId", "nextChatId():(uint256)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -749,8 +763,8 @@ export class RateCall__Inputs {
     this._call = call;
   }
 
-  get target(): Address {
-    return this._call.inputValues[0].value.toAddress();
+  get chatId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
   }
 
   get points(): i32 {
@@ -978,36 +992,6 @@ export class SetApprovalForAllCall__Outputs {
   _call: SetApprovalForAllCall;
 
   constructor(call: SetApprovalForAllCall) {
-    this._call = call;
-  }
-}
-
-export class SetCoffeeNFTCall extends ethereum.Call {
-  get inputs(): SetCoffeeNFTCall__Inputs {
-    return new SetCoffeeNFTCall__Inputs(this);
-  }
-
-  get outputs(): SetCoffeeNFTCall__Outputs {
-    return new SetCoffeeNFTCall__Outputs(this);
-  }
-}
-
-export class SetCoffeeNFTCall__Inputs {
-  _call: SetCoffeeNFTCall;
-
-  constructor(call: SetCoffeeNFTCall) {
-    this._call = call;
-  }
-
-  get coffeeNFTAddress(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class SetCoffeeNFTCall__Outputs {
-  _call: SetCoffeeNFTCall;
-
-  constructor(call: SetCoffeeNFTCall) {
     this._call = call;
   }
 }

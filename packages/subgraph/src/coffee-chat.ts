@@ -1,15 +1,15 @@
 import { BigInt, Address } from "@graphprotocol/graph-ts"
 import {
-  CoffeChatIntialize, CoffeeChatRedeem, Transfer, 
+  CoffeeChatIntialize, CoffeeChatRedeem, Transfer, CoffeeChatRate,
 } from "../generated/CoffeeChat/CoffeeChat"
 import { ExampleEntity, CoffeeChat } from "../generated/schema"
 
 const ZERO_ADDERSS = Address.zero()
 
-export function handleCoffeChatIntialize(event: CoffeChatIntialize): void {
-  let coffeeChat = CoffeeChat.load(event.params.tokenId.toString())
+export function handleCoffeeChatIntialize(event: CoffeeChatIntialize): void {
+  let coffeeChat = CoffeeChat.load(event.params.chatId.toString())
   if (!coffeeChat) {
-    coffeeChat = new CoffeeChat(event.params.tokenId.toString())
+    coffeeChat = new CoffeeChat(event.params.chatId.toString())
   }
   coffeeChat.placeId = event.params.placeId
   coffeeChat.startTime = event.params.startTime
@@ -24,7 +24,8 @@ export function handleCoffeChatIntialize(event: CoffeChatIntialize): void {
 }
 
 export function handleCoffeeChatRedeem(event: CoffeeChatRedeem): void {
-  let coffeeChat = CoffeeChat.load(event.params.tokenId.toString())
+  // if redeem, set redeemer
+  let coffeeChat = CoffeeChat.load(event.params.chatId.toString())
   if (coffeeChat) {
     coffeeChat.redeemer = event.params.redeemer
     coffeeChat.save()
@@ -39,5 +40,14 @@ export function handleCoffeeChatClose(event: Transfer): void {
       coffeeChat.isActive = false
       coffeeChat.save()
     }
+  }
+}
+
+export function handleCoffeeChatRate(event: CoffeeChatRate): void {
+  // if redeemer rate, set points
+  let coffeeChat = CoffeeChat.load(event.params.chatId.toString())
+  if (coffeeChat) {
+    coffeeChat.points = event.params.points
+    coffeeChat.save()
   }
 }

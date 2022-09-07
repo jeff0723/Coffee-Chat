@@ -198,4 +198,13 @@ export class CoffeeChat extends Entity {
   set metadataURI(value: string) {
     this.set("metadataURI", Value.fromString(value));
   }
+
+  get points(): i32 {
+    let value = this.get("points");
+    return value!.toI32();
+  }
+
+  set points(value: i32) {
+    this.set("points", Value.fromI32(value));
+  }
 }

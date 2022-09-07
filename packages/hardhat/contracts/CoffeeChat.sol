@@ -6,7 +6,6 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/cryptography/draft-EIP712Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import "./CoffeeNFT.sol";
 
 /**
  @title Coffee Chat
@@ -25,7 +24,8 @@ contract CoffeeChat is
         address initializer;
         uint32 startTime;
         uint32 endTime;
-        uint256 stakeAmount;
+        uint128 stakeAmount;
+        address redeemer;
     }
 
     struct RedeemVoucher {
@@ -37,8 +37,8 @@ contract CoffeeChat is
         uint128 elo;
     }
 
-    event CoffeChatIntialize(
-        uint256 tokenId,
+    event CoffeeChatIntialize(
+        uint256 chatId,
         string placeId,
         uint64 lantitude,
         uint64 longtitude,
@@ -50,19 +50,22 @@ contract CoffeeChat is
     );
     
     event CoffeeChatRedeem(
-        uint256 tokenId,
+        uint256 chatId,
         address redeemer
+    );
+
+    event CoffeeChatRate(
+        uint256 chatId,
+        uint8 points
     );
 
     mapping(uint256 => ChatInfo) public chatInfoById;
 
     mapping(address => PersonalElo) public eloOf;
 
-    CoffeeNFT public coffeeNFTContract;
+    uint256 private _commission;
 
-    uint256 private _commission; // basisPoint
-
-    uint256 public nextTokenId;
+    uint256 public nextChatId;
 
     function initialize() public initializer {
         __ERC721_init("CoffeeChat", "COFFEE");
@@ -70,7 +73,7 @@ contract CoffeeChat is
         __Ownable_init();
         __UUPSUpgradeable_init();
         _commission = 0;
-        nextTokenId = 0;
+        nextChatId = 0;
     }
 
     function initializeChat(
@@ -88,16 +91,17 @@ contract CoffeeChat is
             _msgSender(),
             startTime,
             endTime,
-            msg.value
+            uint128(msg.value),
+            address(0)
         );
-        chatId = nextTokenId;
+        chatId = nextChatId;
         chatInfoById[chatId] = _chatInfo;
         _safeMint(_msgSender(), chatId);
         _setTokenURI(chatId, metadataURI);
         
-        ++nextTokenId;
+        ++nextChatId;
 
-        emit CoffeChatIntialize(
+        emit CoffeeChatIntialize(
             chatId,
             placeId,
             lantitude,
@@ -132,10 +136,8 @@ contract CoffeeChat is
         }
         AddressUpgradeable.sendValue(receiver, _chatInfo.stakeAmount - fee);
         
-        coffeeNFTContract.mint(_chatInfo.initializer, receiver);
-        
         _burn(chatId);
-        delete chatInfoById[chatId];
+        _chatInfo.redeemer = _msgSender();
 
         emit CoffeeChatRedeem(
             chatId,
@@ -156,12 +158,20 @@ contract CoffeeChat is
         delete chatInfoById[chatId];
     }
 
-    function rate(address target, uint8 points) external {
+    function rate(uint256 chatId, uint8 points) external {
         require(points <= 5, "can't rate over 5");
-        coffeeNFTContract.burn(_msgSender(), target);
-        PersonalElo storage _elo = eloOf[target];
+        ChatInfo memory _chatInfo = chatInfoById[chatId];
+        require(_msgSender() == _chatInfo.redeemer, "invalid chat to rate");
+        PersonalElo storage _elo = eloOf[_chatInfo.initializer];
         _elo.rateCount += 1;
         _elo.elo += points;
+
+        delete chatInfoById[chatId];
+
+        emit CoffeeChatRate(
+            chatId,
+            points
+        );
     }
 
     /// @dev Verify voucher
@@ -188,10 +198,6 @@ contract CoffeeChat is
     function setCommission(uint256 number) external onlyOwner {
         require(number <= 250, "Over 2.5%");
         _commission = number;
-    }
-
-    function setCoffeeNFT(address coffeeNFTAddress) external onlyOwner {
-        coffeeNFTContract = CoffeeNFT(coffeeNFTAddress);
     }
 
     function _authorizeUpgrade(address newImplementation)

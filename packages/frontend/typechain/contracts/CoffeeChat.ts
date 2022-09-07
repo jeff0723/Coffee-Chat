@@ -39,25 +39,23 @@ export interface CoffeeChatInterface extends utils.Interface {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "chatInfoById(uint256)": FunctionFragment;
-    "coffeeNFTContract()": FunctionFragment;
     "eloOf(address)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "initialize()": FunctionFragment;
     "initializeChat(string,uint32,uint32,uint64,uint64,string)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "name()": FunctionFragment;
-    "nextTokenId()": FunctionFragment;
+    "nextChatId()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "proxiableUUID()": FunctionFragment;
-    "rate(address,uint8)": FunctionFragment;
+    "rate(uint256,uint8)": FunctionFragment;
     "redeemReward((uint256),bytes,address)": FunctionFragment;
     "refund(uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
-    "setCoffeeNFT(address)": FunctionFragment;
     "setCommission(uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
@@ -73,14 +71,13 @@ export interface CoffeeChatInterface extends utils.Interface {
       | "approve"
       | "balanceOf"
       | "chatInfoById"
-      | "coffeeNFTContract"
       | "eloOf"
       | "getApproved"
       | "initialize"
       | "initializeChat"
       | "isApprovedForAll"
       | "name"
-      | "nextTokenId"
+      | "nextChatId"
       | "owner"
       | "ownerOf"
       | "proxiableUUID"
@@ -91,7 +88,6 @@ export interface CoffeeChatInterface extends utils.Interface {
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
       | "setApprovalForAll"
-      | "setCoffeeNFT"
       | "setCommission"
       | "supportsInterface"
       | "symbol"
@@ -113,10 +109,6 @@ export interface CoffeeChatInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "chatInfoById",
     values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "coffeeNFTContract",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "eloOf",
@@ -147,7 +139,7 @@ export interface CoffeeChatInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "nextTokenId",
+    functionFragment: "nextChatId",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
@@ -161,7 +153,7 @@ export interface CoffeeChatInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "rate",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "redeemReward",
@@ -199,10 +191,6 @@ export interface CoffeeChatInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "setApprovalForAll",
     values: [PromiseOrValue<string>, PromiseOrValue<boolean>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setCoffeeNFT",
-    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "setCommission",
@@ -244,10 +232,6 @@ export interface CoffeeChatInterface extends utils.Interface {
     functionFragment: "chatInfoById",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "coffeeNFTContract",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "eloOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
@@ -263,10 +247,7 @@ export interface CoffeeChatInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "nextTokenId",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "nextChatId", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
@@ -293,10 +274,6 @@ export interface CoffeeChatInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setApprovalForAll",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setCoffeeNFT",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -328,7 +305,8 @@ export interface CoffeeChatInterface extends utils.Interface {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
     "BeaconUpgraded(address)": EventFragment;
-    "CoffeChatIntialize(uint256,string,uint64,uint64,uint32,uint32,uint256,address,string)": EventFragment;
+    "CoffeeChatIntialize(uint256,string,uint64,uint64,uint32,uint32,uint256,address,string)": EventFragment;
+    "CoffeeChatRate(uint256,uint8)": EventFragment;
     "CoffeeChatRedeem(uint256,address)": EventFragment;
     "Initialized(uint8)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
@@ -340,7 +318,8 @@ export interface CoffeeChatInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "CoffeChatIntialize"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CoffeeChatIntialize"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CoffeeChatRate"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "CoffeeChatRedeem"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
@@ -393,8 +372,8 @@ export type BeaconUpgradedEvent = TypedEvent<
 
 export type BeaconUpgradedEventFilter = TypedEventFilter<BeaconUpgradedEvent>;
 
-export interface CoffeChatIntializeEventObject {
-  tokenId: BigNumber;
+export interface CoffeeChatIntializeEventObject {
+  chatId: BigNumber;
   placeId: string;
   lantitude: BigNumber;
   longtitude: BigNumber;
@@ -404,7 +383,7 @@ export interface CoffeChatIntializeEventObject {
   initializer: string;
   metadataURI: string;
 }
-export type CoffeChatIntializeEvent = TypedEvent<
+export type CoffeeChatIntializeEvent = TypedEvent<
   [
     BigNumber,
     string,
@@ -416,14 +395,25 @@ export type CoffeChatIntializeEvent = TypedEvent<
     string,
     string
   ],
-  CoffeChatIntializeEventObject
+  CoffeeChatIntializeEventObject
 >;
 
-export type CoffeChatIntializeEventFilter =
-  TypedEventFilter<CoffeChatIntializeEvent>;
+export type CoffeeChatIntializeEventFilter =
+  TypedEventFilter<CoffeeChatIntializeEvent>;
+
+export interface CoffeeChatRateEventObject {
+  chatId: BigNumber;
+  points: number;
+}
+export type CoffeeChatRateEvent = TypedEvent<
+  [BigNumber, number],
+  CoffeeChatRateEventObject
+>;
+
+export type CoffeeChatRateEventFilter = TypedEventFilter<CoffeeChatRateEvent>;
 
 export interface CoffeeChatRedeemEventObject {
-  tokenId: BigNumber;
+  chatId: BigNumber;
   redeemer: string;
 }
 export type CoffeeChatRedeemEvent = TypedEvent<
@@ -514,15 +504,14 @@ export interface CoffeeChat extends BaseContract {
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<
-      [string, number, number, BigNumber] & {
+      [string, number, number, BigNumber, string] & {
         initializer: string;
         startTime: number;
         endTime: number;
         stakeAmount: BigNumber;
+        redeemer: string;
       }
     >;
-
-    coffeeNFTContract(overrides?: CallOverrides): Promise<[string]>;
 
     eloOf(
       arg0: PromiseOrValue<string>,
@@ -558,7 +547,7 @@ export interface CoffeeChat extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
-    nextTokenId(overrides?: CallOverrides): Promise<[BigNumber]>;
+    nextChatId(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -570,7 +559,7 @@ export interface CoffeeChat extends BaseContract {
     proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
 
     rate(
-      target: PromiseOrValue<string>,
+      chatId: PromiseOrValue<BigNumberish>,
       points: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -609,11 +598,6 @@ export interface CoffeeChat extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setCoffeeNFT(
-      coffeeNFTAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -673,15 +657,14 @@ export interface CoffeeChat extends BaseContract {
     arg0: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<
-    [string, number, number, BigNumber] & {
+    [string, number, number, BigNumber, string] & {
       initializer: string;
       startTime: number;
       endTime: number;
       stakeAmount: BigNumber;
+      redeemer: string;
     }
   >;
-
-  coffeeNFTContract(overrides?: CallOverrides): Promise<string>;
 
   eloOf(
     arg0: PromiseOrValue<string>,
@@ -715,7 +698,7 @@ export interface CoffeeChat extends BaseContract {
 
   name(overrides?: CallOverrides): Promise<string>;
 
-  nextTokenId(overrides?: CallOverrides): Promise<BigNumber>;
+  nextChatId(overrides?: CallOverrides): Promise<BigNumber>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -727,7 +710,7 @@ export interface CoffeeChat extends BaseContract {
   proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
   rate(
-    target: PromiseOrValue<string>,
+    chatId: PromiseOrValue<BigNumberish>,
     points: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -766,11 +749,6 @@ export interface CoffeeChat extends BaseContract {
   setApprovalForAll(
     operator: PromiseOrValue<string>,
     approved: PromiseOrValue<boolean>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setCoffeeNFT(
-    coffeeNFTAddress: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -830,15 +808,14 @@ export interface CoffeeChat extends BaseContract {
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<
-      [string, number, number, BigNumber] & {
+      [string, number, number, BigNumber, string] & {
         initializer: string;
         startTime: number;
         endTime: number;
         stakeAmount: BigNumber;
+        redeemer: string;
       }
     >;
-
-    coffeeNFTContract(overrides?: CallOverrides): Promise<string>;
 
     eloOf(
       arg0: PromiseOrValue<string>,
@@ -872,7 +849,7 @@ export interface CoffeeChat extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<string>;
 
-    nextTokenId(overrides?: CallOverrides): Promise<BigNumber>;
+    nextChatId(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -884,7 +861,7 @@ export interface CoffeeChat extends BaseContract {
     proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
     rate(
-      target: PromiseOrValue<string>,
+      chatId: PromiseOrValue<BigNumberish>,
       points: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -921,11 +898,6 @@ export interface CoffeeChat extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setCoffeeNFT(
-      coffeeNFTAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1009,8 +981,8 @@ export interface CoffeeChat extends BaseContract {
       beacon?: PromiseOrValue<string> | null
     ): BeaconUpgradedEventFilter;
 
-    "CoffeChatIntialize(uint256,string,uint64,uint64,uint32,uint32,uint256,address,string)"(
-      tokenId?: null,
+    "CoffeeChatIntialize(uint256,string,uint64,uint64,uint32,uint32,uint256,address,string)"(
+      chatId?: null,
       placeId?: null,
       lantitude?: null,
       longtitude?: null,
@@ -1019,9 +991,9 @@ export interface CoffeeChat extends BaseContract {
       stakeAmount?: null,
       initializer?: null,
       metadataURI?: null
-    ): CoffeChatIntializeEventFilter;
-    CoffeChatIntialize(
-      tokenId?: null,
+    ): CoffeeChatIntializeEventFilter;
+    CoffeeChatIntialize(
+      chatId?: null,
       placeId?: null,
       lantitude?: null,
       longtitude?: null,
@@ -1030,14 +1002,20 @@ export interface CoffeeChat extends BaseContract {
       stakeAmount?: null,
       initializer?: null,
       metadataURI?: null
-    ): CoffeChatIntializeEventFilter;
+    ): CoffeeChatIntializeEventFilter;
+
+    "CoffeeChatRate(uint256,uint8)"(
+      chatId?: null,
+      points?: null
+    ): CoffeeChatRateEventFilter;
+    CoffeeChatRate(chatId?: null, points?: null): CoffeeChatRateEventFilter;
 
     "CoffeeChatRedeem(uint256,address)"(
-      tokenId?: null,
+      chatId?: null,
       redeemer?: null
     ): CoffeeChatRedeemEventFilter;
     CoffeeChatRedeem(
-      tokenId?: null,
+      chatId?: null,
       redeemer?: null
     ): CoffeeChatRedeemEventFilter;
 
@@ -1089,8 +1067,6 @@ export interface CoffeeChat extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    coffeeNFTContract(overrides?: CallOverrides): Promise<BigNumber>;
-
     eloOf(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1123,7 +1099,7 @@ export interface CoffeeChat extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
-    nextTokenId(overrides?: CallOverrides): Promise<BigNumber>;
+    nextChatId(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1135,7 +1111,7 @@ export interface CoffeeChat extends BaseContract {
     proxiableUUID(overrides?: CallOverrides): Promise<BigNumber>;
 
     rate(
-      target: PromiseOrValue<string>,
+      chatId: PromiseOrValue<BigNumberish>,
       points: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -1174,11 +1150,6 @@ export interface CoffeeChat extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setCoffeeNFT(
-      coffeeNFTAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1240,8 +1211,6 @@ export interface CoffeeChat extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    coffeeNFTContract(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     eloOf(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1274,7 +1243,7 @@ export interface CoffeeChat extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    nextTokenId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    nextChatId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1286,7 +1255,7 @@ export interface CoffeeChat extends BaseContract {
     proxiableUUID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     rate(
-      target: PromiseOrValue<string>,
+      chatId: PromiseOrValue<BigNumberish>,
       points: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
@@ -1325,11 +1294,6 @@ export interface CoffeeChat extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setCoffeeNFT(
-      coffeeNFTAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

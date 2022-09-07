@@ -14,15 +14,17 @@ dataSources:
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - CoffeChatIntialize
+        - CoffeeChat
       abis:
         - name: CoffeeChat
           file: CoffeeChat/abis/CoffeeChat.json
       eventHandlers:
-        - event: CoffeChatIntialize(uint256,string,uint64,uint64,uint32,uint32,uint256,address,string)
-          handler: handleCoffeChatIntialize
+        - event: CoffeeChatIntialize(uint256,string,uint64,uint64,uint32,uint32,uint256,address,string)
+          handler: handleCoffeeChatIntialize
         - event: CoffeeChatRedeem(uint256,address)
           handler: handleCoffeeChatRedeem
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleCoffeeChatClose
+        - event: CoffeeChatRate(uint256,uint8)
+          handler: handleCoffeeChatRate
       file: CoffeeChat/CoffeeChat.wasm

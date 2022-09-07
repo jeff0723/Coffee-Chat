@@ -87,7 +87,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "tokenId",
+        "name": "chatId",
         "type": "uint256"
       },
       {
@@ -139,7 +139,7 @@
         "type": "string"
       }
     ],
-    "name": "CoffeChatIntialize",
+    "name": "CoffeeChatIntialize",
     "type": "event"
   },
   {
@@ -148,7 +148,26 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "tokenId",
+        "name": "chatId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "points",
+        "type": "uint8"
+      }
+    ],
+    "name": "CoffeeChatRate",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "chatId",
         "type": "uint256"
       },
       {
@@ -294,21 +313,13 @@
         "type": "uint32"
       },
       {
-        "internalType": "uint256",
+        "internalType": "uint128",
         "name": "stakeAmount",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "coffeeNFTContract",
-    "outputs": [
+        "type": "uint128"
+      },
       {
-        "internalType": "contract CoffeeNFT",
-        "name": "",
+        "internalType": "address",
+        "name": "redeemer",
         "type": "address"
       }
     ],
@@ -448,7 +459,7 @@
   },
   {
     "inputs": [],
-    "name": "nextTokenId",
+    "name": "nextChatId",
     "outputs": [
       {
         "internalType": "uint256",
@@ -507,9 +518,9 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "target",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "chatId",
+        "type": "uint256"
       },
       {
         "internalType": "uint8",
@@ -637,19 +648,6 @@
       }
     ],
     "name": "setApprovalForAll",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "coffeeNFTAddress",
-        "type": "address"
-      }
-    ],
-    "name": "setCoffeeNFT",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

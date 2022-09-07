@@ -17,4 +17,5 @@ type CoffeeChat @entity {
   redeemer: Bytes
   isActive: Boolean!
   metadataURI: String!
+  points: Int
 }

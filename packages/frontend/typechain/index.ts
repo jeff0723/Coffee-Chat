@@ -48,8 +48,6 @@ export type { IERC165Upgradeable } from "./@openzeppelin/contracts-upgradeable/u
 export { IERC165Upgradeable__factory } from "./factories/@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeable__factory";
 export type { CoffeeChat } from "./contracts/CoffeeChat";
 export { CoffeeChat__factory } from "./factories/contracts/CoffeeChat__factory";
-export type { CoffeeNFT } from "./contracts/CoffeeNFT";
-export { CoffeeNFT__factory } from "./factories/contracts/CoffeeNFT__factory";
 export type { ERC721A__IERC721ReceiverUpgradeable } from "./erc721a-upgradeable/contracts/ERC721AUpgradeable.sol/ERC721A__IERC721ReceiverUpgradeable";
 export { ERC721A__IERC721ReceiverUpgradeable__factory } from "./factories/erc721a-upgradeable/contracts/ERC721AUpgradeable.sol/ERC721A__IERC721ReceiverUpgradeable__factory";
 export type { ERC721AUpgradeable } from "./erc721a-upgradeable/contracts/ERC721AUpgradeable.sol/ERC721AUpgradeable";

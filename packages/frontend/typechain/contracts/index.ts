@@ -2,4 +2,3 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { CoffeeChat } from "./CoffeeChat";
-export type { CoffeeNFT } from "./CoffeeNFT";
