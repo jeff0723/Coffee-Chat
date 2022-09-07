@@ -2,11 +2,12 @@ import { COFFEE_CHAT } from 'constant/abi';
 import { COFFEE_CHAT_ADDRESS } from 'constant/address';
 import { useState } from 'react';
 import { QrReader } from "react-qr-reader";
-import { useAccount, useContractWrite } from 'wagmi';
+import { useAccount, useContractWrite, useNetwork } from 'wagmi';
 import toast from 'react-hot-toast';
 
 const Qrscan = () => {
     const { address } = useAccount()
+    const { chain } = useNetwork()
     const [signature, setSignature] = useState("")
     const [chatId, setChatId] = useState("")
     const { isLoading: writeLoading, write } = useContractWrite({
@@ -51,7 +52,7 @@ const Qrscan = () => {
                     }
                     }
                     constraints={{ facingMode: "environment" }}
-                    style={{ width: "40%", height: "40%" }}
+                    style={{ width: "100%", height: "auto" }}
                 />
                 {
                     signature && chatId &&
