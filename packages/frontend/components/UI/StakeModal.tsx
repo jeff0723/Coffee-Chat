@@ -19,7 +19,7 @@ const StakeModal = ({ open, setOpen }: Props) => {
                     <label>When</label>
                     <TimePicker.RangePicker showNow={true} format="HH:mm" style={{ width: '100%' }} />
                 </div>
-                <Button className='mt-20'>Let&apos; go</Button>
+                <Button className='mt-20'>Let's go</Button>
 
             </div>
 

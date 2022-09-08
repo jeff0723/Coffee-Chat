@@ -1,4 +1,4 @@
-import { CoffeeOutlined, EnvironmentOutlined, PhoneOutlined, TagOutlined, SearchOutlined, LoadingOutlined } from '@ant-design/icons';
+import { CoffeeOutlined, EnvironmentOutlined, LoadingOutlined, PhoneOutlined, SearchOutlined, TagOutlined } from '@ant-design/icons';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import {
     Combobox,
@@ -7,34 +7,26 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
-import { AutoComplete, Button, Drawer, Input, InputNumber, Modal, Popover, Rate, TimePicker } from 'antd';
+import { Drawer, Input, InputNumber, Modal, Rate, TimePicker } from 'antd';
 import { COFFEE_CHAT } from 'constant/abi';
 import { COFFEE_CHAT_ADDRESS } from 'constant/address';
 import { ethers } from 'ethers';
-import { Dispatch, FC, useEffect, useMemo, useReducer, useState } from 'react';
+import { Dispatch, FC, useEffect, useMemo, useState } from 'react';
 import useGeolocation from 'react-hook-geolocation';
 import toast from 'react-hot-toast';
-import { usePrepareContractWrite, useContractWrite, useNetwork } from 'wagmi';
+import { useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi';
 
 import { useQuery } from '@apollo/client';
-import { CoffeeChat } from 'generated/types';
-import { COFFEE_CHAT_QUERY_FILTERED_BY_POINT } from 'graphql/get-coffee-chat-query';
-import Countdown from 'react-countdown';
-import usePlacesAutocomplete, {
-    getGeocode,
-    getLatLng
-} from "use-places-autocomplete";
-import { formatLatorLng } from 'utils/format';
-import { getDistance } from 'utils/getDistance';
-import styled from 'styled-components'
-import CoffeeChatList from 'components/UI/CoffeeChatList';
-import OptionButton from 'components/UI/OptionButton';
-import { useMediaQuery } from 'react-responsive'
-import { uploadIpfs } from 'utils/uploadIPFS';
+import CoffeeChatModal from 'components/CoffeeChat/CoffeeChatModal';
 import PlaceAutoComplete from 'components/Search/PlaceAutoComplete';
 import SearchModal from 'components/Search/SearchModal';
+import OptionButton from 'components/UI/OptionButton';
+import { CoffeeChat } from 'generated/types';
+import { COFFEE_CHAT_QUERY_FILTERED_BY_POINT } from 'graphql/get-coffee-chat-query';
 import Head from 'next/head';
-import CoffeeChatModal from 'components/CoffeeChat/CoffeeChatModal';
+import { useMediaQuery } from 'react-responsive';
+import usePlacesAutocomplete from "use-places-autocomplete";
+import { uploadIpfs } from 'utils/uploadIPFS';
 
 
 
@@ -125,6 +117,7 @@ const Home: FC = (props: Props) => {
         lat: 0,
         lng: 0
     })
+    const [ipfsPath, setIpfsPath] = useState("")
     const reset = () => {
         setDrawerShow(false)
         setModalOpen(false)
@@ -132,32 +125,7 @@ const Home: FC = (props: Props) => {
         setEndTime("")
         setInputAmount(0)
     }
-    const { config, error: prepareError } = usePrepareContractWrite({
-        addressOrName: chain?.id ? COFFEE_CHAT_ADDRESS[chain?.id] : "",
-        contractInterface: COFFEE_CHAT,
-        functionName: 'initializeChat',
-        args: ["0", "0", "0", "0", "0", "ipfs://"],
-        overrides: {
-            value: ethers.utils.parseEther('0.01'),
-        },
-        onError(error) {
-            console.log("map:", error)
-        }
-    })
-    const { isLoading: writeLoading, write } = useContractWrite({
 
-        ...config,
-        onSuccess(data) {
-            toast.success("Successfully initiate a chat!")
-            reset()
-
-        },
-        onError(error: any) {
-            toast.error(error?.data?.message ?? error?.message)
-            // Mixpanel.track("publication.mirror", { result: 'write_error' })
-            console.log(error)
-        }
-    })
     const getPlaceDetail = async () => {
 
         const respone = await fetch(`/api/get-place-detail?place_id=${placeId}`)
@@ -221,16 +189,36 @@ const Home: FC = (props: Props) => {
         }
     }, [coffeeChatDetail])
 
+    const { config, error: prepareError } = usePrepareContractWrite({
+        addressOrName: chain?.id ? COFFEE_CHAT_ADDRESS[chain?.id] : "",
+        contractInterface: COFFEE_CHAT,
+        functionName: 'initializeChat',
+        args: [placeId, formatTimeStampFromTime(startTime), formatTimeStampFromTime(endTime), (clickedPoint.lat * 10 ** 15).toString(), (clickedPoint.lng * 10 ** 15).toString(), `ipfs://${ipfsPath}`],
+        overrides: {
+            value: ethers.utils.parseEther(inputAmount?.toString()),
+        },
+        onError(error) {
+            console.log("map:", error)
+        }
+    })
+    const { isLoading: writeLoading, write } = useContractWrite({
+
+        ...config,
+        onSuccess(data) {
+            toast.success("Successfully initiate a chat!")
+            reset()
+
+        },
+        onError(error: any) {
+            toast.error(error?.data?.message ?? error?.message)
+            // Mixpanel.track("publication.mirror", { result: 'write_error' })
+            console.log(error)
+        }
+    })
     const handleStake = async () => {
 
         if (!inputAmount) return toast.error('Input amount cannot be zero')
         if (!startTime || !endTime) return toast.error("Must fill in start time and end time")
-        const amount = ethers.utils.parseEther(inputAmount.toString())
-        const startTimeStamp = formatTimeStampFromTime(startTime)
-        const endTimeStamp = formatTimeStampFromTime(endTime)
-        const { lat, lng } = clickedPoint
-        const lantitude = (lat * 10 ** 15).toString()
-        const longitude = (lng * 10 ** 15).toString()
 
         const json = {
             name: `coffee chat`,
@@ -239,23 +227,9 @@ const Home: FC = (props: Props) => {
         }
         setIsUploading(true)
         const { path } = await uploadIpfs(json).finally(() => setIsUploading(false))
+        setIpfsPath(path)
 
-        const inputStruct = [
-            placeId,
-            startTimeStamp,
-            endTimeStamp,
-            lantitude,
-            longitude,
-            `ipfs://${path}`
-        ]
-
-        await write?.({
-            recklesslySetUnpreparedArgs: inputStruct, recklesslySetUnpreparedOverrides: {
-                value: amount
-            }
-        })
-
-
+        await write?.()
     }
     if (!isLoaded) return <div className='h-screen w-full flex justify-center items-center'>Loading...</div>;
     return (
@@ -335,7 +309,7 @@ const Home: FC = (props: Props) => {
                                 placeholder="Type something that help people recognize you. e.g. College student wearing stripe T-shirt and Jordan 11."
                                 autoSize={{ minRows: 3, maxRows: 5 }} />
                         </div>
-                        <button className='mt-20 bg-black text-white p-2 rounded-xl flex justify-center items-end hover:bg-opacity-80' onClick={handleStake}>
+                        <button disabled={prepareError ? true : false} className='mt-20 bg-black text-white p-2 rounded-xl flex justify-center items-end hover:bg-opacity-80' onClick={handleStake}>
                             {isUploading && <LoadingOutlined className='mr-2 text-[15px]' />} Let&apos;s go</button>
 
                     </div>
