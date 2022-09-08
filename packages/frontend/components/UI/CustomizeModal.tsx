@@ -30,7 +30,7 @@ const MyModal = ({ open, onClose, children, size = "md", position = "top", zInde
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="fixed inset-0 bg-white bg-opacity-0" />
+                    <div className="fixed inset-0 bg-white bg-opacity-10" />
                 </Transition.Child>
 
                 <div className={clsx(
@@ -64,10 +64,10 @@ const MyModal = ({ open, onClose, children, size = "md", position = "top", zInde
                                         { "max-w-md": size == 'md' },
                                         { "max-w-sm": size == 'sm' },
                                         { "max-w-xs": size == 'xs' },
-                                        { "rounded-t-2xl w-full": position == 'bottom' && isMobile },
-                                        { "rounded-t-2xl ": position == 'bottom' && !isMobile },
+                                        { "rounded-t-2xl w-full drop-shadow": position == 'bottom' && isMobile },
+                                        { "rounded-t-2xl": position == 'bottom' && !isMobile },
                                         { "rounded-2xl": position == 'top' || position == 'middle' },
-                                        "border border-white border-opacity-20 w-full transform  bg-white p-4 text-left align-middle shadow-xl transition-all"
+                                        "border border-white border-opacity-20 w-full transform  bg-white p-4 text-left align-middle shadow-2xl transition-all"
                                     )
                                 }
                             >
