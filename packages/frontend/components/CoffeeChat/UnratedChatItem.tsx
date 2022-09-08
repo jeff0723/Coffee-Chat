@@ -15,6 +15,7 @@ import { COFFEE_CHAT } from 'constant/abi';
 import formatAddress from 'utils/formatAddress';
 import { Rate } from 'antd';
 import MyModal from 'components/UI/CustomizeModal';
+import ConfirmModal from 'components/Rating/ConfirmModal';
 
 type Props = {
     info: CoffeeChat
@@ -58,19 +59,7 @@ const UnratedChatItem = ({ info }: Props) => {
         }
 
     })
-    const { write } = useContractWrite({
-        ...config,
-        onSuccess(data) {
-            toast.success("Successfully rate!")
-            setRate(0)
-            setRateModalOpen(false)
 
-        },
-        onError(error) {
-            toast.error(error?.message)
-
-        }
-    })
 
     const getPlaceDetail = async () => {
 
@@ -105,13 +94,7 @@ const UnratedChatItem = ({ info }: Props) => {
         setRate(rate)
         setRateModalOpen(true)
     }
-    const handleRate = async () => {
-        if (rate) {
-            await write?.({
-                recklesslySetUnpreparedArgs: [info?.id, rate]
-            })
-        }
-    }
+
 
     return (
         <div className='flex flex-col gap-2 items-center w-36 py-2'>
@@ -124,21 +107,7 @@ const UnratedChatItem = ({ info }: Props) => {
                 {!ratingDisable && <Rate value={rate} onChange={handleRateChange} />}
                 {ratingDisable && info?.points && <Rate value={info?.points} />}
             </div>
-            <MyModal open={rateModalOpen} onClose={() => {
-                setRateModalOpen(false)
-                setRate(0)
-            }} position='bottom' zIndex={20}>
-                <div className='flex flex-col gap-4'>
-                    <div> Are you sure you want to rate this chat for:</div>
-                    <Rate value={rate} /> {rate} stars
-                    <button className='p-2 rounded-lg bg-black text-white' onClick={handleRate}>Yes</button>
-                    <button className='p-2 rounded-lg hover:border hover:border-red-600 hover:text-red-600'
-                        onClick={() => {
-                            setRateModalOpen(false)
-                            setRate(0)
-                        }}>No</button>
-                </div>
-            </MyModal>
+            <ConfirmModal id={info?.id} open={rateModalOpen} setOpen={setRateModalOpen} rate={rate} setRate={setRate} />
         </div>
     )
 }
