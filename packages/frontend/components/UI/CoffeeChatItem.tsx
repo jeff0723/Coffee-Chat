@@ -94,11 +94,7 @@ const CoffeeChatItem = ({ info }: Props) => {
     }
     setOpen(true)
   }
-  const handleRedeem = async () => {
-    if (!signature || !address) return
-    const data = await fetch(`/api/redeem-reward?signature=${signature}&redeemer=${address}&chatId=${info?.id}`).then(res => res.json())
-    console.log(data)
-  }
+
   return (
     <div className='flex flex-col gap-2 items-center w-32 py-2'>
       <img src={thumbnail} className='w-28 h-28 rounded-lg' />

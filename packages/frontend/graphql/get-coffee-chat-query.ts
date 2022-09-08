@@ -7,7 +7,7 @@ export const COFFEE_CHAT_QUERY_FILTERED_BY_POINT = gql`
         $longtitude1:BigInt!
         $longtitude2:BigInt!
         $now:BigInt!
-        $isactive:Boolean!
+        $isActive:Boolean!
     ){
         coffeeChats(where:{
             lantitude_gt:$lantitude1
@@ -15,7 +15,7 @@ export const COFFEE_CHAT_QUERY_FILTERED_BY_POINT = gql`
             longtitude_gt:$longtitude1
             longtitude_lt:$longtitude2
             endTime_gt:$now
-            isActive:$isactive
+            isActive:$isActive
         }) {
             id
             placeId

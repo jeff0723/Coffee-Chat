@@ -34,10 +34,13 @@ export type CoffeeChat = {
   endTime: Scalars["BigInt"];
   id: Scalars["ID"];
   initializer: Scalars["Bytes"];
-  isActive?: Maybe<Scalars["Boolean"]>;
+  isActive: Scalars["Boolean"];
   lantitude: Scalars["BigInt"];
   longtitude: Scalars["BigInt"];
+  metadataURI: Scalars["String"];
   placeId: Scalars["String"];
+  points?: Maybe<Scalars["Int"]>;
+  redeemer?: Maybe<Scalars["Bytes"]>;
   stakeAmount: Scalars["BigInt"];
   startTime: Scalars["BigInt"];
 };
@@ -87,6 +90,26 @@ export type CoffeeChat_Filter = {
   longtitude_lte?: InputMaybe<Scalars["BigInt"]>;
   longtitude_not?: InputMaybe<Scalars["BigInt"]>;
   longtitude_not_in?: InputMaybe<Array<Scalars["BigInt"]>>;
+  metadataURI?: InputMaybe<Scalars["String"]>;
+  metadataURI_contains?: InputMaybe<Scalars["String"]>;
+  metadataURI_contains_nocase?: InputMaybe<Scalars["String"]>;
+  metadataURI_ends_with?: InputMaybe<Scalars["String"]>;
+  metadataURI_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  metadataURI_gt?: InputMaybe<Scalars["String"]>;
+  metadataURI_gte?: InputMaybe<Scalars["String"]>;
+  metadataURI_in?: InputMaybe<Array<Scalars["String"]>>;
+  metadataURI_lt?: InputMaybe<Scalars["String"]>;
+  metadataURI_lte?: InputMaybe<Scalars["String"]>;
+  metadataURI_not?: InputMaybe<Scalars["String"]>;
+  metadataURI_not_contains?: InputMaybe<Scalars["String"]>;
+  metadataURI_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  metadataURI_not_ends_with?: InputMaybe<Scalars["String"]>;
+  metadataURI_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  metadataURI_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  metadataURI_not_starts_with?: InputMaybe<Scalars["String"]>;
+  metadataURI_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  metadataURI_starts_with?: InputMaybe<Scalars["String"]>;
+  metadataURI_starts_with_nocase?: InputMaybe<Scalars["String"]>;
   placeId?: InputMaybe<Scalars["String"]>;
   placeId_contains?: InputMaybe<Scalars["String"]>;
   placeId_contains_nocase?: InputMaybe<Scalars["String"]>;
@@ -107,6 +130,20 @@ export type CoffeeChat_Filter = {
   placeId_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
   placeId_starts_with?: InputMaybe<Scalars["String"]>;
   placeId_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  points?: InputMaybe<Scalars["Int"]>;
+  points_gt?: InputMaybe<Scalars["Int"]>;
+  points_gte?: InputMaybe<Scalars["Int"]>;
+  points_in?: InputMaybe<Array<Scalars["Int"]>>;
+  points_lt?: InputMaybe<Scalars["Int"]>;
+  points_lte?: InputMaybe<Scalars["Int"]>;
+  points_not?: InputMaybe<Scalars["Int"]>;
+  points_not_in?: InputMaybe<Array<Scalars["Int"]>>;
+  redeemer?: InputMaybe<Scalars["Bytes"]>;
+  redeemer_contains?: InputMaybe<Scalars["Bytes"]>;
+  redeemer_in?: InputMaybe<Array<Scalars["Bytes"]>>;
+  redeemer_not?: InputMaybe<Scalars["Bytes"]>;
+  redeemer_not_contains?: InputMaybe<Scalars["Bytes"]>;
+  redeemer_not_in?: InputMaybe<Array<Scalars["Bytes"]>>;
   stakeAmount?: InputMaybe<Scalars["BigInt"]>;
   stakeAmount_gt?: InputMaybe<Scalars["BigInt"]>;
   stakeAmount_gte?: InputMaybe<Scalars["BigInt"]>;
@@ -132,7 +169,10 @@ export enum CoffeeChat_OrderBy {
   IsActive = "isActive",
   Lantitude = "lantitude",
   Longtitude = "longtitude",
+  MetadataUri = "metadataURI",
   PlaceId = "placeId",
+  Points = "points",
+  Redeemer = "redeemer",
   StakeAmount = "stakeAmount",
   StartTime = "startTime"
 }

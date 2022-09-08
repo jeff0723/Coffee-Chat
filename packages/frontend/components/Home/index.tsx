@@ -59,7 +59,7 @@ type PlaceDetail = {
 const GOOGLE_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY || ""
 const formatTimeStampFromTime = (time: string) => {
     // const today = new Date().toJSON().slice(0, 10).replace(/-/g, '/')
-    const today = new Date().toLocaleDateString()
+    const today = new Date().toDateString()
     // console.log(today)
     return new Date(today + " " + time).valueOf() / 1000 // for smart contract input
 
@@ -89,11 +89,11 @@ const Home: FC = (props: Props) => {
             longtitude1: ((geolocation.longitude - 1) * 10 ** 15).toString(),
             longtitude2: ((geolocation.longitude + 1) * 10 ** 15).toString(),
             now: currentTime,
-            isactive: true,
+            isActive: true,
         },
         skip: !geolocation,
         onCompleted: (data) => {
-
+            console.log("home:", data)
             setCoffeeChats(data.coffeeChats)
 
         },
@@ -516,6 +516,7 @@ const Map: FC<MapProps> = ({
         mapRef?.panTo(center)
     }, [center])
 
+    console.log("map:", coffeeChats)
 
     return (
         <GoogleMap onLoad={map => setMapRef(map)} zoom={zoom} center={center} mapContainerClassName="w-full h-[calc(var(--vh)*100-56px)]" onClick={handleMapClick} >

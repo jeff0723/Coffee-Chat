@@ -2,3 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export { CoffeeChat__factory } from "./CoffeeChat__factory";
+export { CoffeeNFT__factory } from "./CoffeeNFT__factory";
