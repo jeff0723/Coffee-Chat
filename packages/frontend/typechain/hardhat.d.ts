@@ -93,10 +93,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.CoffeeChat__factory>;
     getContractFactory(
-      name: "CoffeeNFT",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.CoffeeNFT__factory>;
-    getContractFactory(
       name: "ERC721A__IERC721ReceiverUpgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC721A__IERC721ReceiverUpgradeable__factory>;
@@ -209,11 +205,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.CoffeeChat>;
-    getContractAt(
-      name: "CoffeeNFT",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.CoffeeNFT>;
     getContractAt(
       name: "ERC721A__IERC721ReceiverUpgradeable",
       address: string,

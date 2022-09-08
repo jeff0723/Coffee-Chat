@@ -48,16 +48,10 @@ contract CoffeeChat is
         address initializer,
         string metadataURI
     );
-    
-    event CoffeeChatRedeem(
-        uint256 chatId,
-        address redeemer
-    );
 
-    event CoffeeChatRate(
-        uint256 chatId,
-        uint8 points
-    );
+    event CoffeeChatRedeem(uint256 chatId, address redeemer);
+
+    event CoffeeChatRate(uint256 chatId, uint8 points);
 
     mapping(uint256 => ChatInfo) public chatInfoById;
 
@@ -98,7 +92,7 @@ contract CoffeeChat is
         chatInfoById[chatId] = _chatInfo;
         _safeMint(_msgSender(), chatId);
         _setTokenURI(chatId, metadataURI);
-        
+
         ++nextChatId;
 
         emit CoffeeChatIntialize(
@@ -125,24 +119,21 @@ contract CoffeeChat is
         ChatInfo storage _chatInfo = chatInfoById[chatId];
         require(
             _chatInfo.startTime < block.timestamp,
-            "Chat hasn't started yet!"
+            "Chat has not started yet!"
         );
         require(_chatInfo.endTime > block.timestamp, "Chat has already ended!");
         _verify(voucher, signature);
-        
+
         uint256 fee = (_chatInfo.stakeAmount * _commission) / 10000;
         if (fee > 0) {
             AddressUpgradeable.sendValue(payable(owner()), fee);
         }
         AddressUpgradeable.sendValue(receiver, _chatInfo.stakeAmount - fee);
-        
+
         _burn(chatId);
         _chatInfo.redeemer = _msgSender();
 
-        emit CoffeeChatRedeem(
-            chatId,
-            _msgSender()
-        );
+        emit CoffeeChatRedeem(chatId, _msgSender());
     }
 
     function refund(uint256 chatId) external {
@@ -168,10 +159,7 @@ contract CoffeeChat is
 
         delete chatInfoById[chatId];
 
-        emit CoffeeChatRate(
-            chatId,
-            points
-        );
+        emit CoffeeChatRate(chatId, points);
     }
 
     /// @dev Verify voucher
