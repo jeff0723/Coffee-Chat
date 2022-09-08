@@ -34,6 +34,7 @@ import { uploadIpfs } from 'utils/uploadIPFS';
 import PlaceAutoComplete from 'components/Search/PlaceAutoComplete';
 import SearchModal from 'components/Search/SearchModal';
 import Head from 'next/head';
+import CoffeeChatModal from 'components/CoffeeChat/CoffeeChatModal';
 
 
 
@@ -340,36 +341,8 @@ const Home: FC = (props: Props) => {
                     </div>
 
                 </Modal>
-                <Modal zIndex={201} width={300} footer={null} title="Info" visible={coffeeChatClick} onCancel={() => {
-                    setCoffeeChatClick(false)
-                    setSelectedCoffeeChat(undefined)
-                }}
-                >
-                    <div className='flex flex-col gap-2'>
-                        <div>👤 Initiater: <span className='font-bold'>{selectedCoffeeChat?.initializer}</span>
-                        </div>
-                        <div>💰 Staked amount:  <span className='font-bold'>{ethers.utils.formatEther(selectedCoffeeChat?.stakeAmount ?? "0")} MATIC</span></div>
-                        <div>👟 Distance: <span className='font-bold'>
-                            {formatDistance(getDistance(
-                                geolocation.latitude,
-                                geolocation.latitude,
-                                formatLatorLng(selectedCoffeeChat?.lantitude),
-                                formatLatorLng(selectedCoffeeChat?.lantitude)))}</span></div>
-                        <div>
-                            ⏰ Time Left: <Countdown daysInHours={true} date={new Date((+selectedCoffeeChat?.endTime) * 1000)} className='font-bold' />
-                        </div>
-                        <div className='flex flex-col'>
-                            <div>📍 Location:  <span className='font-bold'>{coffeeChatDetail?.name}</span></div>
-                            <Rate allowHalf value={coffeeChatDetail?.rating} />
-                            <div className='flex overflow-scroll gap-2 '>
-                                {coffeeChatPlacePhotos.map((photo, index) => (
-                                    <img src={photo} className='w-2/5 rounded-lg' key={`image-${index}`} />
-                                ))}
 
-                            </div>
-                        </div>
-                    </div>
-                </Modal>
+                <CoffeeChatModal open={coffeeChatClick} setOpen={setCoffeeChatClick} selectedCoffeeChat={selectedCoffeeChat} setSelectedCoffeeChat={setSelectedCoffeeChat} coffeeChatDetail={coffeeChatDetail} coffeeChatPlacePhotos={coffeeChatPlacePhotos} />
                 <Map
                     zoom={zoom}
                     latitude={geolocation.latitude}

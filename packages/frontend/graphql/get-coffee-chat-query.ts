@@ -26,6 +26,7 @@ export const COFFEE_CHAT_QUERY_FILTERED_BY_POINT = gql`
             initializer
             stakeAmount
             isActive
+            metadataURI
           }
     }
 `
@@ -83,6 +84,7 @@ export const COFFEE_CHAT_QUERY_FILTER_BY_REDEEMER_UNRATED = gql`
             initializer
             stakeAmount
             isActive
+            points
           }
     }
 `

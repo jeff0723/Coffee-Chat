@@ -47,6 +47,7 @@ const UnratedChatItem = ({ info }: Props) => {
     const { chain } = useNetwork()
     const [ratingDisable, setRatingDisable] = useState(false)
     const [rate, setRate] = useState(0)
+    const [points, setPoints] = useState<number>(info?.points ?? 0)
     const [rateModalOpen, setRateModalOpen] = useState(false)
     const { config, error } = usePrepareContractWrite({
         addressOrName: chain?.id ? COFFEE_CHAT_ADDRESS[chain?.id] : "",
@@ -105,9 +106,9 @@ const UnratedChatItem = ({ info }: Props) => {
                 <div>🎁 {ethers.utils.formatEther(info.stakeAmount)} MATIC</div>
                 <div>👤 {formatAddress(info?.initializer)}</div>
                 {!ratingDisable && <Rate value={rate} onChange={handleRateChange} />}
-                {ratingDisable && info?.points && <Rate value={info?.points} />}
+                {ratingDisable && info?.points && <Rate value={points} />}
             </div>
-            <ConfirmModal id={info?.id} open={rateModalOpen} setOpen={setRateModalOpen} rate={rate} setRate={setRate} />
+            {!ratingDisable && <ConfirmModal id={info?.id} open={rateModalOpen} setOpen={setRateModalOpen} rate={rate} setRate={setRate} setDisabled={setRatingDisable} setPoints={setPoints} />}
         </div>
     )
 }

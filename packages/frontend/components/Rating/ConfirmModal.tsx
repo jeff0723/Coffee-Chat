@@ -22,9 +22,11 @@ type Props = {
     setOpen: Dispatch<boolean>
     setRate: Dispatch<number>
     rate: number
+    setDisabled: Dispatch<boolean>
+    setPoints: Dispatch<number>
 }
 
-const ConfirmModal = ({ id, open, setOpen, setRate, rate }: Props) => {
+const ConfirmModal = ({ id, open, setOpen, setRate, rate, setDisabled, setPoints }: Props) => {
     const { chain } = useNetwork()
     const { config, error } = usePrepareContractWrite({
         addressOrName: chain?.id ? COFFEE_CHAT_ADDRESS[chain?.id] : "",
@@ -32,7 +34,8 @@ const ConfirmModal = ({ id, open, setOpen, setRate, rate }: Props) => {
         functionName: 'rate',
         args: [id, rate],
         onError(error) {
-            toast.error(error?.message)
+            // toast.error(error?.message)
+            console.log(error)
         }
 
     })
@@ -42,6 +45,8 @@ const ConfirmModal = ({ id, open, setOpen, setRate, rate }: Props) => {
             toast.success("Successfully rate!")
             setRate(0)
             setOpen(false)
+            setDisabled(true)
+            setPoints(rate)
 
         },
         onError(error) {
@@ -70,5 +75,6 @@ const ConfirmModal = ({ id, open, setOpen, setRate, rate }: Props) => {
         </MyModal>
     )
 }
+
 
 export default ConfirmModal
