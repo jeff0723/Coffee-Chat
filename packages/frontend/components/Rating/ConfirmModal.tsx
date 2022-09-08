@@ -15,6 +15,7 @@ import { COFFEE_CHAT } from 'constant/abi';
 import formatAddress from 'utils/formatAddress';
 import { Rate } from 'antd';
 import MyModal from 'components/UI/CustomizeModal';
+import { event } from 'nextjs-google-analytics';
 
 type Props = {
     id: string,
@@ -28,6 +29,7 @@ type Props = {
 
 const ConfirmModal = ({ id, open, setOpen, setRate, rate, setDisabled, setPoints }: Props) => {
     const { chain } = useNetwork()
+    const { address } = useAccount()
     const { config, error } = usePrepareContractWrite({
         addressOrName: chain?.id ? COFFEE_CHAT_ADDRESS[chain?.id] : "",
         contractInterface: COFFEE_CHAT,
@@ -47,6 +49,10 @@ const ConfirmModal = ({ id, open, setOpen, setRate, rate, setDisabled, setPoints
             setOpen(false)
             setDisabled(true)
             setPoints(rate)
+            event("rate_success", {
+                category: "Action",
+                label: address
+            })
 
         },
         onError(error) {

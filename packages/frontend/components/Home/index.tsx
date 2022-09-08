@@ -14,7 +14,7 @@ import { ethers } from 'ethers';
 import { Dispatch, FC, useEffect, useMemo, useState } from 'react';
 import useGeolocation from 'react-hook-geolocation';
 import toast from 'react-hot-toast';
-import { useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi';
+import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi';
 
 import { useQuery } from '@apollo/client';
 import CoffeeChatModal from 'components/CoffeeChat/CoffeeChatModal';
@@ -27,7 +27,7 @@ import Head from 'next/head';
 import { useMediaQuery } from 'react-responsive';
 import usePlacesAutocomplete from "use-places-autocomplete";
 import { uploadIpfs } from 'utils/uploadIPFS';
-import Script from 'next/script';
+import { event } from "nextjs-google-analytics";
 
 
 
@@ -69,6 +69,7 @@ const Home: FC = (props: Props) => {
         libraries: ["places", 'geometry'],
     });
     const { chain, chains } = useNetwork()
+    const { address } = useAccount()
     const [coffeeChats, setCoffeeChats] = useState<CoffeeChat[]>([])
     const geolocation = useGeolocation();
     const [currentTime,] = useState((new Date().valueOf() / 1000).toFixed(0))
@@ -202,6 +203,10 @@ const Home: FC = (props: Props) => {
 
         ...config,
         onSuccess(data) {
+            event("coffee_chat_init", {
+                category: "Action",
+                label: address
+            })
             toast.success("Successfully initiate a chat!")
             reset()
 
@@ -234,6 +239,7 @@ const Home: FC = (props: Props) => {
             <Head>
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
             </Head>
+
 
             <OptionButton />
             <SearchModal
@@ -270,14 +276,22 @@ const Home: FC = (props: Props) => {
                     >
                         <div className='flex justify-between items-center gap-2'>
                             <div className='font-bold'>☕ Coffee chat</div>
-                            <div className='flex justify-center items-center w-10 h-10 rounded-full hover:bg-opacity-80' onClick={() => { setMobileSearchOpen(true) }}>
+                            <div className='flex justify-center items-center w-10 h-10 rounded-full hover:bg-opacity-80'
+                                onClick={() => {
+                                    event("search_click", {
+                                        category: 'Action',
+                                        label: address
+                                    })
+                                    setMobileSearchOpen(true)
+                                }}>
                                 <SearchOutlined className='text-[20px]' />
                             </div>
                         </div>
 
-                        <ConnectButton accountStatus={{
-                            smallScreen: 'avatar'
-                        }} />
+                        <ConnectButton
+                            accountStatus={{
+                                smallScreen: 'avatar'
+                            }} />
                     </div>
                 </div>}
             <div className='flex'>
@@ -375,7 +389,14 @@ const Home: FC = (props: Props) => {
                             </div>
                         </div>
 
-                        <button className='flex justify-center items-center rounded-2xl bg-black text-white p-3 hover:bg-opacity-80' onClick={() => { setModalOpen(true) }} >
+                        <button className='flex justify-center items-center rounded-2xl bg-black text-white p-3 hover:bg-opacity-80'
+                            onClick={() => {
+                                event("coffee_chat_btn_click", {
+                                    category: "Action",
+                                    label: address
+                                })
+                                setModalOpen(true)
+                            }} >
                             <CoffeeOutlined className='text-[20px] mr-2' /> Coffee chat</button>
                     </div>
                 </Drawer>
@@ -421,9 +442,8 @@ const Map: FC<MapProps> = ({
     setCoffeeChatClick,
     setSelectedCoffeeChat
 }) => {
-    const isMobile = useMediaQuery({
-        query: '(max-width: 475px)'
-    })
+
+    const { address } = useAccount()
     const center = useMemo(() => {
         if (clicked) {
             return {
@@ -436,7 +456,6 @@ const Map: FC<MapProps> = ({
         }
     }, [latitude, longtitude, clicked, clickedPoint]);
     const [mapRef, setMapRef] = useState<google.maps.Map>();
-    const [open, setOpen] = useState(false)
 
     const handleMapClick = (e: google.maps.MapMouseEvent) => {
         // console.log('data: ', e)
@@ -449,6 +468,10 @@ const Map: FC<MapProps> = ({
             //@ts-ignore
             setPlaceId(e?.placeId)
             setDrawerShow(true)
+            event("place_click", {
+                category: "View",
+                label: address
+            })
         }
 
         setClicked(true)
@@ -461,7 +484,6 @@ const Map: FC<MapProps> = ({
         mapRef?.panTo(center)
     }, [center])
 
-    console.log("map:", coffeeChats)
 
     return (
         <GoogleMap onLoad={map => setMapRef(map)} zoom={zoom} center={center} mapContainerClassName="w-full h-[calc(var(--vh)*100-56px)]" onClick={handleMapClick} >
@@ -486,11 +508,19 @@ const Map: FC<MapProps> = ({
                     onClick={() => {
                         setCoffeeChatClick(true)
                         setSelectedCoffeeChat(coffeeChat)
+                        event("coffee_chat_marker_click", {
+                            category: 'Action',
+                            label: address
+                        })
                     }}
                     onMouseDown={
                         () => {
                             setCoffeeChatClick(true)
                             setSelectedCoffeeChat(coffeeChat)
+                            event("coffee_chat_marker_click", {
+                                category: 'Action',
+                                label: address
+                            })
                         }
                     }
                 />
@@ -502,43 +532,6 @@ const Map: FC<MapProps> = ({
 }
 
 
-const PlacesAutocomplete = () => {
-    const {
-        ready,
-        value,
-        setValue,
-        suggestions: { status, data },
-        clearSuggestions,
-    } = usePlacesAutocomplete();
 
-    const handleSelect = async (address: string) => {
-        setValue(address, false);
-        clearSuggestions();
-
-        //   const results = await getGeocode({ address });
-        //   const { lat, lng } = await getLatLng(results[0]);
-        //   setSelected({ lat, lng });
-    };
-
-    return (
-        <Combobox onSelect={handleSelect}>
-            <ComboboxInput
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                disabled={!ready}
-                className='bg-transparent p-2 focus:outline-none w-[300px]'
-                placeholder="Search an place..."
-            />
-            <ComboboxPopover>
-                <ComboboxList>
-                    {status === "OK" &&
-                        data.map(({ place_id, description }) => (
-                            <ComboboxOption key={place_id} value={description} />
-                        ))}
-                </ComboboxList>
-            </ComboboxPopover>
-        </Combobox>
-    );
-};
 
 export default Home

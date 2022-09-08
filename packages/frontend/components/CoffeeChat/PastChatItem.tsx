@@ -12,6 +12,7 @@ import toast from 'react-hot-toast';
 import { Modal } from 'antd';
 import { QRCodeCanvas } from 'qrcode.react';
 import { COFFEE_CHAT } from 'constant/abi';
+import { event } from 'nextjs-google-analytics';
 
 type Props = {
     info: CoffeeChat
@@ -50,6 +51,10 @@ const PastChatItem = ({ info }: Props) => {
         args: [info?.id],
         onError() {
             console.log('set refund disabled')
+            event("refund", {
+                category: 'Action',
+                label: address
+            })
             setRefundDisable(true)
         }
 

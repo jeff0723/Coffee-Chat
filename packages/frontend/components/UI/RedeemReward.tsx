@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { QrReader } from "react-qr-reader";
 import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi';
 import toast from 'react-hot-toast';
+import { event } from 'nextjs-google-analytics';
 
 type Props = {
     signature: string
@@ -38,6 +39,10 @@ const RedeemReward = ({ signature, chatId, setSignature, setChatId, toggle, open
             setSignature("")
             setChatId("")
             toggle(open)
+            event("redeem", {
+                category: "Action",
+                label: address
+            })
         },
         onError(error: any) {
             toast.error(error?.data?.message ?? error?.message)

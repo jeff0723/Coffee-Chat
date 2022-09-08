@@ -9,6 +9,8 @@ import CoffeeChatList from './CoffeeChatList';
 import ScanQrcodeModal from './ScanQrcodeModal';
 import { useMediaQuery } from 'react-responsive'
 import RatingModal from './RatingModal';
+import { event } from 'nextjs-google-analytics';
+import { useAccount } from 'wagmi';
 
 
 type Props = {}
@@ -18,7 +20,7 @@ const OptionButton = (props: Props) => {
     const [coffeeChatListModalOpen, toggleCoffeeChatList] = useReducer(state => !state, false)
     const [cameraOpen, toggleCamera] = useReducer(state => !state, false)
     const [ratingOpen, toggleRating] = useReducer(state => !state, false)
-
+    const { address } = useAccount()
     return (
         <div className="absolute flex flex-col left-5 bottom-5 gap-2 ">
             <Transition appear show={optionShow} as={Fragment}>
@@ -52,7 +54,13 @@ const OptionButton = (props: Props) => {
                         <div className="ml-8 flex gap-2  items-center pr-2">
                             <Tooltip title="Open camera">
                                 <div className="w-10 h-10 bg-white rounded-full flex justify-center items-center hover:bg-opacity-90"
-                                    onClick={() => toggleCamera()}>
+                                    onClick={() => {
+                                        event("camera_btn_click", {
+                                            category: "Action",
+                                            label: address
+                                        })
+                                        toggleCamera()
+                                    }}>
                                     <CameraOutlined />
 
                                 </div>
@@ -61,7 +69,13 @@ const OptionButton = (props: Props) => {
                         <div className="ml-8 flex gap-2 items-center pr-2">
                             <Tooltip title="Rate your chat">
                                 <div className="w-10 h-10 bg-white  rounded-full flex justify-center items-center hover:bg-opacity-90"
-                                    onClick={() => { toggleRating() }}>
+                                    onClick={() => {
+                                        event("rating_btn_click", {
+                                            category: "Action",
+                                            label: address
+                                        })
+                                        toggleRating()
+                                    }}>
                                     <StarOutlined />
                                 </div>
                             </Tooltip>
@@ -69,7 +83,14 @@ const OptionButton = (props: Props) => {
                         <div className="ml-8 flex gap-2 items-center pr-2">
                             <Tooltip title="Your coffee chat">
                                 <div className="w-10 h-10 bg-white rounded-full flex justify-center items-center hover:bg-opacity-90"
-                                    onClick={() => toggleCoffeeChatList()}>
+                                    onClick={() => {
+                                        event("coffee_chat_list_btn_click", {
+                                            category: "Action",
+                                            label: address
+                                        })
+                                        toggleCoffeeChatList()
+                                    }
+                                    }>
                                     <CarryOutOutlined />
                                 </div>
                             </Tooltip>
@@ -82,7 +103,14 @@ const OptionButton = (props: Props) => {
 
             <button
                 className='absolute left-5 bottom-5 z-10 rounded-full flex justify-center items-center p-2 bg-white w-16 h-16 hover:text-[#6f4e37] hover:bg-opacity-90'
-                onClick={() => setOptionShow(!optionShow)}>
+                onClick={() => {
+                    event("option_btn_click", {
+                        category: "Action",
+                        label: address
+                    })
+                    setOptionShow(!optionShow)
+                }}
+            >
                 <CoffeeOutlined className='text-[25px]' color='#6f4e37' />
             </button>
             <CoffeeChatList open={coffeeChatListModalOpen} toggle={toggleCoffeeChatList} />

@@ -11,6 +11,7 @@ import { VOUCHER_TYPE } from 'constant/voucher';
 import toast from 'react-hot-toast';
 import { Modal } from 'antd';
 import { QRCodeCanvas } from 'qrcode.react';
+import { event } from 'nextjs-google-analytics';
 
 type Props = {
     info: CoffeeChat
@@ -87,20 +88,25 @@ const ActiveChatItem = ({ info }: Props) => {
                 chainId: chain.id,
                 verifyingContract: COFFEE_CHAT_ADDRESS[chain?.id],
             }
+
             const _signature = await signTypedDataAsync({
                 domain: domainData,
                 types: VOUCHER_TYPE,
                 value: { chatId }
             })
+            event("redeem_code_sign", {
+                category: "Action",
+                label: address
+            })
             localStorage.setItem(`signature-${info?.id}`, _signature)
         }
+        event("redeem_click", {
+            category: "Action",
+            label: address
+        })
         setOpen(true)
     }
-    const handleRedeem = async () => {
-        if (!signature || !address) return
-        const data = await fetch(`/api/redeem-reward?signature=${signature}&redeemer=${address}&chatId=${info?.id}`).then(res => res.json())
-        console.log(data)
-    }
+
     return (
         <div className='flex flex-col gap-2 items-center w-32 py-2'>
             <img src={thumbnail} className='w-28 h-28 rounded-lg' />

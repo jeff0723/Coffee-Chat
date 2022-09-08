@@ -1,11 +1,13 @@
 import "@reach/combobox/styles.css";
 import { AutoComplete } from 'antd';
+import { event } from "nextjs-google-analytics";
 import { Dispatch, FC } from 'react';
 
 import usePlacesAutocomplete, {
     getGeocode,
     getLatLng
 } from "use-places-autocomplete";
+import { useAccount } from "wagmi";
 
 
 type AutoCompleteProps = {
@@ -27,6 +29,7 @@ type AutoCompleteProps = {
 
 }
 const PlaceAutoComplete: FC<AutoCompleteProps> = ({ setZoom, clicked, setClicked, placeId, setPlaceId, setDrawerShow, clickedPoint, setClickedPoint }) => {
+    const { address: account } = useAccount()
     const {
         ready,
         value,
@@ -37,6 +40,10 @@ const PlaceAutoComplete: FC<AutoCompleteProps> = ({ setZoom, clicked, setClicked
 
     const onSearch = (value: string) => {
         setValue(value)
+        event("type_in_search_place", {
+            category: 'Action',
+            label: account
+        })
     }
     const onSelect = async (address: string) => {
         const results = await getGeocode({ address });
@@ -53,6 +60,10 @@ const PlaceAutoComplete: FC<AutoCompleteProps> = ({ setZoom, clicked, setClicked
             lng
         })
         setZoom(15)
+        event("select_place", {
+            category: 'Action',
+            label: account
+        })
     }
 
     const options = data.map(({ description }) => {

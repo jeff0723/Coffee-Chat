@@ -16,6 +16,8 @@ import formatAddress from 'utils/formatAddress';
 import { Rate } from 'antd';
 import MyModal from 'components/UI/CustomizeModal';
 import ConfirmModal from 'components/Rating/ConfirmModal';
+import { event } from 'nextjs-google-analytics';
+
 
 type Props = {
     info: CoffeeChat
@@ -45,6 +47,7 @@ const UnratedChatItem = ({ info }: Props) => {
     const [placeDetail, setPlaceDetail] = useState<PlaceDetail>()
     const [thumbnail, setThumbnail] = useState<string>("")
     const { chain } = useNetwork()
+    const { address } = useAccount()
     const [ratingDisable, setRatingDisable] = useState(false)
     const [rate, setRate] = useState(0)
     const [points, setPoints] = useState<number>(info?.points ?? 0)
@@ -92,6 +95,10 @@ const UnratedChatItem = ({ info }: Props) => {
     }, [placeDetail])
 
     const handleRateChange = (rate: number) => {
+        event("set_rate", {
+            category: "Action",
+            label: address
+        })
         setRate(rate)
         setRateModalOpen(true)
     }
