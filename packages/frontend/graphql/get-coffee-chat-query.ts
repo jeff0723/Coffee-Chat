@@ -70,11 +70,9 @@ export const COFFEE_CHAT_QUERY_ALL = gql`
 export const COFFEE_CHAT_QUERY_FILTER_BY_REDEEMER_UNRATED = gql`
     query(
         $redeemer:String!
-        $threshold:Int!
     ){
         coffeeChats(where:{
             redeemer:$redeemer
-            points_lt:$threshold
         }) {
             id
             placeId

@@ -12,6 +12,9 @@ import toast from 'react-hot-toast';
 import { Modal } from 'antd';
 import { QRCodeCanvas } from 'qrcode.react';
 import { COFFEE_CHAT } from 'constant/abi';
+import formatAddress from 'utils/formatAddress';
+import { Rate } from 'antd';
+import MyModal from 'components/UI/CustomizeModal';
 
 type Props = {
     info: CoffeeChat
@@ -42,6 +45,8 @@ const UnratedChatItem = ({ info }: Props) => {
     const [thumbnail, setThumbnail] = useState<string>("")
     const { chain } = useNetwork()
     const [ratingDisable, setRatingDisable] = useState(false)
+    const [rate, setRate] = useState(0)
+    const [rateModalOpen, setRateModalOpen] = useState(false)
     const { config, error } = usePrepareContractWrite({
         addressOrName: chain?.id ? COFFEE_CHAT_ADDRESS[chain?.id] : "",
         contractInterface: COFFEE_CHAT,
@@ -57,11 +62,13 @@ const UnratedChatItem = ({ info }: Props) => {
         ...config,
         onSuccess(data) {
             toast.success("Successfully rate!")
+            setRate(0)
+            setRateModalOpen(false)
 
         },
-        onError(error: any) {
-            toast.error(error?.data?.message ?? error?.message)
-            console.log(error)
+        onError(error) {
+            toast.error(error?.message)
+
         }
     })
 
@@ -94,23 +101,44 @@ const UnratedChatItem = ({ info }: Props) => {
         }
     }, [placeDetail])
 
+    const handleRateChange = (rate: number) => {
+        setRate(rate)
+        setRateModalOpen(true)
+    }
     const handleRate = async () => {
-        await write?.()
+        if (rate) {
+            await write?.({
+                recklesslySetUnpreparedArgs: [info?.id, rate]
+            })
+        }
     }
 
     return (
-        <div className='flex flex-col gap-2 items-center w-32 py-2'>
+        <div className='flex flex-col gap-2 items-center w-36 py-2'>
             <img src={thumbnail} className='w-28 h-28 rounded-lg' />
-            <div className='flex flex-col'>
+            <div className='flex flex-col mt-2 gap-1'>
                 <div className='flex justify-center items-center text-lg font-bold text-center h-14'>{placeDetail?.name}</div>
                 <div>🕜 {formatTimestamp(info.startTime)} - {formatTimestamp(info.endTime)}</div>
                 <div>🎁 {ethers.utils.formatEther(info.stakeAmount)} MATIC</div>
-                {(ratingDisable) && <button
-                    className='flex justify-center items-center mt-5 p-2 rounded-xl bg-black text-white hover:bg-opacity-80 disabled:bg-opacity-80'
-                    onClick={handleRate}>
-                    <LikeOutlined className="text-[15px] mr-1" /> Rate</button>}
+                <div>👤 {formatAddress(info?.initializer)}</div>
+                {!ratingDisable && <Rate value={rate} onChange={handleRateChange} />}
+                {ratingDisable && info?.points && <Rate value={info?.points} />}
             </div>
-
+            <MyModal open={rateModalOpen} size='xs' onClose={() => {
+                setRateModalOpen(false)
+                setRate(0)
+            }} position='bottom' zIndex={20}>
+                <div className='flex flex-col gap-4'>
+                    <div> Are you sure you want to rate this chat for:</div>
+                    <Rate value={rate} /> {rate} stars
+                    <button className='p-2 rounded-lg bg-black text-white' onClick={handleRate}>Yes</button>
+                    <button className='p-2 rounded-lg hover:border hover:border-red-600 hover:text-red-600'
+                        onClick={() => {
+                            setRateModalOpen(false)
+                            setRate(0)
+                        }}>No</button>
+                </div>
+            </MyModal>
         </div>
     )
 }
