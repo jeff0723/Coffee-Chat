@@ -3,6 +3,8 @@ import { Fragment } from "react";
 import { FiX } from "react-icons/fi";
 import { ReactNode } from 'react'
 import clsx from 'clsx'
+import { useMediaQuery } from "react-responsive";
+
 type Props = {
     children: ReactNode;
     open: boolean;
@@ -13,6 +15,9 @@ type Props = {
 }
 
 const MyModal = ({ open, onClose, children, size = "md", position = "top", zIndex }: Props) => {
+    const isMobile = useMediaQuery({
+        query: '(max-width: 475px)'
+    })
     return (
         <Transition appear show={open} as={Fragment}>
             <Dialog as="div" className={`relative z-${zIndex}`} onClose={onClose}>
@@ -31,14 +36,15 @@ const MyModal = ({ open, onClose, children, size = "md", position = "top", zInde
                 <div className={clsx(
                     { "fixed top-[50px] inset-x-0 overflow-y-auto": position == 'top' },
                     { "fixed inset-0 overflow-y-auto": position == 'middle' },
-                    { "fixed inset-x-0 bottom-0 overflow-y-auto": position == 'bottom' })
+                    { "fixed inset-x-0 bottom-[0px] overflow-y-auto": position == 'bottom' })
 
 
                 }>
                     <div className={
                         clsx(
                             { "flex h-screen items-start justify-center p-4 text-center": position == 'top' },
-                            { "flex min-h-full items-center justify-center p-4 text-center": position == 'middle' })
+                            { "flex min-h-full items-center justify-center p-4 text-center": position == 'middle' },
+                            { "flex items-center justify-center text-center": position == 'bottom' })
 
                     }
                     >
@@ -58,7 +64,8 @@ const MyModal = ({ open, onClose, children, size = "md", position = "top", zInde
                                         { "max-w-md": size == 'md' },
                                         { "max-w-sm": size == 'sm' },
                                         { "max-w-xs": size == 'xs' },
-                                        { "rounded-t-2xl": position == 'bottom' },
+                                        { "rounded-t-2xl w-full": position == 'bottom' && isMobile },
+                                        { "rounded-t-2xl ": position == 'bottom' && !isMobile },
                                         { "rounded-2xl": position == 'top' || position == 'middle' },
                                         "border border-white border-opacity-20 w-full transform  bg-white p-4 text-left align-middle shadow-xl transition-all"
                                     )

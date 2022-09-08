@@ -102,12 +102,12 @@ const PastChatItem = ({ info }: Props) => {
     return (
         <div className='flex flex-col gap-2 items-center w-32 py-2'>
             <img src={thumbnail} className='w-28 h-28 rounded-lg' />
-            <div className='flex flex-col'>
+            <div className='flex flex-col mt-2 gap-2'>
                 <div className='flex justify-center items-center text-lg font-bold text-center h-14'>{placeDetail?.name}</div>
                 <div>🕜 {formatTimestamp(info.startTime)} - {formatTimestamp(info.endTime)}</div>
                 <div>🎁 {ethers.utils.formatEther(info.stakeAmount)} MATIC</div>
                 {(info?.isActive && !refundDisabled) && <button
-                    className='flex justify-center items-center mt-5 p-2 rounded-xl bg-black text-white hover:bg-opacity-80 disabled:bg-opacity-80'
+                    className='flex justify-center items-center mt-3 p-2 rounded-xl bg-black text-white hover:bg-opacity-80 disabled:bg-opacity-80'
                     onClick={handleRefund}>
                     <DollarCircleOutlined className="text-[15px] mr-1" /> Refund</button>}
             </div>

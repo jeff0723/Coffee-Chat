@@ -124,7 +124,7 @@ const UnratedChatItem = ({ info }: Props) => {
                 {!ratingDisable && <Rate value={rate} onChange={handleRateChange} />}
                 {ratingDisable && info?.points && <Rate value={info?.points} />}
             </div>
-            <MyModal open={rateModalOpen} size='xs' onClose={() => {
+            <MyModal open={rateModalOpen} onClose={() => {
                 setRateModalOpen(false)
                 setRate(0)
             }} position='bottom' zIndex={20}>
