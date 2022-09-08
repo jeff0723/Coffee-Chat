@@ -26,7 +26,8 @@ const RedeemReward = ({ signature, chatId, setSignature, setChatId, toggle, open
         functionName: 'redeemReward',
         args: [[chatId], signature, address],
         onError(error) {
-            toast.error('Error: ' + error.cause?.message)
+
+            toast.error('Error: ' + error?.message)
         }
 
     })
