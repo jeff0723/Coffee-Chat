@@ -27,6 +27,7 @@ import Head from 'next/head';
 import { useMediaQuery } from 'react-responsive';
 import usePlacesAutocomplete from "use-places-autocomplete";
 import { uploadIpfs } from 'utils/uploadIPFS';
+import Script from 'next/script';
 
 
 
@@ -50,6 +51,7 @@ type PlaceDetail = {
 }
 
 const GOOGLE_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY || ""
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GOOGLE
 const formatTimeStampFromTime = (time: string) => {
     // const today = new Date().toJSON().slice(0, 10).replace(/-/g, '/')
     const today = new Date().toDateString()
@@ -57,12 +59,7 @@ const formatTimeStampFromTime = (time: string) => {
     return new Date(today + " " + time).valueOf() / 1000 // for smart contract input
 
 }
-const formatDistance = (distance: number) => {
-    if (distance < 1000) {
-        return Math.floor(distance).toString() + " M"
-    }
-    return (distance / 1000).toFixed(1) + " KM"
-}
+
 const Home: FC = (props: Props) => {
     const isMobile = useMediaQuery({
         query: '(max-width: 475px)'
@@ -195,7 +192,7 @@ const Home: FC = (props: Props) => {
         functionName: 'initializeChat',
         args: [placeId, formatTimeStampFromTime(startTime), formatTimeStampFromTime(endTime), (clickedPoint.lat * 10 ** 15).toString(), (clickedPoint.lng * 10 ** 15).toString(), `ipfs://${ipfsPath}`],
         overrides: {
-            value: ethers.utils.parseEther(inputAmount?.toString()),
+            value: inputAmount?.toString() ? ethers.utils.parseEther(inputAmount?.toString()) : ethers.utils.parseEther("0.01"),
         },
         onError(error) {
             console.log("map:", error)
@@ -237,6 +234,7 @@ const Home: FC = (props: Props) => {
             <Head>
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
             </Head>
+
             <OptionButton />
             <SearchModal
                 open={mobileSearchOpen}
