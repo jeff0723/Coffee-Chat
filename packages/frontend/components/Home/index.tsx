@@ -1,4 +1,4 @@
-import { CoffeeOutlined, EnvironmentOutlined, LoadingOutlined, PhoneOutlined, SearchOutlined, TagOutlined } from '@ant-design/icons';
+import { CoffeeOutlined, EnvironmentOutlined, LoadingOutlined, MailOutlined, PhoneOutlined, SearchOutlined, TagOutlined } from '@ant-design/icons';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import {
     Combobox,
@@ -28,6 +28,7 @@ import { useMediaQuery } from 'react-responsive';
 import usePlacesAutocomplete from "use-places-autocomplete";
 import { uploadIpfs } from 'utils/uploadIPFS';
 import { event } from "nextjs-google-analytics";
+import ContactModal from 'components/UI/ContactModal';
 
 
 
@@ -116,6 +117,7 @@ const Home: FC = (props: Props) => {
         lng: 0
     })
     const [ipfsPath, setIpfsPath] = useState("")
+    const [contactModalOpen, setContactModalOpen] = useState(false)
     const reset = () => {
         setDrawerShow(false)
         setModalOpen(false)
@@ -257,8 +259,13 @@ const Home: FC = (props: Props) => {
                 setClickedPoint={setClickedPoint} />
             {!isMobile ?
                 <div className='flex justify-between items-center p-2'>
-                    <div className='flex justify-center items-center gap-2 text-[24px] font-bold'> <img src='./logo.png' className='w-10 h-10' /> Coffee chat</div>
-                    <div className='flex item-centers gap-2s'>
+                    <div className='flex items-center gap-4'>
+                        <div className='flex justify-center items-center gap-2 text-[24px] font-bold'> <img src='./logo.png' className='w-10 h-10' /> Coffee chat</div>
+                        <div onClick={() => { setContactModalOpen(true) }}>
+                            <MailOutlined className='text-[20px] hover:text-[21px]' />
+                        </div>
+                    </div>
+                    <div className='flex items-center gap-4'>
                         <PlaceAutoComplete
                             setZoom={setZoom}
                             clicked={clicked}
@@ -268,6 +275,8 @@ const Home: FC = (props: Props) => {
                             setDrawerShow={setDrawerShow}
                             clickedPoint={clickedPoint}
                             setClickedPoint={setClickedPoint} />
+
+
 
                     </div>
 
@@ -287,6 +296,10 @@ const Home: FC = (props: Props) => {
                                     setMobileSearchOpen(true)
                                 }}>
                                 <SearchOutlined className='text-[20px]' />
+
+                            </div>
+                            <div onClick={() => { setContactModalOpen(true) }}>
+                                <MailOutlined className='text-[20px]' />
                             </div>
                         </div>
 
@@ -296,6 +309,8 @@ const Home: FC = (props: Props) => {
                             }} />
                     </div>
                 </div>}
+            <ContactModal open={contactModalOpen} setOpen={setContactModalOpen} />
+
             <div className='flex'>
                 <Modal zIndex={200} width={300} footer={null} title="Stake your chat" visible={modalOpen} onCancel={() => { setModalOpen(false) }} wrapClassName="rounded-lg">
 
@@ -403,6 +418,7 @@ const Home: FC = (props: Props) => {
                     </div>
                 </Drawer>
             </div>
+
         </div>
     )
 }

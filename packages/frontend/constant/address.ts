@@ -23,3 +23,8 @@ export const COFFEE_NFT_ADDRESS: AddressMap = {
     [SupportedChainId.RINKEBY]: '0x82CEeBeBdD00a5E72FCaa75b448e6705b616a05F',
 
 }
+
+export const COFFEE_TOKEN_ADDRESS: AddressMap = {
+    [SupportedChainId.RINKEBY]: '0x82CEeBeBdD00a5E72FCaa75b448e6705b616a05F',
+
+}
