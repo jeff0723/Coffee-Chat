@@ -1,13 +1,8 @@
 import { CoffeeOutlined, EnvironmentOutlined, LoadingOutlined, MailOutlined, PhoneOutlined, SearchOutlined, TagOutlined } from '@ant-design/icons';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import {
-    Combobox,
-    ComboboxInput, ComboboxList,
-    ComboboxOption, ComboboxPopover
-} from "@reach/combobox";
 import "@reach/combobox/styles.css";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
-import { Drawer, Input, InputNumber, Modal, Rate, TimePicker, Carousel } from 'antd';
+import { Drawer, Input, InputNumber, Modal, Rate, TimePicker } from 'antd';
 import { COFFEE_CHAT } from 'constant/abi';
 import { COFFEE_CHAT_ADDRESS } from 'constant/address';
 import { ethers } from 'ethers';
@@ -25,10 +20,10 @@ import { CoffeeChat } from 'generated/types';
 import { COFFEE_CHAT_QUERY_FILTERED_BY_POINT } from 'graphql/get-coffee-chat-query';
 import Head from 'next/head';
 import { useMediaQuery } from 'react-responsive';
-import usePlacesAutocomplete from "use-places-autocomplete";
-import { uploadIpfs } from 'utils/uploadIPFS';
-import { event } from "nextjs-google-analytics";
+
 import ContactModal from 'components/UI/ContactModal';
+import { event } from "nextjs-google-analytics";
+import { uploadIpfs } from 'utils/uploadIPFS';
 
 
 
@@ -95,7 +90,7 @@ const Home: FC = (props: Props) => {
         }
     }
     )
-    const [fetchCoffeeChat, { data: searchUsersData, loading: searchUsersLoading }] =
+    const [fetchCoffeeChat, { data: coffeeChatData, loading: fetchCoffeeChatLoading }] =
         useLazyQuery(COFFEE_CHAT_QUERY_FILTERED_BY_POINT, {
             onCompleted(data) {
                 setCoffeeChats(
@@ -372,7 +367,7 @@ const Home: FC = (props: Props) => {
                                 placeholder="Type something that help people recognize you. e.g. College student wearing stripe T-shirt and Jordan 11."
                                 autoSize={{ minRows: 3, maxRows: 5 }} />
                         </div>
-                        <button disabled={(prepareError ? true : false) || isUploading} className='mt-20 bg-black text-white p-2 rounded-xl flex justify-center items-end hover:bg-opacity-80' onClick={handleStake}>
+                        <button disabled={(prepareError ? true : false) || isUploading} className='mt-20 bg-black text-white p-2 rounded-xl flex justify-center items-end hover:bg-opacity-80 disabled:bg-opacity-80' onClick={handleStake}>
                             {isUploading && <LoadingOutlined className='mr-2 text-[15px]' />} Let&apos;s go</button>
 
                     </div>
