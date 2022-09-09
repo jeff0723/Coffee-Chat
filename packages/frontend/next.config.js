@@ -14,6 +14,4 @@ const nextConfig = {
     buildExcludes: [/middleware-manifest.json$/]
   },
 }
-
-
 module.exports = withPWA(nextConfig)
