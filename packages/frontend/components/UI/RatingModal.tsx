@@ -24,6 +24,7 @@ const RatingModal = ({ open, toggle }: Props) => {
             redeemer: address
         },
         onCompleted: (data) => {
+            console.log(data)
             setUnratedChatList(data.coffeeChats)
         },
         onError: (error) => {

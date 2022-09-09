@@ -29,7 +29,6 @@ const CoffeeChatList = ({ open, toggle }: Props) => {
             initiater: address
         },
         onCompleted: (data) => {
-
             const activeChatList = data.coffeeChats.filter((coffeeChat: CoffeeChat) => (+coffeeChat.endTime) * 1000 > new Date().valueOf() && coffeeChat.isActive)
             const pastChatList = data.coffeeChats.filter((coffeeChat: CoffeeChat) => (+coffeeChat.endTime) * 1000 < new Date().valueOf() || !coffeeChat.isActive)
 
