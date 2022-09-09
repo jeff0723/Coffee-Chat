@@ -73,7 +73,6 @@ const CoffeeChatModal = ({ open, setOpen, setSelectedCoffeeChat, selectedCoffeeC
     useEffect(() => {
         getDescription()
     }, [selectedCoffeeChat])
-
     return (
         <Modal zIndex={201} width={300} footer={null} title="Info" open={open} onCancel={() => {
             setOpen(false)

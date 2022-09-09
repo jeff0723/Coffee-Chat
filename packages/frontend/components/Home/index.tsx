@@ -16,7 +16,7 @@ import useGeolocation from 'react-hook-geolocation';
 import toast from 'react-hot-toast';
 import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi';
 
-import { useQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import CoffeeChatModal from 'components/CoffeeChat/CoffeeChatModal';
 import PlaceAutoComplete from 'components/Search/PlaceAutoComplete';
 import SearchModal from 'components/Search/SearchModal';
@@ -74,6 +74,7 @@ const Home: FC = (props: Props) => {
     const [coffeeChats, setCoffeeChats] = useState<CoffeeChat[]>([])
     const geolocation = useGeolocation();
     const [currentTime,] = useState((new Date().valueOf() / 1000).toFixed(0))
+
     const { data, loading, error } = useQuery(COFFEE_CHAT_QUERY_FILTERED_BY_POINT, {
         variables: {
             lantitude1: ((geolocation.latitude - 1) * 10 ** 15).toString(),
@@ -94,6 +95,14 @@ const Home: FC = (props: Props) => {
         }
     }
     )
+    const [fetchCoffeeChat, { data: searchUsersData, loading: searchUsersLoading }] =
+        useLazyQuery(COFFEE_CHAT_QUERY_FILTERED_BY_POINT, {
+            onCompleted(data) {
+                setCoffeeChats(
+                    [...coffeeChats, ...data.coffeeChats]
+                )
+            }
+        })
 
     const [clicked, setClicked] = useState(false)
     const [coffeeChatClick, setCoffeeChatClick] = useState(false)
@@ -161,7 +170,18 @@ const Home: FC = (props: Props) => {
             setCoffeeChatPlacePhotos(photos)
         }
     }
-
+    useEffect(() => {
+        fetchCoffeeChat({
+            variables: {
+                lantitude1: ((clickedPoint.lat - 1) * 10 ** 15).toString(),
+                lantitude2: ((clickedPoint.lat + 1) * 10 ** 15).toString(),
+                longtitude1: ((clickedPoint.lng - 1) * 10 ** 15).toString(),
+                longtitude2: ((clickedPoint.lng + 1) * 10 ** 15).toString(),
+                now: currentTime,
+                isActive: true,
+            }
+        })
+    }, [clickedPoint])
     useEffect(() => {
         if (placeId) {
             getPlaceDetail()
@@ -224,16 +244,9 @@ const Home: FC = (props: Props) => {
         if (!inputAmount) return toast.error('Input amount cannot be zero')
         if (!startTime || !endTime) return toast.error("Must fill in start time and end time")
 
-        const json = {
-            name: `coffee chat`,
-            description: inputDescription,
-            image: ""
-        }
-        setIsUploading(true)
-        const { path } = await uploadIpfs(json).finally(() => setIsUploading(false))
-        setIpfsPath(path)
 
         await write?.()
+
     }
     if (!isLoaded) return <div className='h-screen w-full flex justify-center items-center'>Loading...</div>;
     return (
@@ -260,7 +273,12 @@ const Home: FC = (props: Props) => {
             {!isMobile ?
                 <div className='flex justify-between items-center p-2'>
                     <div className='flex items-center gap-4'>
-                        <div className='flex justify-center items-center gap-2 text-[24px] font-bold'> <img src='./logo.png' className='w-10 h-10' /> Coffee chat</div>
+                        <div className='flex justify-center items-center gap-2 text-[24px] font-bold' onClick={() => {
+                            setClickedPoint({
+                                lat: geolocation.latitude,
+                                lng: geolocation.longitude
+                            })
+                        }}> <img src='./logo.png' className='w-10 h-10' /> Coffee chat</div>
                         <div onClick={() => { setContactModalOpen(true) }}>
                             <MailOutlined className='text-[20px] hover:text-[21px]' />
                         </div>
@@ -286,7 +304,12 @@ const Home: FC = (props: Props) => {
                     <div className='flex justify-between items-center p-2'
                     >
                         <div className='flex justify-between items-center gap-2'>
-                            <div className='flex justify-center items-center gap-2 font-bold'> <img src='./logo.png' className='w-10 h-10' /> </div>
+                            <div className='flex justify-center items-center gap-2 font-bold' onClick={() => {
+                                setClickedPoint({
+                                    lat: geolocation.latitude,
+                                    lng: geolocation.longitude
+                                })
+                            }}> <img src='./logo.png' className='w-10 h-10' /> </div>
                             <div className='flex justify-center items-center w-10 h-10 rounded-full hover:bg-opacity-80'
                                 onClick={() => {
                                     event("search_click", {
@@ -335,10 +358,21 @@ const Home: FC = (props: Props) => {
                             <Input.TextArea
                                 value={inputDescription}
                                 onChange={(e) => { setInputDescription(e.target.value) }}
+                                onBlur={async () => {
+                                    console.log(inputDescription)
+                                    const json = {
+                                        name: `coffee chat`,
+                                        description: inputDescription,
+                                        image: ""
+                                    }
+                                    setIsUploading(true)
+                                    const { path } = await uploadIpfs(json).finally(() => setIsUploading(false))
+                                    setIpfsPath(path)
+                                }}
                                 placeholder="Type something that help people recognize you. e.g. College student wearing stripe T-shirt and Jordan 11."
                                 autoSize={{ minRows: 3, maxRows: 5 }} />
                         </div>
-                        <button disabled={prepareError ? true : false} className='mt-20 bg-black text-white p-2 rounded-xl flex justify-center items-end hover:bg-opacity-80' onClick={handleStake}>
+                        <button disabled={(prepareError ? true : false) || isUploading} className='mt-20 bg-black text-white p-2 rounded-xl flex justify-center items-end hover:bg-opacity-80' onClick={handleStake}>
                             {isUploading && <LoadingOutlined className='mr-2 text-[15px]' />} Let&apos;s go</button>
 
                     </div>
