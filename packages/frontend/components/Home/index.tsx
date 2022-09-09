@@ -277,7 +277,7 @@ const Home: FC = (props: Props) => {
                     <div className='flex justify-between items-center p-2'
                     >
                         <div className='flex justify-between items-center gap-2'>
-                            <div className='flex justify-center items-center gap-2 font-bold'> <img src='./logo.png' className='w-8 h-8' /> </div>
+                            <div className='flex justify-center items-center gap-2 font-bold'> <img src='./logo.png' className='w-10 h-10' /> </div>
                             <div className='flex justify-center items-center w-10 h-10 rounded-full hover:bg-opacity-80'
                                 onClick={() => {
                                     event("search_click", {
