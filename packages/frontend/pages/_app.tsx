@@ -8,7 +8,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-import { ALCHEMY_KEY } from 'constant';
+import { ALCHEMY_KEY, IS_PRODUCTION } from 'constant';
 import { Toaster } from 'react-hot-toast';
 import { ApolloProvider } from '@apollo/client';
 import { client } from 'utils/apollo';
@@ -17,8 +17,9 @@ import { RealViewportProvider } from "next-real-viewport";
 import { GoogleAnalytics } from "nextjs-google-analytics";
 import Updater from 'components/Updater/updater';
 
+const _chains = IS_PRODUCTION ? [chain.polygon] : [chain.polygonMumbai, chain.polygon, chain.localhost, chain.rinkeby]
 const { chains, provider, webSocketProvider } = configureChains(
-  [chain.polygonMumbai, chain.polygon, chain.localhost, chain.rinkeby],
+  _chains,
   [
     alchemyProvider({ apiKey: ALCHEMY_KEY }),
     publicProvider()
