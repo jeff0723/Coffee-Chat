@@ -1,6 +1,6 @@
 specVersion: 0.0.4
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: CoffeeChat
@@ -17,7 +17,7 @@ dataSources:
         - CoffeeChat
       abis:
         - name: CoffeeChat
-          file: ./abis/CoffeeChat.json
+          file: CoffeeChat/abis/CoffeeChat.json
       eventHandlers:
         - event: CoffeeChatIntialize(uint256,string,int128,int128,uint32,uint32,uint256,address,string)
           handler: handleCoffeeChatIntialize
@@ -27,4 +27,4 @@ dataSources:
           handler: handleCoffeeChatClose
         - event: CoffeeChatRate(uint256,uint8)
           handler: handleCoffeeChatRate
-      file: ./src/coffee-chat.ts
+      file: CoffeeChat/CoffeeChat.wasm

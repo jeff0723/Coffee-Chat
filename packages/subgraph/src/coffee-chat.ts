@@ -1,54 +1,55 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import { BigInt, Address } from "@graphprotocol/graph-ts"
 import {
-  CoffeeChat,
-  AdminChanged,
-  BeaconUpgraded,
-  Upgraded
+  CoffeeChatIntialize, CoffeeChatRedeem, Transfer, CoffeeChatRate,
 } from "../generated/CoffeeChat/CoffeeChat"
-import { ExampleEntity } from "../generated/schema"
+import { ExampleEntity, CoffeeChat } from "../generated/schema"
 
-export function handleAdminChanged(event: AdminChanged): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
+const ZERO_ADDERSS = Address.zero()
 
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (!entity) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
-
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
+export function handleCoffeeChatIntialize(event: CoffeeChatIntialize): void {
+  let coffeeChat = CoffeeChat.load(event.params.chatId.toString())
+  if (!coffeeChat) {
+    coffeeChat = new CoffeeChat(event.params.chatId.toString())
   }
-
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
-
-  // Entity fields can be set based on event parameters
-  entity.previousAdmin = event.params.previousAdmin
-  entity.newAdmin = event.params.newAdmin
-
-  // Entities can be written to the store with `.save()`
-  entity.save()
-
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
-
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let contract = Contract.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // None
+  coffeeChat.placeId = event.params.placeId
+  coffeeChat.startTime = event.params.startTime
+  coffeeChat.endTime = event.params.endTime
+  coffeeChat.lantitude = event.params.lantitude
+  coffeeChat.longtitude = event.params.longtitude
+  coffeeChat.stakeAmount = event.params.stakeAmount
+  coffeeChat.initializer = event.params.initializer
+  coffeeChat.metadataURI = event.params.metadataURI
+  coffeeChat.redeemer = ZERO_ADDERSS
+  coffeeChat.points = -1
+  coffeeChat.isActive = true
+  coffeeChat.save()
 }
 
-export function handleBeaconUpgraded(event: BeaconUpgraded): void {}
+export function handleCoffeeChatRedeem(event: CoffeeChatRedeem): void {
+  // if redeem, set redeemer
+  let coffeeChat = CoffeeChat.load(event.params.chatId.toString())
+  if (coffeeChat) {
+    coffeeChat.redeemer = event.params.redeemer
+    coffeeChat.save()
+  }
+}
 
-export function handleUpgraded(event: Upgraded): void {}
+export function handleCoffeeChatClose(event: Transfer): void {
+  // if burn the token, remain data but set isActive = false
+  if (event.params.to.equals(ZERO_ADDERSS)) {
+    let coffeeChat = CoffeeChat.load(event.params.tokenId.toString())
+    if (coffeeChat) {
+      coffeeChat.isActive = false
+      coffeeChat.save()
+    }
+  }
+}
+
+export function handleCoffeeChatRate(event: CoffeeChatRate): void {
+  // if redeemer rate, set points
+  let coffeeChat = CoffeeChat.load(event.params.chatId.toString())
+  if (coffeeChat) {
+    coffeeChat.points = event.params.points
+    coffeeChat.save()
+  }
+}

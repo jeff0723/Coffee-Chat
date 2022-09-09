@@ -69,3 +69,142 @@ export class ExampleEntity extends Entity {
     this.set("newAdmin", Value.fromBytes(value));
   }
 }
+
+export class CoffeeChat extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save CoffeeChat entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type CoffeeChat must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("CoffeeChat", id.toString(), this);
+    }
+  }
+
+  static load(id: string): CoffeeChat | null {
+    return changetype<CoffeeChat | null>(store.get("CoffeeChat", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get placeId(): string {
+    let value = this.get("placeId");
+    return value!.toString();
+  }
+
+  set placeId(value: string) {
+    this.set("placeId", Value.fromString(value));
+  }
+
+  get lantitude(): BigInt {
+    let value = this.get("lantitude");
+    return value!.toBigInt();
+  }
+
+  set lantitude(value: BigInt) {
+    this.set("lantitude", Value.fromBigInt(value));
+  }
+
+  get longtitude(): BigInt {
+    let value = this.get("longtitude");
+    return value!.toBigInt();
+  }
+
+  set longtitude(value: BigInt) {
+    this.set("longtitude", Value.fromBigInt(value));
+  }
+
+  get startTime(): BigInt {
+    let value = this.get("startTime");
+    return value!.toBigInt();
+  }
+
+  set startTime(value: BigInt) {
+    this.set("startTime", Value.fromBigInt(value));
+  }
+
+  get endTime(): BigInt {
+    let value = this.get("endTime");
+    return value!.toBigInt();
+  }
+
+  set endTime(value: BigInt) {
+    this.set("endTime", Value.fromBigInt(value));
+  }
+
+  get stakeAmount(): BigInt {
+    let value = this.get("stakeAmount");
+    return value!.toBigInt();
+  }
+
+  set stakeAmount(value: BigInt) {
+    this.set("stakeAmount", Value.fromBigInt(value));
+  }
+
+  get initializer(): Bytes {
+    let value = this.get("initializer");
+    return value!.toBytes();
+  }
+
+  set initializer(value: Bytes) {
+    this.set("initializer", Value.fromBytes(value));
+  }
+
+  get redeemer(): Bytes | null {
+    let value = this.get("redeemer");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set redeemer(value: Bytes | null) {
+    if (!value) {
+      this.unset("redeemer");
+    } else {
+      this.set("redeemer", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get isActive(): boolean {
+    let value = this.get("isActive");
+    return value!.toBoolean();
+  }
+
+  set isActive(value: boolean) {
+    this.set("isActive", Value.fromBoolean(value));
+  }
+
+  get metadataURI(): string {
+    let value = this.get("metadataURI");
+    return value!.toString();
+  }
+
+  set metadataURI(value: string) {
+    this.set("metadataURI", Value.fromString(value));
+  }
+
+  get points(): i32 {
+    let value = this.get("points");
+    return value!.toI32();
+  }
+
+  set points(value: i32) {
+    this.set("points", Value.fromI32(value));
+  }
+}
