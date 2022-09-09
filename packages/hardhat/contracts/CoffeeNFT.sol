@@ -21,7 +21,7 @@ contract CoffeeNFT is
 
     uint16 public constant MAX_SUPPLY = 10000;
 
-    function initialize(address _coffeeChatAddress) public initializer {
+    function initialize(address _coffeeChatAddress) public initializer initializerERC721A {
         __ERC721A_init("CoffeeNFT", "CNFT");
         __Ownable_init();
         __UUPSUpgradeable_init();
