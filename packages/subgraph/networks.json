@@ -1,7 +1,7 @@
 {
-  "rinkeby": {
+  "matic": {
     "CoffeeChat": {
-      "address": "0xe4916af0e8EFeb9C95C42139706f891ea0b50FE6"
+      "address": "0x4eD8CB52ce6Df5FD46017648DdDa93a753E7a116"
     }
   }
 }

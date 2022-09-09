@@ -4,27 +4,26 @@ schema:
 dataSources:
   - kind: ethereum
     name: CoffeeChat
-    network: rinkeby
+    network: matic
     source:
-      address: "0xa717BA0e938cd4F18B720A0Eaf52F737ECe848BB"
+      address: "0x4eD8CB52ce6Df5FD46017648DdDa93a753E7a116"
       abi: CoffeeChat
-      startBlock: 11310605
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.6
+      apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-        - CoffeeChat
+        - AdminChanged
+        - BeaconUpgraded
+        - Upgraded
       abis:
         - name: CoffeeChat
           file: ./abis/CoffeeChat.json
       eventHandlers:
-        - event: CoffeeChatIntialize(uint256,string,int128,int128,uint32,uint32,uint256,address,string)
-          handler: handleCoffeeChatIntialize
-        - event: CoffeeChatRedeem(uint256,address)
-          handler: handleCoffeeChatRedeem
-        - event: Transfer(indexed address,indexed address,indexed uint256)
-          handler: handleCoffeeChatClose
-        - event: CoffeeChatRate(uint256,uint8)
-          handler: handleCoffeeChatRate
+        - event: AdminChanged(address,address)
+          handler: handleAdminChanged
+        - event: BeaconUpgraded(indexed address)
+          handler: handleBeaconUpgraded
+        - event: Upgraded(indexed address)
+          handler: handleUpgraded
       file: ./src/coffee-chat.ts
