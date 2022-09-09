@@ -44,9 +44,9 @@ const CoffeeChatList = ({ open, toggle }: Props) => {
     )
     useEffect(() => {
         fetchCoffeeChat()
-        setInterval(() => fetchCoffeeChat(), 15000);
+        const id = setInterval(() => fetchCoffeeChat(), 15000);
         return (() => {
-            clearInterval()
+            clearInterval(id)
         })
     }, [])
 

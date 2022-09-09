@@ -35,9 +35,9 @@ const RatingModal = ({ open, toggle }: Props) => {
 
     useEffect(() => {
         fetchRate()
-        setInterval(() => fetchRate(), 15000);
+        const id = setInterval(() => fetchRate(), 15000);
         return (() => {
-            clearInterval()
+            clearInterval(id)
         })
     }, [])
 
