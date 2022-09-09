@@ -6,7 +6,7 @@ dataSources:
     name: CoffeeChat
     network: rinkeby
     source:
-      address: "0x83E053EEEd2AE4c22D668e19007bD231a49d0f5C"
+      address: "0xa717BA0e938cd4F18B720A0Eaf52F737ECe848BB"
       abi: CoffeeChat
       startBlock: 11310605
     mapping:

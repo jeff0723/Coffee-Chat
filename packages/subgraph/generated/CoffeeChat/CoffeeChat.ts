@@ -357,6 +357,41 @@ export class CoffeeChat__eloOfResult {
   }
 }
 
+export class CoffeeChat__tokenParamsResult {
+  value0: i32;
+  value1: BigInt;
+  value2: BigInt;
+
+  constructor(value0: i32, value1: BigInt, value2: BigInt) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value2;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set(
+      "value0",
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value0))
+    );
+    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
+    map.set("value2", ethereum.Value.fromUnsignedBigInt(this.value2));
+    return map;
+  }
+
+  getCommission(): i32 {
+    return this.value0;
+  }
+
+  getBase(): BigInt {
+    return this.value1;
+  }
+
+  getRatio(): BigInt {
+    return this.value2;
+  }
+}
+
 export class CoffeeChat extends ethereum.SmartContract {
   static bind(address: Address): CoffeeChat {
     return new CoffeeChat("CoffeeChat", address);
@@ -652,6 +687,39 @@ export class CoffeeChat extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toString());
+  }
+
+  tokenParams(): CoffeeChat__tokenParamsResult {
+    let result = super.call(
+      "tokenParams",
+      "tokenParams():(uint8,uint216,uint32)",
+      []
+    );
+
+    return new CoffeeChat__tokenParamsResult(
+      result[0].toI32(),
+      result[1].toBigInt(),
+      result[2].toBigInt()
+    );
+  }
+
+  try_tokenParams(): ethereum.CallResult<CoffeeChat__tokenParamsResult> {
+    let result = super.tryCall(
+      "tokenParams",
+      "tokenParams():(uint8,uint216,uint32)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new CoffeeChat__tokenParamsResult(
+        value[0].toI32(),
+        value[1].toBigInt(),
+        value[2].toBigInt()
+      )
+    );
   }
 
   tokenURI(tokenId: BigInt): string {
@@ -1098,33 +1166,49 @@ export class SetCoffeeNFTCall__Outputs {
   }
 }
 
-export class SetCommissionCall extends ethereum.Call {
-  get inputs(): SetCommissionCall__Inputs {
-    return new SetCommissionCall__Inputs(this);
+export class SetTokenParamsCall extends ethereum.Call {
+  get inputs(): SetTokenParamsCall__Inputs {
+    return new SetTokenParamsCall__Inputs(this);
   }
 
-  get outputs(): SetCommissionCall__Outputs {
-    return new SetCommissionCall__Outputs(this);
-  }
-}
-
-export class SetCommissionCall__Inputs {
-  _call: SetCommissionCall;
-
-  constructor(call: SetCommissionCall) {
-    this._call = call;
-  }
-
-  get number(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
+  get outputs(): SetTokenParamsCall__Outputs {
+    return new SetTokenParamsCall__Outputs(this);
   }
 }
 
-export class SetCommissionCall__Outputs {
-  _call: SetCommissionCall;
+export class SetTokenParamsCall__Inputs {
+  _call: SetTokenParamsCall;
 
-  constructor(call: SetCommissionCall) {
+  constructor(call: SetTokenParamsCall) {
     this._call = call;
+  }
+
+  get _tokenParams(): SetTokenParamsCall_tokenParamsStruct {
+    return changetype<SetTokenParamsCall_tokenParamsStruct>(
+      this._call.inputValues[0].value.toTuple()
+    );
+  }
+}
+
+export class SetTokenParamsCall__Outputs {
+  _call: SetTokenParamsCall;
+
+  constructor(call: SetTokenParamsCall) {
+    this._call = call;
+  }
+}
+
+export class SetTokenParamsCall_tokenParamsStruct extends ethereum.Tuple {
+  get commission(): i32 {
+    return this[0].toI32();
+  }
+
+  get base(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get ratio(): BigInt {
+    return this[2].toBigInt();
   }
 }
 

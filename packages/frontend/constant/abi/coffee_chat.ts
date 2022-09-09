@@ -98,15 +98,15 @@ export const COFFEE_CHAT = [
       },
       {
         "indexed": false,
-        "internalType": "uint64",
+        "internalType": "int128",
         "name": "lantitude",
-        "type": "uint64"
+        "type": "int128"
       },
       {
         "indexed": false,
-        "internalType": "uint64",
+        "internalType": "int128",
         "name": "longtitude",
-        "type": "uint64"
+        "type": "int128"
       },
       {
         "indexed": false,
@@ -327,6 +327,32 @@ export const COFFEE_CHAT = [
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "coffeeContract",
+    "outputs": [
+      {
+        "internalType": "contract Coffee",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "coffeeNFTContract",
+    "outputs": [
+      {
+        "internalType": "contract CoffeeNFT",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -394,14 +420,14 @@ export const COFFEE_CHAT = [
         "type": "uint32"
       },
       {
-        "internalType": "uint64",
+        "internalType": "int128",
         "name": "lantitude",
-        "type": "uint64"
+        "type": "int128"
       },
       {
-        "internalType": "uint64",
+        "internalType": "int128",
         "name": "longtitude",
-        "type": "uint64"
+        "type": "int128"
       },
       {
         "internalType": "string",
@@ -655,12 +681,55 @@ export const COFFEE_CHAT = [
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "number",
-        "type": "uint256"
+        "internalType": "address",
+        "name": "coffeeAddress",
+        "type": "address"
       }
     ],
-    "name": "setCommission",
+    "name": "setCoffee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "coffeeNFTAddress",
+        "type": "address"
+      }
+    ],
+    "name": "setCoffeeNFT",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint8",
+            "name": "commission",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint216",
+            "name": "base",
+            "type": "uint216"
+          },
+          {
+            "internalType": "uint32",
+            "name": "ratio",
+            "type": "uint32"
+          }
+        ],
+        "internalType": "struct CoffeeChat.TokenParams",
+        "name": "_tokenParams",
+        "type": "tuple"
+      }
+    ],
+    "name": "setTokenParams",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -692,6 +761,29 @@ export const COFFEE_CHAT = [
         "internalType": "string",
         "name": "",
         "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "tokenParams",
+    "outputs": [
+      {
+        "internalType": "uint8",
+        "name": "commission",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint216",
+        "name": "base",
+        "type": "uint216"
+      },
+      {
+        "internalType": "uint32",
+        "name": "ratio",
+        "type": "uint32"
       }
     ],
     "stateMutability": "view",

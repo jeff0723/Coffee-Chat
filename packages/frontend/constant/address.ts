@@ -16,15 +16,15 @@ export enum SupportedChainId {
 }
 
 export const COFFEE_CHAT_ADDRESS: AddressMap = {
-    [SupportedChainId.RINKEBY]: '0x83E053EEEd2AE4c22D668e19007bD231a49d0f5C',
+    [SupportedChainId.RINKEBY]: '0xa717BA0e938cd4F18B720A0Eaf52F737ECe848BB',
     [SupportedChainId.HARDHAT]: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
 }
 export const COFFEE_NFT_ADDRESS: AddressMap = {
-    [SupportedChainId.RINKEBY]: '0x82CEeBeBdD00a5E72FCaa75b448e6705b616a05F',
+    [SupportedChainId.RINKEBY]: '0x70611611B641f587b12c4BF052D8424b6A5ACa85',
 
 }
 
 export const COFFEE_TOKEN_ADDRESS: AddressMap = {
-    [SupportedChainId.RINKEBY]: '0x82CEeBeBdD00a5E72FCaa75b448e6705b616a05F',
+    [SupportedChainId.RINKEBY]: '0xaBEdD255741f9057c81A4E03C6266c64a65dc2E7',
 
 }
