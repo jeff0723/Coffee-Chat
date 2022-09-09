@@ -6,6 +6,7 @@
     "codegen": "graph codegen",
     "build": "graph build",
     "deploy": "graph deploy --node https://api.thegraph.com/deploy/ jeff0723/coffee-chat",
+    "deploy-production": " graph deploy --product hosted-service jeff0723/coffeechat",
     "create-local": "graph create --node http://localhost:8020/ jeff0723/coffee-chat",
     "remove-local": "graph remove --node http://localhost:8020/ jeff0723/coffee-chat",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 jeff0723/coffee-chat",
