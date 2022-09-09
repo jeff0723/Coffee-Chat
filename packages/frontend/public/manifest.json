@@ -1,0 +1,22 @@
+{
+    "name": "Coffee Chat",
+    "short_name": "CoffeeChat",
+    "description": "A map based app that allow user to stake token and launch a coffee chat",
+    "icons": [
+        {
+            "src": "/icon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#FFFFFF",
+    "background_color": "#FFFFFF",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait"
+}
