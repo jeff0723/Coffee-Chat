@@ -32,6 +32,18 @@ export declare namespace CoffeeChat {
   export type RedeemVoucherStruct = { chatId: PromiseOrValue<BigNumberish> };
 
   export type RedeemVoucherStructOutput = [BigNumber] & { chatId: BigNumber };
+
+  export type TokenParamsStruct = {
+    commission: PromiseOrValue<BigNumberish>;
+    base: PromiseOrValue<BigNumberish>;
+    ratio: PromiseOrValue<BigNumberish>;
+  };
+
+  export type TokenParamsStructOutput = [number, BigNumber, number] & {
+    commission: number;
+    base: BigNumber;
+    ratio: number;
+  };
 }
 
 export interface CoffeeChatInterface extends utils.Interface {
@@ -60,9 +72,10 @@ export interface CoffeeChatInterface extends utils.Interface {
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setCoffee(address)": FunctionFragment;
     "setCoffeeNFT(address)": FunctionFragment;
-    "setCommission(uint256)": FunctionFragment;
+    "setTokenParams((uint8,uint216,uint32))": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
+    "tokenParams()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -96,9 +109,10 @@ export interface CoffeeChatInterface extends utils.Interface {
       | "setApprovalForAll"
       | "setCoffee"
       | "setCoffeeNFT"
-      | "setCommission"
+      | "setTokenParams"
       | "supportsInterface"
       | "symbol"
+      | "tokenParams"
       | "tokenURI"
       | "transferFrom"
       | "transferOwnership"
@@ -217,14 +231,18 @@ export interface CoffeeChatInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setCommission",
-    values: [PromiseOrValue<BigNumberish>]
+    functionFragment: "setTokenParams",
+    values: [CoffeeChat.TokenParamsStruct]
   ): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "tokenParams",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "tokenURI",
     values: [PromiseOrValue<BigNumberish>]
@@ -314,7 +332,7 @@ export interface CoffeeChatInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setCommission",
+    functionFragment: "setTokenParams",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -322,6 +340,10 @@ export interface CoffeeChatInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "tokenParams",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferFrom",
@@ -652,8 +674,8 @@ export interface CoffeeChat extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setCommission(
-      number: PromiseOrValue<BigNumberish>,
+    setTokenParams(
+      _tokenParams: CoffeeChat.TokenParamsStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -663,6 +685,16 @@ export interface CoffeeChat extends BaseContract {
     ): Promise<[boolean]>;
 
     symbol(overrides?: CallOverrides): Promise<[string]>;
+
+    tokenParams(
+      overrides?: CallOverrides
+    ): Promise<
+      [number, BigNumber, number] & {
+        commission: number;
+        base: BigNumber;
+        ratio: number;
+      }
+    >;
 
     tokenURI(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -817,8 +849,8 @@ export interface CoffeeChat extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setCommission(
-    number: PromiseOrValue<BigNumberish>,
+  setTokenParams(
+    _tokenParams: CoffeeChat.TokenParamsStruct,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -828,6 +860,16 @@ export interface CoffeeChat extends BaseContract {
   ): Promise<boolean>;
 
   symbol(overrides?: CallOverrides): Promise<string>;
+
+  tokenParams(
+    overrides?: CallOverrides
+  ): Promise<
+    [number, BigNumber, number] & {
+      commission: number;
+      base: BigNumber;
+      ratio: number;
+    }
+  >;
 
   tokenURI(
     tokenId: PromiseOrValue<BigNumberish>,
@@ -980,8 +1022,8 @@ export interface CoffeeChat extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setCommission(
-      number: PromiseOrValue<BigNumberish>,
+    setTokenParams(
+      _tokenParams: CoffeeChat.TokenParamsStruct,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -991,6 +1033,16 @@ export interface CoffeeChat extends BaseContract {
     ): Promise<boolean>;
 
     symbol(overrides?: CallOverrides): Promise<string>;
+
+    tokenParams(
+      overrides?: CallOverrides
+    ): Promise<
+      [number, BigNumber, number] & {
+        commission: number;
+        base: BigNumber;
+        ratio: number;
+      }
+    >;
 
     tokenURI(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -1246,8 +1298,8 @@ export interface CoffeeChat extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setCommission(
-      number: PromiseOrValue<BigNumberish>,
+    setTokenParams(
+      _tokenParams: CoffeeChat.TokenParamsStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1257,6 +1309,8 @@ export interface CoffeeChat extends BaseContract {
     ): Promise<BigNumber>;
 
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
+
+    tokenParams(overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenURI(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -1404,8 +1458,8 @@ export interface CoffeeChat extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setCommission(
-      number: PromiseOrValue<BigNumberish>,
+    setTokenParams(
+      _tokenParams: CoffeeChat.TokenParamsStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1415,6 +1469,8 @@ export interface CoffeeChat extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    tokenParams(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     tokenURI(
       tokenId: PromiseOrValue<BigNumberish>,

@@ -44,6 +44,10 @@ contract CoffeeNFT is
         onlyOwner
     {}
 
+    function _baseURI() internal override view returns (string memory) {
+        return baseTokenURI;
+    }
+
     modifier onlyCoffeeChat() {
         require(
             _msgSender() == coffeeChatAddress,

@@ -59,20 +59,28 @@ contract CoffeeChat is
 
     mapping(address => PersonalElo) public eloOf;
 
-    uint256 private _commission;
-
     uint256 public nextChatId;
 
     CoffeeNFT public coffeeNFTContract;
 
     Coffee public coffeeContract;
 
+    struct TokenParams {
+        uint8 commission;
+        uint216 base;
+        uint32 ratio;
+    }
+
+    TokenParams public tokenParams;
+
     function initialize() public initializer {
         __ERC721_init("CoffeeChat", "COFFEE");
         __EIP712_init("CoffeeChat", "1");
         __Ownable_init();
         __UUPSUpgradeable_init();
-        _commission = 0;
+        tokenParams.commission = 0;
+        tokenParams.base = 10 ether;
+        tokenParams.ratio = 250;
         nextChatId = 0;
     }
 
@@ -130,7 +138,8 @@ contract CoffeeChat is
         require(_chatInfo.endTime > block.timestamp, "Chat has already ended!");
         _verify(voucher, signature);
 
-        uint256 fee = (_chatInfo.stakeAmount * _commission) / 10000;
+        TokenParams memory _tokenParams = tokenParams;
+        uint256 fee = (_chatInfo.stakeAmount * _tokenParams.commission) / 10000;
         if (fee > 0) {
             AddressUpgradeable.sendValue(payable(owner()), fee);
         }
@@ -145,9 +154,9 @@ contract CoffeeChat is
         ) {
             coffeeNFTContract.mint(_chatInfo.initializer, _msgSender());
         }
-        uint256 coffeeTokenAmount = 100 ether +
-            (_chatInfo.stakeAmount * _commission) /
-            1000;
+        uint256 coffeeTokenAmount = _tokenParams.base +
+            (_chatInfo.stakeAmount *  _tokenParams.ratio) /
+            10000;
         if (
             (coffeeContract.totalSupply() + coffeeTokenAmount * 2) <=
             coffeeContract.MAX_SUPPLY()
@@ -208,9 +217,8 @@ contract CoffeeChat is
         );
     }
 
-    function setCommission(uint256 number) external onlyOwner {
-        require(number <= 250, "Over 2.5%");
-        _commission = number;
+    function setTokenParams(TokenParams calldata _tokenParams) external onlyOwner {
+        tokenParams = _tokenParams;
     }
 
     function setCoffeeNFT(address coffeeNFTAddress) external onlyOwner {
