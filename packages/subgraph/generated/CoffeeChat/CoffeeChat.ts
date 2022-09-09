@@ -420,6 +420,48 @@ export class CoffeeChat extends ethereum.SmartContract {
     );
   }
 
+  coffeeContract(): Address {
+    let result = super.call("coffeeContract", "coffeeContract():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_coffeeContract(): ethereum.CallResult<Address> {
+    let result = super.tryCall(
+      "coffeeContract",
+      "coffeeContract():(address)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  coffeeNFTContract(): Address {
+    let result = super.call(
+      "coffeeNFTContract",
+      "coffeeNFTContract():(address)",
+      []
+    );
+
+    return result[0].toAddress();
+  }
+
+  try_coffeeNFTContract(): ethereum.CallResult<Address> {
+    let result = super.tryCall(
+      "coffeeNFTContract",
+      "coffeeNFTContract():(address)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
   eloOf(param0: Address): CoffeeChat__eloOfResult {
     let result = super.call("eloOf", "eloOf(address):(uint128,uint128)", [
       ethereum.Value.fromAddress(param0)
@@ -992,6 +1034,66 @@ export class SetApprovalForAllCall__Outputs {
   _call: SetApprovalForAllCall;
 
   constructor(call: SetApprovalForAllCall) {
+    this._call = call;
+  }
+}
+
+export class SetCoffeeCall extends ethereum.Call {
+  get inputs(): SetCoffeeCall__Inputs {
+    return new SetCoffeeCall__Inputs(this);
+  }
+
+  get outputs(): SetCoffeeCall__Outputs {
+    return new SetCoffeeCall__Outputs(this);
+  }
+}
+
+export class SetCoffeeCall__Inputs {
+  _call: SetCoffeeCall;
+
+  constructor(call: SetCoffeeCall) {
+    this._call = call;
+  }
+
+  get coffeeAddress(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetCoffeeCall__Outputs {
+  _call: SetCoffeeCall;
+
+  constructor(call: SetCoffeeCall) {
+    this._call = call;
+  }
+}
+
+export class SetCoffeeNFTCall extends ethereum.Call {
+  get inputs(): SetCoffeeNFTCall__Inputs {
+    return new SetCoffeeNFTCall__Inputs(this);
+  }
+
+  get outputs(): SetCoffeeNFTCall__Outputs {
+    return new SetCoffeeNFTCall__Outputs(this);
+  }
+}
+
+export class SetCoffeeNFTCall__Inputs {
+  _call: SetCoffeeNFTCall;
+
+  constructor(call: SetCoffeeNFTCall) {
+    this._call = call;
+  }
+
+  get coffeeNFTAddress(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetCoffeeNFTCall__Outputs {
+  _call: SetCoffeeNFTCall;
+
+  constructor(call: SetCoffeeNFTCall) {
     this._call = call;
   }
 }

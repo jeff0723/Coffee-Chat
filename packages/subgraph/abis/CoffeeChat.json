@@ -98,15 +98,15 @@
       },
       {
         "indexed": false,
-        "internalType": "uint64",
+        "internalType": "int128",
         "name": "lantitude",
-        "type": "uint64"
+        "type": "int128"
       },
       {
         "indexed": false,
-        "internalType": "uint64",
+        "internalType": "int128",
         "name": "longtitude",
-        "type": "uint64"
+        "type": "int128"
       },
       {
         "indexed": false,
@@ -327,6 +327,32 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "coffeeContract",
+    "outputs": [
+      {
+        "internalType": "contract Coffee",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "coffeeNFTContract",
+    "outputs": [
+      {
+        "internalType": "contract CoffeeNFT",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -394,14 +420,14 @@
         "type": "uint32"
       },
       {
-        "internalType": "uint64",
+        "internalType": "int128",
         "name": "lantitude",
-        "type": "uint64"
+        "type": "int128"
       },
       {
-        "internalType": "uint64",
+        "internalType": "int128",
         "name": "longtitude",
-        "type": "uint64"
+        "type": "int128"
       },
       {
         "internalType": "string",
@@ -648,6 +674,32 @@
       }
     ],
     "name": "setApprovalForAll",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "coffeeAddress",
+        "type": "address"
+      }
+    ],
+    "name": "setCoffee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "coffeeNFTAddress",
+        "type": "address"
+      }
+    ],
+    "name": "setCoffeeNFT",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
