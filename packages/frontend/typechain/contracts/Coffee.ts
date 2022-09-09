@@ -28,30 +28,25 @@ import type {
   PromiseOrValue,
 } from "../common";
 
-export interface CoffeeNFTInterface extends utils.Interface {
+export interface CoffeeInterface extends utils.Interface {
   functions: {
     "MAX_SUPPLY()": FunctionFragment;
+    "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "baseTokenURI()": FunctionFragment;
     "coffeeChatAddress()": FunctionFragment;
-    "getApproved(uint256)": FunctionFragment;
+    "decimals()": FunctionFragment;
+    "decreaseAllowance(address,uint256)": FunctionFragment;
+    "increaseAllowance(address,uint256)": FunctionFragment;
     "initialize(address)": FunctionFragment;
-    "isApprovedForAll(address,address)": FunctionFragment;
-    "mint(address,address)": FunctionFragment;
+    "mint(address,address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
-    "ownerOf(uint256)": FunctionFragment;
     "proxiableUUID()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
-    "safeTransferFrom(address,address,uint256)": FunctionFragment;
-    "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
-    "setApprovalForAll(address,bool)": FunctionFragment;
-    "setBaseURI(string)": FunctionFragment;
-    "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
-    "tokenURI(uint256)": FunctionFragment;
     "totalSupply()": FunctionFragment;
+    "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "upgradeTo(address)": FunctionFragment;
@@ -61,27 +56,22 @@ export interface CoffeeNFTInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "MAX_SUPPLY"
+      | "allowance"
       | "approve"
       | "balanceOf"
-      | "baseTokenURI"
       | "coffeeChatAddress"
-      | "getApproved"
+      | "decimals"
+      | "decreaseAllowance"
+      | "increaseAllowance"
       | "initialize"
-      | "isApprovedForAll"
       | "mint"
       | "name"
       | "owner"
-      | "ownerOf"
       | "proxiableUUID"
       | "renounceOwnership"
-      | "safeTransferFrom(address,address,uint256)"
-      | "safeTransferFrom(address,address,uint256,bytes)"
-      | "setApprovalForAll"
-      | "setBaseURI"
-      | "supportsInterface"
       | "symbol"
-      | "tokenURI"
       | "totalSupply"
+      | "transfer"
       | "transferFrom"
       | "transferOwnership"
       | "upgradeTo"
@@ -93,6 +83,10 @@ export interface CoffeeNFTInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "allowance",
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "approve",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
@@ -101,35 +95,32 @@ export interface CoffeeNFTInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "baseTokenURI",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "coffeeChatAddress",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "getApproved",
-    values: [PromiseOrValue<BigNumberish>]
+    functionFragment: "decreaseAllowance",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "increaseAllowance",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "initialize",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "isApprovedForAll",
-    values: [PromiseOrValue<string>, PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "mint",
-    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>
+    ]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "ownerOf",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
   encodeFunctionData(
     functionFragment: "proxiableUUID",
     values?: undefined
@@ -138,43 +129,14 @@ export interface CoffeeNFTInterface extends utils.Interface {
     functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
-  encodeFunctionData(
-    functionFragment: "safeTransferFrom(address,address,uint256)",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>
-    ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BytesLike>
-    ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setApprovalForAll",
-    values: [PromiseOrValue<string>, PromiseOrValue<boolean>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setBaseURI",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "supportsInterface",
-    values: [PromiseOrValue<BytesLike>]
-  ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "tokenURI",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
   encodeFunctionData(
     functionFragment: "totalSupply",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "transfer",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "transferFrom",
@@ -198,29 +160,26 @@ export interface CoffeeNFTInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "MAX_SUPPLY", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "baseTokenURI",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "coffeeChatAddress",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "getApproved",
+    functionFragment: "decreaseAllowance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "increaseAllowance",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "isApprovedForAll",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "proxiableUUID",
     data: BytesLike
@@ -229,29 +188,12 @@ export interface CoffeeNFTInterface extends utils.Interface {
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "safeTransferFrom(address,address,uint256)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setApprovalForAll",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "setBaseURI", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "supportsInterface",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "totalSupply",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferFrom",
     data: BytesLike
@@ -269,9 +211,7 @@ export interface CoffeeNFTInterface extends utils.Interface {
   events: {
     "AdminChanged(address,address)": EventFragment;
     "Approval(address,address,uint256)": EventFragment;
-    "ApprovalForAll(address,address,bool)": EventFragment;
     "BeaconUpgraded(address)": EventFragment;
-    "ConsecutiveTransfer(uint256,uint256,address,address)": EventFragment;
     "Initialized(uint8)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
@@ -280,9 +220,7 @@ export interface CoffeeNFTInterface extends utils.Interface {
 
   getEvent(nameOrSignatureOrTopic: "AdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "ConsecutiveTransfer"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
@@ -302,8 +240,8 @@ export type AdminChangedEventFilter = TypedEventFilter<AdminChangedEvent>;
 
 export interface ApprovalEventObject {
   owner: string;
-  approved: string;
-  tokenId: BigNumber;
+  spender: string;
+  value: BigNumber;
 }
 export type ApprovalEvent = TypedEvent<
   [string, string, BigNumber],
@@ -311,18 +249,6 @@ export type ApprovalEvent = TypedEvent<
 >;
 
 export type ApprovalEventFilter = TypedEventFilter<ApprovalEvent>;
-
-export interface ApprovalForAllEventObject {
-  owner: string;
-  operator: string;
-  approved: boolean;
-}
-export type ApprovalForAllEvent = TypedEvent<
-  [string, string, boolean],
-  ApprovalForAllEventObject
->;
-
-export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
 
 export interface BeaconUpgradedEventObject {
   beacon: string;
@@ -333,20 +259,6 @@ export type BeaconUpgradedEvent = TypedEvent<
 >;
 
 export type BeaconUpgradedEventFilter = TypedEventFilter<BeaconUpgradedEvent>;
-
-export interface ConsecutiveTransferEventObject {
-  fromTokenId: BigNumber;
-  toTokenId: BigNumber;
-  from: string;
-  to: string;
-}
-export type ConsecutiveTransferEvent = TypedEvent<
-  [BigNumber, BigNumber, string, string],
-  ConsecutiveTransferEventObject
->;
-
-export type ConsecutiveTransferEventFilter =
-  TypedEventFilter<ConsecutiveTransferEvent>;
 
 export interface InitializedEventObject {
   version: number;
@@ -370,7 +282,7 @@ export type OwnershipTransferredEventFilter =
 export interface TransferEventObject {
   from: string;
   to: string;
-  tokenId: BigNumber;
+  value: BigNumber;
 }
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber],
@@ -386,12 +298,12 @@ export type UpgradedEvent = TypedEvent<[string], UpgradedEventObject>;
 
 export type UpgradedEventFilter = TypedEventFilter<UpgradedEvent>;
 
-export interface CoffeeNFT extends BaseContract {
+export interface Coffee extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: CoffeeNFTInterface;
+  interface: CoffeeInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -413,42 +325,50 @@ export interface CoffeeNFT extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    MAX_SUPPLY(overrides?: CallOverrides): Promise<[number]>;
+    MAX_SUPPLY(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    allowance(
+      owner: PromiseOrValue<string>,
+      spender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     approve(
-      to: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
+      spender: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     balanceOf(
-      owner: PromiseOrValue<string>,
+      account: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    baseTokenURI(overrides?: CallOverrides): Promise<[string]>;
-
     coffeeChatAddress(overrides?: CallOverrides): Promise<[string]>;
 
-    getApproved(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
+    decimals(overrides?: CallOverrides): Promise<[number]>;
+
+    decreaseAllowance(
+      spender: PromiseOrValue<string>,
+      subtractedValue: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    increaseAllowance(
+      spender: PromiseOrValue<string>,
+      addedValue: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     initialize(
       _coffeeChatAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    isApprovedForAll(
-      owner: PromiseOrValue<string>,
-      operator: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
     mint(
       user1: PromiseOrValue<string>,
       user2: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -456,61 +376,26 @@ export interface CoffeeNFT extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
-    ownerOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
     proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    "safeTransferFrom(address,address,uint256)"(
-      from: PromiseOrValue<string>,
-      to: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    "safeTransferFrom(address,address,uint256,bytes)"(
-      from: PromiseOrValue<string>,
-      to: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      _data: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setApprovalForAll(
-      operator: PromiseOrValue<string>,
-      approved: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setBaseURI(
-      baseURI: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    supportsInterface(
-      interfaceId: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
     symbol(overrides?: CallOverrides): Promise<[string]>;
 
-    tokenURI(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
     totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    transfer(
+      to: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     transferFrom(
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -531,42 +416,50 @@ export interface CoffeeNFT extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
-  MAX_SUPPLY(overrides?: CallOverrides): Promise<number>;
+  MAX_SUPPLY(overrides?: CallOverrides): Promise<BigNumber>;
+
+  allowance(
+    owner: PromiseOrValue<string>,
+    spender: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   approve(
-    to: PromiseOrValue<string>,
-    tokenId: PromiseOrValue<BigNumberish>,
+    spender: PromiseOrValue<string>,
+    amount: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   balanceOf(
-    owner: PromiseOrValue<string>,
+    account: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  baseTokenURI(overrides?: CallOverrides): Promise<string>;
-
   coffeeChatAddress(overrides?: CallOverrides): Promise<string>;
 
-  getApproved(
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
+  decimals(overrides?: CallOverrides): Promise<number>;
+
+  decreaseAllowance(
+    spender: PromiseOrValue<string>,
+    subtractedValue: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  increaseAllowance(
+    spender: PromiseOrValue<string>,
+    addedValue: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   initialize(
     _coffeeChatAddress: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  isApprovedForAll(
-    owner: PromiseOrValue<string>,
-    operator: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
   mint(
     user1: PromiseOrValue<string>,
     user2: PromiseOrValue<string>,
+    amount: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -574,61 +467,26 @@ export interface CoffeeNFT extends BaseContract {
 
   owner(overrides?: CallOverrides): Promise<string>;
 
-  ownerOf(
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  "safeTransferFrom(address,address,uint256)"(
-    from: PromiseOrValue<string>,
-    to: PromiseOrValue<string>,
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  "safeTransferFrom(address,address,uint256,bytes)"(
-    from: PromiseOrValue<string>,
-    to: PromiseOrValue<string>,
-    tokenId: PromiseOrValue<BigNumberish>,
-    _data: PromiseOrValue<BytesLike>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setApprovalForAll(
-    operator: PromiseOrValue<string>,
-    approved: PromiseOrValue<boolean>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setBaseURI(
-    baseURI: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  supportsInterface(
-    interfaceId: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
   symbol(overrides?: CallOverrides): Promise<string>;
 
-  tokenURI(
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+  transfer(
+    to: PromiseOrValue<string>,
+    amount: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   transferFrom(
     from: PromiseOrValue<string>,
     to: PromiseOrValue<string>,
-    tokenId: PromiseOrValue<BigNumberish>,
+    amount: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -649,42 +507,50 @@ export interface CoffeeNFT extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    MAX_SUPPLY(overrides?: CallOverrides): Promise<number>;
+    MAX_SUPPLY(overrides?: CallOverrides): Promise<BigNumber>;
 
-    approve(
-      to: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    balanceOf(
+    allowance(
       owner: PromiseOrValue<string>,
+      spender: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    baseTokenURI(overrides?: CallOverrides): Promise<string>;
+    approve(
+      spender: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    balanceOf(
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     coffeeChatAddress(overrides?: CallOverrides): Promise<string>;
 
-    getApproved(
-      tokenId: PromiseOrValue<BigNumberish>,
+    decimals(overrides?: CallOverrides): Promise<number>;
+
+    decreaseAllowance(
+      spender: PromiseOrValue<string>,
+      subtractedValue: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<string>;
+    ): Promise<boolean>;
+
+    increaseAllowance(
+      spender: PromiseOrValue<string>,
+      addedValue: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     initialize(
       _coffeeChatAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    isApprovedForAll(
-      owner: PromiseOrValue<string>,
-      operator: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
     mint(
       user1: PromiseOrValue<string>,
       user2: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -692,61 +558,26 @@ export interface CoffeeNFT extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<string>;
 
-    ownerOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
-    "safeTransferFrom(address,address,uint256)"(
-      from: PromiseOrValue<string>,
-      to: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "safeTransferFrom(address,address,uint256,bytes)"(
-      from: PromiseOrValue<string>,
-      to: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      _data: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setApprovalForAll(
-      operator: PromiseOrValue<string>,
-      approved: PromiseOrValue<boolean>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setBaseURI(
-      baseURI: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    supportsInterface(
-      interfaceId: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
     symbol(overrides?: CallOverrides): Promise<string>;
 
-    tokenURI(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+    transfer(
+      to: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     transferFrom(
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<boolean>;
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
@@ -777,25 +608,14 @@ export interface CoffeeNFT extends BaseContract {
 
     "Approval(address,address,uint256)"(
       owner?: PromiseOrValue<string> | null,
-      approved?: PromiseOrValue<string> | null,
-      tokenId?: PromiseOrValue<BigNumberish> | null
+      spender?: PromiseOrValue<string> | null,
+      value?: null
     ): ApprovalEventFilter;
     Approval(
       owner?: PromiseOrValue<string> | null,
-      approved?: PromiseOrValue<string> | null,
-      tokenId?: PromiseOrValue<BigNumberish> | null
+      spender?: PromiseOrValue<string> | null,
+      value?: null
     ): ApprovalEventFilter;
-
-    "ApprovalForAll(address,address,bool)"(
-      owner?: PromiseOrValue<string> | null,
-      operator?: PromiseOrValue<string> | null,
-      approved?: null
-    ): ApprovalForAllEventFilter;
-    ApprovalForAll(
-      owner?: PromiseOrValue<string> | null,
-      operator?: PromiseOrValue<string> | null,
-      approved?: null
-    ): ApprovalForAllEventFilter;
 
     "BeaconUpgraded(address)"(
       beacon?: PromiseOrValue<string> | null
@@ -803,19 +623,6 @@ export interface CoffeeNFT extends BaseContract {
     BeaconUpgraded(
       beacon?: PromiseOrValue<string> | null
     ): BeaconUpgradedEventFilter;
-
-    "ConsecutiveTransfer(uint256,uint256,address,address)"(
-      fromTokenId?: PromiseOrValue<BigNumberish> | null,
-      toTokenId?: null,
-      from?: PromiseOrValue<string> | null,
-      to?: PromiseOrValue<string> | null
-    ): ConsecutiveTransferEventFilter;
-    ConsecutiveTransfer(
-      fromTokenId?: PromiseOrValue<BigNumberish> | null,
-      toTokenId?: null,
-      from?: PromiseOrValue<string> | null,
-      to?: PromiseOrValue<string> | null
-    ): ConsecutiveTransferEventFilter;
 
     "Initialized(uint8)"(version?: null): InitializedEventFilter;
     Initialized(version?: null): InitializedEventFilter;
@@ -832,12 +639,12 @@ export interface CoffeeNFT extends BaseContract {
     "Transfer(address,address,uint256)"(
       from?: PromiseOrValue<string> | null,
       to?: PromiseOrValue<string> | null,
-      tokenId?: PromiseOrValue<BigNumberish> | null
+      value?: null
     ): TransferEventFilter;
     Transfer(
       from?: PromiseOrValue<string> | null,
       to?: PromiseOrValue<string> | null,
-      tokenId?: PromiseOrValue<BigNumberish> | null
+      value?: null
     ): TransferEventFilter;
 
     "Upgraded(address)"(
@@ -851,24 +658,37 @@ export interface CoffeeNFT extends BaseContract {
   estimateGas: {
     MAX_SUPPLY(overrides?: CallOverrides): Promise<BigNumber>;
 
+    allowance(
+      owner: PromiseOrValue<string>,
+      spender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     approve(
-      to: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
+      spender: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     balanceOf(
-      owner: PromiseOrValue<string>,
+      account: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    baseTokenURI(overrides?: CallOverrides): Promise<BigNumber>;
-
     coffeeChatAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getApproved(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
+    decimals(overrides?: CallOverrides): Promise<BigNumber>;
+
+    decreaseAllowance(
+      spender: PromiseOrValue<string>,
+      subtractedValue: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    increaseAllowance(
+      spender: PromiseOrValue<string>,
+      addedValue: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     initialize(
@@ -876,15 +696,10 @@ export interface CoffeeNFT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    isApprovedForAll(
-      owner: PromiseOrValue<string>,
-      operator: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     mint(
       user1: PromiseOrValue<string>,
       user2: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -892,61 +707,26 @@ export interface CoffeeNFT extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
-    ownerOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     proxiableUUID(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    "safeTransferFrom(address,address,uint256)"(
-      from: PromiseOrValue<string>,
-      to: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    "safeTransferFrom(address,address,uint256,bytes)"(
-      from: PromiseOrValue<string>,
-      to: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      _data: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setApprovalForAll(
-      operator: PromiseOrValue<string>,
-      approved: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setBaseURI(
-      baseURI: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    supportsInterface(
-      interfaceId: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
 
-    tokenURI(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+    transfer(
+      to: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
     transferFrom(
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -970,24 +750,37 @@ export interface CoffeeNFT extends BaseContract {
   populateTransaction: {
     MAX_SUPPLY(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    allowance(
+      owner: PromiseOrValue<string>,
+      spender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     approve(
-      to: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
+      spender: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     balanceOf(
-      owner: PromiseOrValue<string>,
+      account: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    baseTokenURI(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     coffeeChatAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    getApproved(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
+    decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    decreaseAllowance(
+      spender: PromiseOrValue<string>,
+      subtractedValue: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    increaseAllowance(
+      spender: PromiseOrValue<string>,
+      addedValue: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     initialize(
@@ -995,15 +788,10 @@ export interface CoffeeNFT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    isApprovedForAll(
-      owner: PromiseOrValue<string>,
-      operator: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     mint(
       user1: PromiseOrValue<string>,
       user2: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1011,61 +799,26 @@ export interface CoffeeNFT extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    ownerOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     proxiableUUID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    "safeTransferFrom(address,address,uint256)"(
-      from: PromiseOrValue<string>,
-      to: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "safeTransferFrom(address,address,uint256,bytes)"(
-      from: PromiseOrValue<string>,
-      to: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      _data: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setApprovalForAll(
-      operator: PromiseOrValue<string>,
-      approved: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setBaseURI(
-      baseURI: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    supportsInterface(
-      interfaceId: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    tokenURI(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    transfer(
+      to: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
     transferFrom(
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

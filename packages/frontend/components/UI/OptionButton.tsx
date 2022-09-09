@@ -11,18 +11,27 @@ import { useMediaQuery } from 'react-responsive'
 import RatingModal from './RatingModal';
 import { event } from 'nextjs-google-analytics';
 import { useAccount } from 'wagmi';
-
+import clsx from 'clsx'
 
 type Props = {}
 const OptionButton = (props: Props) => {
-
+    const isMobile = useMediaQuery({
+        query: '(max-width: 475px)'
+    })
     const [optionShow, setOptionShow] = useState(false)
     const [coffeeChatListModalOpen, toggleCoffeeChatList] = useReducer(state => !state, false)
     const [cameraOpen, toggleCamera] = useReducer(state => !state, false)
     const [ratingOpen, toggleRating] = useReducer(state => !state, false)
     const { address } = useAccount()
     return (
-        <div className="absolute flex flex-col left-5 bottom-5 gap-2 ">
+        <div className={
+            clsx({
+                "left-5 bottom-5": !isMobile,
+                "left-2 bottom-2": isMobile,
+            },
+                "absolute flex flex-col gap-2 ")
+
+        }>
             <Transition appear show={optionShow} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={() => { setOptionShow(false) }}>
                     <Transition.Child

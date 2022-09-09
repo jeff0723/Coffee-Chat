@@ -51,10 +51,7 @@ const PastChatItem = ({ info }: Props) => {
         args: [info?.id],
         onError() {
             console.log('set refund disabled')
-            event("refund", {
-                category: 'Action',
-                label: address
-            })
+
             setRefundDisable(true)
         }
 
@@ -62,6 +59,10 @@ const PastChatItem = ({ info }: Props) => {
     const { write } = useContractWrite({
         ...config,
         onSuccess(data) {
+            event("refund", {
+                category: 'Action',
+                label: address
+            })
             toast.success("Successfully refund!")
 
         },

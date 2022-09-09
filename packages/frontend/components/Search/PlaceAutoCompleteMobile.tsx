@@ -10,6 +10,8 @@ import usePlacesAutocomplete, {
     getGeocode,
     getLatLng
 } from "use-places-autocomplete";
+import { useAccount } from "wagmi";
+import { event } from "nextjs-google-analytics";
 
 
 type AutoCompleteProps = {
@@ -31,6 +33,8 @@ type AutoCompleteProps = {
 
 }
 const PlaceAutoCompleteMobile: FC<AutoCompleteProps> = ({ setOpen, setZoom, clicked, setClicked, placeId, setPlaceId, setDrawerShow, clickedPoint, setClickedPoint }) => {
+    const { address: account } = useAccount()
+
     const {
         ready,
         value,
@@ -59,6 +63,10 @@ const PlaceAutoCompleteMobile: FC<AutoCompleteProps> = ({ setOpen, setZoom, clic
         setZoom(15)
         setValue("")
         setOpen(false)
+        event("select_place", {
+            category: 'Action',
+            label: account
+        })
     }
 
     return (
@@ -67,6 +75,10 @@ const PlaceAutoCompleteMobile: FC<AutoCompleteProps> = ({ setOpen, setZoom, clic
             <input
                 value={value}
                 onChange={(e) => {
+                    event("type_in_search_place", {
+                        category: 'Action',
+                        label: account
+                    })
                     setValue(e.target.value)
                 }}
                 disabled={!ready}

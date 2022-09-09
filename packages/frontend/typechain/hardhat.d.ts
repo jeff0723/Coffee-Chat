@@ -53,6 +53,18 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC1155Upgradeable__factory>;
     getContractFactory(
+      name: "ERC20Upgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20Upgradeable__factory>;
+    getContractFactory(
+      name: "IERC20MetadataUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20MetadataUpgradeable__factory>;
+    getContractFactory(
+      name: "IERC20Upgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20Upgradeable__factory>;
+    getContractFactory(
       name: "ERC721Upgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC721Upgradeable__factory>;
@@ -89,9 +101,17 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165Upgradeable__factory>;
     getContractFactory(
+      name: "Coffee",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Coffee__factory>;
+    getContractFactory(
       name: "CoffeeChat",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.CoffeeChat__factory>;
+    getContractFactory(
+      name: "CoffeeNFT",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.CoffeeNFT__factory>;
     getContractFactory(
       name: "ERC721A__IERC721ReceiverUpgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -156,6 +176,21 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC1155Upgradeable>;
     getContractAt(
+      name: "ERC20Upgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20Upgradeable>;
+    getContractAt(
+      name: "IERC20MetadataUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20MetadataUpgradeable>;
+    getContractAt(
+      name: "IERC20Upgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20Upgradeable>;
+    getContractAt(
       name: "ERC721Upgradeable",
       address: string,
       signer?: ethers.Signer
@@ -201,10 +236,20 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165Upgradeable>;
     getContractAt(
+      name: "Coffee",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Coffee>;
+    getContractAt(
       name: "CoffeeChat",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.CoffeeChat>;
+    getContractAt(
+      name: "CoffeeNFT",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.CoffeeNFT>;
     getContractAt(
       name: "ERC721A__IERC721ReceiverUpgradeable",
       address: string,

@@ -237,6 +237,8 @@ const Home: FC = (props: Props) => {
     return (
         <div className='relative w-full h-full'>
             <Head>
+                <title>CoffeeChat</title>
+
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
             </Head>
 
@@ -255,7 +257,7 @@ const Home: FC = (props: Props) => {
                 setClickedPoint={setClickedPoint} />
             {!isMobile ?
                 <div className='flex justify-between items-center p-2'>
-                    <div className='text-[24px] font-bold'>☕ Coffee chat</div>
+                    <div className='flex justify-center items-center gap-2 text-[24px] font-bold'> <img src='./logo.png' className='w-10 h-10' /> Coffee chat</div>
                     <div className='flex item-centers gap-2s'>
                         <PlaceAutoComplete
                             setZoom={setZoom}
@@ -275,7 +277,7 @@ const Home: FC = (props: Props) => {
                     <div className='flex justify-between items-center p-2'
                     >
                         <div className='flex justify-between items-center gap-2'>
-                            <div className='font-bold'>☕ Coffee chat</div>
+                            <div className='flex justify-center items-center gap-2 font-bold'> <img src='./logo.png' className='w-8 h-8' /> </div>
                             <div className='flex justify-center items-center w-10 h-10 rounded-full hover:bg-opacity-80'
                                 onClick={() => {
                                     event("search_click", {
