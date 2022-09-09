@@ -33,8 +33,8 @@ const CoffeeChatList = ({ open, toggle }: Props) => {
             const activeChatList = data.coffeeChats.filter((coffeeChat: CoffeeChat) => (+coffeeChat.endTime) * 1000 > new Date().valueOf() && coffeeChat.isActive)
             const pastChatList = data.coffeeChats.filter((coffeeChat: CoffeeChat) => (+coffeeChat.endTime) * 1000 < new Date().valueOf() || !coffeeChat.isActive)
 
-            setActiveCoffeeChatList([...activeCoffeeChatList, ...activeChatList])
-            setPastCoffeeChatList([...pastCoffeeChatList, ...pastChatList])
+            setActiveCoffeeChatList(activeChatList)
+            setPastCoffeeChatList(pastChatList)
 
         },
         onError: (error) => {
