@@ -356,7 +356,6 @@ const Home: FC = (props: Props) => {
                                 value={inputDescription}
                                 onChange={(e) => { setInputDescription(e.target.value) }}
                                 onBlur={async () => {
-                                    console.log(inputDescription)
                                     const json = {
                                         name: `coffee chat`,
                                         description: inputDescription,
