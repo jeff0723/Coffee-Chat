@@ -6,6 +6,8 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/cryptography/draft-EIP712Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import "./CoffeeNFT.sol";
+import "./Coffee.sol";
 
 /**
  @title Coffee Chat
@@ -40,8 +42,8 @@ contract CoffeeChat is
     event CoffeeChatIntialize(
         uint256 chatId,
         string placeId,
-        uint64 lantitude,
-        uint64 longtitude,
+        int128 lantitude,
+        int128 longtitude,
         uint32 startTime,
         uint32 endTime,
         uint256 stakeAmount,
@@ -61,6 +63,10 @@ contract CoffeeChat is
 
     uint256 public nextChatId;
 
+    CoffeeNFT public coffeeNFTContract;
+
+    Coffee public coffeeContract;
+
     function initialize() public initializer {
         __ERC721_init("CoffeeChat", "COFFEE");
         __EIP712_init("CoffeeChat", "1");
@@ -74,8 +80,8 @@ contract CoffeeChat is
         string calldata placeId,
         uint32 startTime,
         uint32 endTime,
-        uint64 lantitude,
-        uint64 longtitude,
+        int128 lantitude,
+        int128 longtitude,
         string calldata metadataURI
     ) external payable returns (uint256 chatId) {
         require(msg.value > 0, "no stake amount");
@@ -133,6 +139,25 @@ contract CoffeeChat is
         _burn(chatId);
         _chatInfo.redeemer = _msgSender();
 
+        if (
+            coffeeNFTContract.totalSupply() + 2 <=
+            coffeeNFTContract.MAX_SUPPLY()
+        ) {
+            coffeeNFTContract.mint(_chatInfo.initializer, _msgSender());
+        }
+        uint256 coffeeTokenAmount = 100 ether +
+            (_chatInfo.stakeAmount * _commission) /
+            1000;
+        if (
+            (coffeeContract.totalSupply() + coffeeTokenAmount * 2) <=
+            coffeeContract.MAX_SUPPLY()
+        ) {
+            coffeeContract.mint(
+                _chatInfo.initializer,
+                _msgSender(),
+                coffeeTokenAmount
+            );
+        }
         emit CoffeeChatRedeem(chatId, _msgSender());
     }
 
@@ -186,6 +211,14 @@ contract CoffeeChat is
     function setCommission(uint256 number) external onlyOwner {
         require(number <= 250, "Over 2.5%");
         _commission = number;
+    }
+
+    function setCoffeeNFT(address coffeeNFTAddress) external onlyOwner {
+        coffeeNFTContract = CoffeeNFT(coffeeNFTAddress);
+    }
+
+    function setCoffee(address coffeeAddress) external onlyOwner {
+        coffeeContract = Coffee(coffeeAddress);
     }
 
     function _authorizeUpgrade(address newImplementation)
