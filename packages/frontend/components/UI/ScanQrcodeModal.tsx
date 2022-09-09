@@ -11,11 +11,8 @@ type Props = {
 
 
 const ScanQrcodeModal = ({ open, toggle }: Props) => {
-    const isMobile = useMediaQuery({
-        query: '(max-width: 475px)'
-    })
     return (
-        <Modal visible={open} onCancel={() => toggle(open)} footer={null} bodyStyle={{ height: isMobile ? 700 : 400 }}>
+        <Modal visible={open} title="Scan" onCancel={() => toggle(open)} footer={null} bodyStyle={{ height: 700 }}>
             <Qrscan toggle={toggle} open={open} />
         </Modal>
     )
