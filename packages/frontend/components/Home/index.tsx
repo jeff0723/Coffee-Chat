@@ -93,8 +93,10 @@ const Home: FC = (props: Props) => {
     const [fetchCoffeeChat, { data: coffeeChatData, loading: fetchCoffeeChatLoading }] =
         useLazyQuery(COFFEE_CHAT_QUERY_FILTERED_BY_POINT, {
             onCompleted(data) {
+                const _newCoffeeChats = [...coffeeChats, ...data.coffeeChats]
+                const uniqueCoffeeChats = _newCoffeeChats.filter((coffeeChat, index) => _newCoffeeChats.indexOf(coffeeChat) === index)
                 setCoffeeChats(
-                    [...coffeeChats, ...data.coffeeChats]
+                    uniqueCoffeeChats
                 )
             }
         })
