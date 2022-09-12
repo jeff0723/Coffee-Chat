@@ -279,7 +279,7 @@ const Home: FC = (props: Props) => {
                             <MailOutlined className='text-[20px] hover:text-[21px]' />
                         </div>
                         <div>
-                            <a href="https://www.producthunt.com/posts/coffeechat?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-coffeechat" target="_blank" rel="noreferrer"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=358956&theme=light" alt="CoffeeChat - Launch&#0032;a&#0032;coffee&#0032;chat&#0032;by&#0032;staking | Product Hunt" width="175" height="45" /></a>
+                            <a href="https://www.producthunt.com/posts/coffeechat?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-coffeechat" target="_blank" rel="nor eferrer"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=358956&theme=light" alt="CoffeeChat - Launch&#0032;a&#0032;coffee&#0032;chat&#0032;by&#0032;staking | Product Hunt" width="175" height="45" /></a>
                         </div>
                     </div>
                     <div className='flex items-center gap-4'>

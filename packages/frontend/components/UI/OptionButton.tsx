@@ -61,7 +61,7 @@ const OptionButton = (props: Props) => {
                     leaveTo="opacity-0">
                     <div className="flex flex-col gap-2 z-20 mb-24">
                         <div className="ml-8 flex gap-2  items-center pr-2">
-                            <Tooltip title="Open camera">
+                            <Tooltip title="Open camera" placement='right'>
                                 <div className="w-10 h-10 bg-white rounded-full flex justify-center items-center hover:bg-opacity-90"
                                     onClick={() => {
                                         event("camera_btn_click", {
@@ -76,7 +76,7 @@ const OptionButton = (props: Props) => {
                             </Tooltip>
                         </div>
                         <div className="ml-8 flex gap-2 items-center pr-2">
-                            <Tooltip title="Rate your chat">
+                            <Tooltip title="Rate your chat" placement='right'>
                                 <div className="w-10 h-10 bg-white  rounded-full flex justify-center items-center hover:bg-opacity-90"
                                     onClick={() => {
                                         event("rating_btn_click", {
@@ -90,7 +90,7 @@ const OptionButton = (props: Props) => {
                             </Tooltip>
                         </div>
                         <div className="ml-8 flex gap-2 items-center pr-2">
-                            <Tooltip title="Your coffee chat">
+                            <Tooltip title="Your coffee chat" placement='right' >
                                 <div className="w-10 h-10 bg-white rounded-full flex justify-center items-center hover:bg-opacity-90"
                                     onClick={() => {
                                         event("coffee_chat_list_btn_click", {
